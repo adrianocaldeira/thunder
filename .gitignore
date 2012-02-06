@@ -1,0 +1,16 @@
+*.user
+*.suo
+*.trx
+bin
+log
+_ReSharper.*
+logs
+Logs
+Debug
+Release
+reports*.xml
+*.dotCover
+*.alecrim
+.DS_Store
+packages
+*.oca
