@@ -50,7 +50,9 @@
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
     <Compile Include="ComponentModel\DataAnnotations\NumberAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
+    <Compile Include="Data\IObjectState.cs" />
     <Compile Include="Data\IPaging.cs" />
+    <Compile Include="Data\ObjectState.cs" />
     <Compile Include="Data\Paging.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
