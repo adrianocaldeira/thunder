@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3F8EE934-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder", "src\main\Thunder\Thunder.csproj", "{85E79781-5311-482C-BC8B-3F7781061ED5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder", "src\test\Thunder\Thunder.csproj", "{C4351696-972B-4D72-83A1-1CE38729E3B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +19,16 @@ Global
 		{85E79781-5311-482C-BC8B-3F7781061ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85E79781-5311-482C-BC8B-3F7781061ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85E79781-5311-482C-BC8B-3F7781061ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{85E79781-5311-482C-BC8B-3F7781061ED5} = {BAE0FF95-7A39-4B18-B611-873CAE780FD8}
+		{C4351696-972B-4D72-83A1-1CE38729E3B4} = {3F8EE934-92D5-4246-8F33-353D9E76E1AF}
 	EndGlobalSection
 EndGlobal

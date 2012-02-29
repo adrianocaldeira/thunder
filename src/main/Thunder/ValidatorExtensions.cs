@@ -206,39 +206,8 @@ namespace Thunder
         /// <returns></returns>
         public static bool IsDate(this string date)
         {
-            try
-            {
-                var dt = Convert.ToDateTime(date);
-
-                var day = dt.Day;
-                var month = dt.Month;
-                var year = dt.Year;
-
-                if (day < 1 || day > 31)
-                    return false;
-
-                if (month < 1 || month > 12)
-                    return false;
-
-                if (month == 2)
-                {
-                    if (year % 4 == 0)
-                        if (day > 29)
-                            return false;
-                        else
-                            if (day > 28)
-                                return false;
-                }
-                else if (month == 4 || month == 6 || month == 9 || month == 11)
-                    if (day > 30)
-                        return false;
-
-                return year >= 1900;
-            }
-            catch
-            {
-                return false;
-            }
+            DateTime dt;
+            return DateTime.TryParse(date, out dt);
         }
         /// <summary>
         /// Check hour is valid
@@ -257,13 +226,7 @@ namespace Thunder
                     Convert.ToInt32(hour.Split(':')[1]),
                     0);
 
-                var h = dt.Hour;
-                var m = dt.Minute;
-
-                if (h < 0 || h > 24)
-                    return false;
-
-                return m >= 0 && m <= 59;
+                return true;
             }
             catch
             {
