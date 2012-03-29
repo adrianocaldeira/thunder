@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Resources;
 
 namespace Thunder
 {
@@ -15,9 +17,41 @@ namespace Thunder
         /// <param name="key">Key</param>
         public Message(string key)
         {
-            Text = string.IsNullOrEmpty(ConfigurationManager.AppSettings[key])
-                       ? key
-                       : ConfigurationManager.AppSettings[key];
+            Text = ConfigurationManager.AppSettings[key];
+            
+            if (string.IsNullOrEmpty(Text))
+            {
+                Text = key;
+            }
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the class <see cref="Message"/>.
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="resourceManager"><see cref="ResourceManager"/></param>
+        public Message(string key, ResourceManager resourceManager)
+        {
+            if (resourceManager == null)
+                throw new ArgumentException("Parameter is not informed.", "resourceManager");
+
+            Text = resourceManager.GetString(key);
+
+            if (string.IsNullOrEmpty(Text))
+            {
+                Text = key;
+            }
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the class <see cref="Message"/>.
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <param name="field">Value</param>
+        /// <param name="resourceManager"><see cref="ResourceManager"/></param>
+        public Message(string key, string field, ResourceManager resourceManager) : this(key, resourceManager)
+        {
+            Field = field;
         }
 
         /// <summary>

@@ -32,13 +32,18 @@
     <DocumentationFile>bin\Release\Thunder.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\packages\NHibernate.3.2.0.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -56,8 +61,38 @@
     <Compile Include="Data\ObjectState.cs" />
     <Compile Include="Data\Paging.cs" />
     <Compile Include="Message.cs" />
+    <Compile Include="NHibernate\CfgSerialization.cs" />
+    <Compile Include="NHibernate\DbUtil.cs" />
+    <Compile Include="NHibernate\Dialect\MySQL5InnoDBDialect.cs" />
+    <Compile Include="NHibernate\IRepository.cs" />
+    <Compile Include="NHibernate\PagingExtensions.cs" />
+    <Compile Include="NHibernate\Proxy.cs" />
+    <Compile Include="NHibernate\Repository.cs" />
+    <Compile Include="NHibernate\SessionManager.cs" />
+    <Compile Include="NHibernate\SessionPerRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Cryptography.cs" />
+    <Compile Include="Security\CryptographyHelper.cs" />
+    <Compile Include="Security\CryptographyProvider.cs" />
+    <Compile Include="Security\Hash.cs" />
+    <Compile Include="Security\HashHelper.cs" />
+    <Compile Include="Security\HashProvider.cs" />
+    <Compile Include="Security\Domain\Area.cs" />
+    <Compile Include="Security\Domain\IArea.cs" />
+    <Compile Include="Security\Domain\IUser.cs" />
+    <Compile Include="Security\Domain\User.cs" />
     <Compile Include="ValidatorExtensions.cs" />
+    <Compile Include="Web\IModel.cs" />
+    <Compile Include="Web\JsonExtensions.cs" />
+    <Compile Include="Web\Model.cs" />
+    <Compile Include="Web\ResultStatus.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Security\Domain\Orm\Area.hbm.xml" />
+    <EmbeddedResource Include="Security\Domain\Orm\User.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

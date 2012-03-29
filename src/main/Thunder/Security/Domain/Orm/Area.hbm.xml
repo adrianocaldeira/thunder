@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Thunder.Security.Domain.Area, Thunder" table="thunder_area">
+    <id name="Id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Parent" class="Thunder.Security.Domain.Area, Thunder" column="ParentId" />
+
+    <property name="Name" length="100" not-null="true" />
+    <property name="Url" length="255" />
+
+    <bag name="Childs" lazy="true">
+      <key column="ParentId" />
+      <one-to-many class="Thunder.Security.Domain.Area, Thunder" />
+    </bag>
+  </class>
+</hibernate-mapping>

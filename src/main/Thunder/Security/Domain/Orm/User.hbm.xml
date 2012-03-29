@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Thunder.Security.Domain.User, Thunder" table="thunder_user">
+    <id name="Id">
+      <generator class="identity" />
+    </id>
+
+    <property name="Name" length="100" not-null="true" />
+    <property name="Email" length="100" index="idxuseremail" />
+    <property name="Login" length="50" index="idxuserlogin" />
+    <property name="Password" length="30" not-null="true" />
+    <property name="Active" not-null="true" />
+    
+    <bag name="Areas" lazy="true" table="thunder_user_x_area">
+      <key column="UserId" />
+      <many-to-many class="Thunder.Security.Domain.Area, Thunder" column="AreaId" />
+    </bag>
+  </class>
+</hibernate-mapping>
