@@ -44,7 +44,19 @@ namespace Thunder.NHibernate
         /// </summary>
         public void Create()
         {
+            new SchemaExport(Configuration).Drop(false, true);
             new SchemaExport(Configuration).Create(false, true);
+        }
+
+        /// <summary>
+        /// Exporta schema data base
+        /// </summary>
+        /// <param name="file">Path of file</param>
+        public void ExportSchema(string file)
+        {
+            var schemaExport = new SchemaExport(Configuration);
+            schemaExport.SetOutputFile(file);
+            schemaExport.Create(true, true);
         }
 
         /// <summary>
