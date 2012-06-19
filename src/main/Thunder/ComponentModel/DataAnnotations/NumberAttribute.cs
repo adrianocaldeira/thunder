@@ -14,7 +14,7 @@ namespace Thunder.ComponentModel.DataAnnotations
         /// </summary>
         public NumberAttribute()
         {
-            Maximum = 999;
+            Maximum = 9999999;
         }
 
         /// <summary>
