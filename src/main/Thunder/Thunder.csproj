@@ -61,7 +61,7 @@
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
     <Compile Include="ComponentModel\DataAnnotations\NumberAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
-    <Compile Include="Collections\List.cs" />
+    <Compile Include="Collections\ListPaging.cs" />
     <Compile Include="Data\IObjectState.cs" />
     <Compile Include="Collections\IPaging.cs" />
     <Compile Include="Collections\ListExtensions.cs" />

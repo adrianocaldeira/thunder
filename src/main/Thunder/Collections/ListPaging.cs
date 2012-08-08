@@ -3,15 +3,15 @@
 namespace Thunder.Collections
 {
     /// <summary>
-    /// List paging
+    /// ListPaging paging
     /// </summary>
-    public class List<T>
+    public class ListPaging<T>
     {
         /// <summary>
-        /// Initialize new instance of <see cref="List{T}"/>.
+        /// Initialize new instance of <see cref="ListPaging{T}"/>.
         /// </summary>
         /// <param name="data"></param>
-        public List(IPaging<T> data)
+        public ListPaging(IPaging<T> data)
         {
             PageCount = data.PageCount;
             Records = data.Records;
