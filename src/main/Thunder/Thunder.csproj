@@ -88,7 +88,8 @@
     <Compile Include="Security\Domain\IArea.cs" />
     <Compile Include="Security\Domain\IUser.cs" />
     <Compile Include="Security\Domain\User.cs" />
-    <Compile Include="ValidatorExtensions.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Support.cs" />
     <Compile Include="Web\IModel.cs" />
     <Compile Include="Web\JsonExtensions.cs" />
     <Compile Include="Web\Model.cs" />

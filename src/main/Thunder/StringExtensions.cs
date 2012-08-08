@@ -6,13 +6,13 @@ namespace Thunder
     /// <summary>
     /// Validator extensions
     /// </summary>
-    public static class ValidatorExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Check cpf is valid
         /// </summary>
-        /// <param name="cpf"></param>
-        /// <returns></returns>
+        /// <param name="cpf">Cpf</param>
+        /// <returns>Valid</returns>
         public static bool IsCpf(this string cpf)
         {
             cpf = cpf.Replace(".", "").Replace("-", "");
@@ -111,8 +111,8 @@ namespace Thunder
         /// <summary>
         /// Check cnpj is valid
         /// </summary>
-        /// <param name="cnpj"></param>
-        /// <returns></returns>
+        /// <param name="cnpj">Cnpj</param>
+        /// <returns>Valid</returns>
         public static bool IsCnpj(this string cnpj)
         {
             cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
@@ -188,8 +188,8 @@ namespace Thunder
         /// <summary>
         /// Check e-mail is valid
         /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
+        /// <param name="email">E-mail</param>
+        /// <returns>Valid</returns>
         public static bool IsEmail(this string email)
         {
             //Cria expressão regular de cpf
@@ -202,8 +202,8 @@ namespace Thunder
         /// <summary>
         /// Check date is valid
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <param name="date">date</param>
+        /// <returns>Valid</returns>
         public static bool IsDate(this string date)
         {
             DateTime dt;
@@ -212,8 +212,8 @@ namespace Thunder
         /// <summary>
         /// Check hour is valid
         /// </summary>
-        /// <param name="hour"></param>
-        /// <returns></returns>
+        /// <param name="hour">Hour</param>
+        /// <returns>Valid</returns>
         public static bool IsHour(this string hour)
         {
             try
@@ -235,13 +235,21 @@ namespace Thunder
         }
 
         /// <summary>
-        /// Check year is bisixth
+        /// Check url is valid
         /// </summary>
-        /// <param name="year"></param>
-        /// <returns></returns>
-        public static bool IsYearBisixth(int year)
+        /// <param name="url">Url</param>
+        /// <param name="requireProtocol">Require protocol</param>
+        /// <returns>Valid</returns>
+        public static bool IsUrl(this string url, bool requireProtocol = true)
         {
-            return (year % 4 == 0 && (year % 400 == 0 || year % 100 != 0));
+            var regex = @"^(https?|ftp):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$";
+
+            if (!requireProtocol)
+            {
+                regex = @"^((https?|ftp):\/\/)?(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$";
+            }
+
+            return url != null && new Regex(regex, RegexOptions.Compiled | RegexOptions.IgnoreCase).Match(url).Length > 0;
         }
     }
 }
