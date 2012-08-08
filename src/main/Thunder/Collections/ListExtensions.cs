@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Thunder.Collections
 {
+    /// <summary>
+    /// List extensions
+    /// </summary>
     public static class ListExtensions
     {
         /// <summary>
