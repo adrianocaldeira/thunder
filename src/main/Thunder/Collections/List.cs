@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace Thunder.Data
+namespace Thunder.Collections
 {
     /// <summary>
-    /// Collection paging
+    /// List paging
     /// </summary>
-    public class Collection<T>
+    public class List<T>
     {
         /// <summary>
-        /// Initialize new instance of <see cref="Collection{T}"/>.
+        /// Initialize new instance of <see cref="List{T}"/>.
         /// </summary>
         /// <param name="data"></param>
-        public Collection(IPaging<T> data)
+        public List(IPaging<T> data)
         {
             PageCount = data.PageCount;
             Records = data.Records;

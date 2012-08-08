@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Thunder.Data
+namespace Thunder.Collections
 {
     /// <summary>
     /// Paging interface

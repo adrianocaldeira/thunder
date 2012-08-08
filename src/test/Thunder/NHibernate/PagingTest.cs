@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Thunder.Collections;
 using Thunder.Data;
 using Thunder.Security.Domain;
 
@@ -10,13 +11,13 @@ namespace Thunder.NHibernate
     [TestFixture]
     public class PagingTest
     {
-        private List<User> _persons;
+        private System.Collections.Generic.List<User> _persons;
         private int _pageSize;
 
         [SetUp]
         public void SetUp()
         {
-            _persons = new List<User>();
+            _persons = new System.Collections.Generic.List<User>();
 
             for (var i = 0; i < 30; i++)
             {
@@ -68,7 +69,7 @@ namespace Thunder.NHibernate
             const int currentPage = 1;
             const int records = 30;
 
-            var persons = new List<User>();
+            var persons = new System.Collections.Generic.List<User>();
 
             for (var i = 0; i < 5; i++)
             {
@@ -90,7 +91,7 @@ namespace Thunder.NHibernate
         {
             const int currentPage = 1;
 
-            var paging = new Paging<User>(new List<User>(), currentPage, _pageSize);
+            var paging = new Paging<User>(new System.Collections.Generic.List<User>(), currentPage, _pageSize);
 
             Assert.AreEqual(currentPage, paging.CurrentPage);
             Assert.AreEqual(0, paging.Count);
@@ -117,14 +118,14 @@ namespace Thunder.NHibernate
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidCurrentPageArgument()
         {
-            new Paging<User>(new List<User>(), -1, _pageSize);
+            new Paging<User>(new System.Collections.Generic.List<User>(), -1, _pageSize);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidPageSizeArgument()
         {
-            new Paging<User>(new List<User>(), 0, -1);
+            new Paging<User>(new System.Collections.Generic.List<User>(), 0, -1);
         }
 
         [Test]

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Thunder.Data;
 
-namespace Thunder.Data
+namespace Thunder.Collections
 {
     ///<summary>
     /// Paging
     ///</summary>
     ///<typeparam name="T">Type</typeparam>
-    public class Paging<T> : List<T>, IPaging<T>
+    public class Paging<T> : System.Collections.Generic.List<T>, IPaging<T>
     {
         #region Constructors
 
@@ -45,7 +46,7 @@ namespace Thunder.Data
 
             if (source == null)
             {
-                source = new List<T>().AsQueryable();
+                source = new System.Collections.Generic.List<T>().AsQueryable();
             }
 
             PageSize = pageSize;

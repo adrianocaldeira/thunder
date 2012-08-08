@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
-using Thunder.Data;
+using Thunder.Collections;
 
 namespace Thunder.NHibernate
 {

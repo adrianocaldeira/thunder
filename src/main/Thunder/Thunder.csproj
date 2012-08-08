@@ -38,7 +38,7 @@
       <HintPath>..\..\..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -61,11 +61,12 @@
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
     <Compile Include="ComponentModel\DataAnnotations\NumberAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
-    <Compile Include="Data\Collection.cs" />
+    <Compile Include="Collections\List.cs" />
     <Compile Include="Data\IObjectState.cs" />
-    <Compile Include="Data\IPaging.cs" />
+    <Compile Include="Collections\IPaging.cs" />
+    <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Data\ObjectState.cs" />
-    <Compile Include="Data\Paging.cs" />
+    <Compile Include="Collections\Paging.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="NHibernate\CfgSerialization.cs" />
     <Compile Include="NHibernate\DbUtil.cs" />
