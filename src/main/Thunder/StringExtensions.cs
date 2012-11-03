@@ -9,6 +9,30 @@ namespace Thunder
     public static class StringExtensions
     {
         /// <summary>
+        /// Remove last <paramref name="caracter"/> from <paramref name="string"/>.
+        /// </summary>
+        /// <param name="string">String</param>
+        /// <param name="caracter">Caracter</param>
+        /// <returns>String</returns>
+        public static string RemoveLastCaracter(this string @string, string caracter)
+        {
+            return @string.LastIndexOf(caracter, StringComparison.Ordinal) == -1
+                       ? @string
+                       : @string.Substring(0, @string.LastIndexOf(caracter, StringComparison.Ordinal));
+        }
+
+        /// <summary>
+        /// Define text if <paramref name="string"/> is null or empty
+        /// </summary>
+        /// <param name="string">String</param>
+        /// <param name="text">Text</param>
+        /// <returns>String</returns>
+        public static string TextIfEmpty(this string @string, string text)
+        {
+            return string.IsNullOrEmpty(@string) ? text : @string;
+        }
+
+        /// <summary>
         /// Check cpf is valid
         /// </summary>
         /// <param name="cpf">Cpf</param>

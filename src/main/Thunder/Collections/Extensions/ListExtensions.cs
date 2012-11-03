@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Thunder.Collections
+namespace Thunder.Collections.Extensions
 {
     /// <summary>
     /// List extensions
