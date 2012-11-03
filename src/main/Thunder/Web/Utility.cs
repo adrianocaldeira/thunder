@@ -20,7 +20,7 @@ namespace Thunder.Web
         }
 
         /// <summary>
-        /// Converts <paramref name="url"/> to an http absolute address 
+        /// Converts <paramref name="url"/> to an absolute web address
         /// </summary>
         /// <param name="url">Url</param>
         /// <param name="request"><see cref="HttpRequestBase"/></param>
