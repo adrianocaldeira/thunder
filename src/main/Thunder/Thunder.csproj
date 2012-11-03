@@ -61,6 +61,7 @@
     <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
     <Compile Include="ComponentModel\DataAnnotations\NumberAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
     <Compile Include="Collections\ListPaging.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="Collections\Extensions\ListExtensions.cs" />
     <Compile Include="Data\ObjectState.cs" />
     <Compile Include="Collections\Paging.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="Logging.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="NHibernate\CfgSerialization.cs" />
     <Compile Include="NHibernate\DbUtil.cs" />
