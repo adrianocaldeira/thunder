@@ -43,7 +43,6 @@ Global
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution

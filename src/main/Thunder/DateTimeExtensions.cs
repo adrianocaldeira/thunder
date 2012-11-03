@@ -2,6 +2,9 @@
 
 namespace Thunder
 {
+    /// <summary>
+    /// Date time extensions
+    /// </summary>
     public static class DateTimeExtensions
     {
         /// <summary>

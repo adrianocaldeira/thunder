@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -61,6 +64,7 @@
     <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\EnumRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
     <Compile Include="ComponentModel\DataAnnotations\NumberAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
@@ -95,10 +99,12 @@
     <Compile Include="Security\Domain\User.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="Web\ContentType.cs" />
     <Compile Include="Web\IModel.cs" />
     <Compile Include="Web\JsonExtensions.cs" />
     <Compile Include="Web\Model.cs" />
     <Compile Include="Web\ResultStatus.cs" />
+    <Compile Include="Web\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Security\Domain\Orm\Area.hbm.xml" />

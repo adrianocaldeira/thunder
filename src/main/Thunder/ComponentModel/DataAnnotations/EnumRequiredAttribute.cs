@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Thunder.ComponentModel.DataAnnotations
 {
+    /// <summary>
+    /// Enum required attribute
+    /// </summary>
     [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class EnumRequiredAttribute : RequiredAttribute
     {
@@ -33,6 +36,11 @@ namespace Thunder.ComponentModel.DataAnnotations
         /// </summary>
         public string NotSetValue { get; set; }
         
+        /// <summary>
+        /// Is valid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public override bool IsValid(object value)
         {
             if (value == null)
