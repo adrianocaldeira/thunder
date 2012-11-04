@@ -6,7 +6,7 @@ namespace Thunder.ComponentModel.DataAnnotations
     ///<summary>
     /// Boolean validator
     ///</summary>
-    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class BooleanRequiredAttribute : ValidationAttribute
     {
         /// <summary>
