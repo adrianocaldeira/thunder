@@ -45,6 +45,7 @@
       <HintPath>..\..\..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite, Version=1.0.81.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64">
       <HintPath>..\..\..\packages\System.Data.SQLite.x64.1.0.81.0\lib\net40\System.Data.SQLite.dll</HintPath>
@@ -59,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentModel\DataAnnotations\BooleanRequiredAttributeTest.cs" />
     <Compile Include="MessageTest.cs" />
     <Compile Include="NHibernate\CfgSerializationTest.cs" />
     <Compile Include="NHibernate\DbUtilTest.cs" />

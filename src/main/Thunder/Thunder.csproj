@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentModel\DataAnnotations\BooleanRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\CurrencyAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DateAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
