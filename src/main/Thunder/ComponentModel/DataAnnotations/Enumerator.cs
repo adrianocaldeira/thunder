@@ -14,4 +14,13 @@
         /// </summary>
         Cpf
     }
+
+    /// <summary>
+    /// Required if operator
+    /// </summary>
+    public enum RequiredIfOperator
+    {
+        EqualTo,
+        NotEqualTo
+    }
 }

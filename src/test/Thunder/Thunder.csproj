@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModel\DataAnnotations\BooleanRequiredAttributeTest.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttributeTest.cs" />
     <Compile Include="MessageTest.cs" />
     <Compile Include="NHibernate\CfgSerializationTest.cs" />
     <Compile Include="NHibernate\DbUtilTest.cs" />

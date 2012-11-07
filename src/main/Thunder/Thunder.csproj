@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModel\DataAnnotations\BooleanRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\CurrencyAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DateAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
@@ -67,7 +66,9 @@
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EnumRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\NumberAttribute.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\RequiredIfAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
     <Compile Include="Collections\ListPaging.cs" />
     <Compile Include="Data\IObjectState.cs" />

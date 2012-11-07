@@ -6,7 +6,7 @@ namespace Thunder.ComponentModel.DataAnnotations
     ///<summary>
     /// Url Attribute
     ///</summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
     public class UrlAttribute : DataTypeAttribute
     {
         private readonly bool _requireProtocol = true;

@@ -6,7 +6,7 @@ namespace Thunder.ComponentModel.DataAnnotations
     ///<summary>
     /// Date validador
     ///</summary>
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
     public class DateAttribute : ValidationAttribute
     {
         /// <summary>
