@@ -20,7 +20,13 @@
     /// </summary>
     public enum RequiredIfOperator
     {
+        /// <summary>
+        /// Equal to
+        /// </summary>
         EqualTo,
+        /// <summary>
+        /// Not equal to
+        /// </summary>
         NotEqualTo
     }
 }

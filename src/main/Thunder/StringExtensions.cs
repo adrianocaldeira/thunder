@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Thunder
@@ -274,6 +275,78 @@ namespace Thunder
             }
 
             return url != null && new Regex(regex, RegexOptions.Compiled | RegexOptions.IgnoreCase).Match(url).Length > 0;
+        }
+
+        /// <summary>
+        /// Url available
+        /// </summary>
+        /// <param name="httpUrl">Http Url</param>
+        /// <returns></returns>
+        public static bool UrlAvailable(this string httpUrl)
+        {
+            if (!httpUrl.StartsWith("http://") || !httpUrl.StartsWith("https://"))
+                httpUrl = "http://" + httpUrl;
+            try
+            {
+                var request = (HttpWebRequest)WebRequest.Create(httpUrl);
+                
+                request.Method = "GET";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                var response = (HttpWebResponse)request.GetResponse();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Reduce
+        /// </summary>
+        /// <param name="s">String</param>
+        /// <param name="count">Count</param>
+        /// <param name="endings">Ending caracter</param>
+        /// <returns>Reduce string</returns>
+        public static string Reduce(this string s, int count, string endings)
+        {
+            if (count < endings.Length)
+                throw new Exception("Failed to reduce to less then endings length.");
+            
+            var sLength = s.Length;
+            var len = sLength;
+
+            len += endings.Length;
+            
+            if (count > sLength)
+                return s;
+            
+            s = s.Substring(0, sLength - len + count);
+            s += endings;
+
+            return s;
+        }
+
+        /// <summary>
+        /// Remove spaces
+        /// </summary>
+        /// <param name="s">String</param>
+        /// <returns>String</returns>
+        public static string RemoveSpaces(this string s)
+        {
+            return s.Replace(" ", "");
+        }
+
+        /// <summary>
+        /// Truncate string
+        /// </summary>
+        /// <param name="s">String</param>
+        /// <param name="length">Length</param>
+        /// <returns>String</returns>
+        public static string Truncate(this string s, int length)
+        {
+            return s.Length < length ? s : s.Substring(0, length);
         }
     }
 }

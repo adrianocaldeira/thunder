@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Thunder.ComponentModel.DataAnnotations
 {
+    /// <summary>
+    /// Require if attribute
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class RequiredIfAttribute : ValidationAttribute
     {
@@ -13,6 +16,12 @@ namespace Thunder.ComponentModel.DataAnnotations
         private readonly object _dependentPropertyValue;
 
 
+        /// <summary>
+        /// Initialize new instance of <see cref="RequiredIfOperator"/>.
+        /// </summary>
+        /// <param name="dependentPropertyName">Dependent property name</param>
+        /// <param name="dependentPropertyComparison">Dependent property comparison</param>
+        /// <param name="dependentPropertyValue">Dependent property value</param>
         public RequiredIfAttribute(string dependentPropertyName, RequiredIfOperator dependentPropertyComparison,
                                    object dependentPropertyValue)
         {
@@ -34,6 +43,12 @@ namespace Thunder.ComponentModel.DataAnnotations
             }
         }
 
+        /// <summary>
+        /// Is valid
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validationContext"></param>
+        /// <returns></returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null)
