@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Manager.Models.User, Manager" table="users">
+    <id name="Id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="State" column="StateId" not-null="false" />
+
+    <property name="Name" length="100" not-null="true" />
+    <property name="Login" length="20" not-null="true" unique="true" />
+    <property name="Password" length="50" not-null="true" />
+    <property name="Email" length="100" />
+    <property name="Created" not-null="true" />
+    <property name="Updated" not-null="true" />
+
+    <bag name="Functionalities" table="users_x_functionalities" lazy="true">
+      <key column="UserId" />
+      <many-to-many class="Manager.Models.Functionality, Manager" column="FunctionalityId" />
+    </bag>
+
+  </class>
+</hibernate-mapping>

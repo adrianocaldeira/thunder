@@ -10,7 +10,7 @@ namespace Thunder.Data
         public void Clear()
         {
             var dbUtil = new DbUtil().Bind();
-            dbUtil.Create();
+            dbUtil.CreateSchema();
 
             var session = SessionManager.SessionFactory.GetCurrentSession();
 

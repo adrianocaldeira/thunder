@@ -7,6 +7,8 @@
     </id>
 
     <property name="Name" not-null="true" length="50" />
-  <property name="Size" length="50" />
+    <property name="Size" length="50" />
+    <property name="Updated" not-null="true" />
+    <property name="Created" not-null="true" />
   </class>
 </hibernate-mapping>

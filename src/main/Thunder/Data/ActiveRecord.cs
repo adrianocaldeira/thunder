@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
@@ -18,6 +19,16 @@ namespace Thunder.Data
         /// Get or set id
         /// </summary>
         public virtual TKey Id { get; set; }
+
+        /// <summary>
+        /// Get or set created date
+        /// </summary>
+        public virtual DateTime Created { get; set; }
+
+        /// <summary>
+        /// Get or set updated date
+        /// </summary>
+        public virtual DateTime Updated { get; set; }
 
         /// <summary>
         /// Get current session
@@ -43,7 +54,7 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Create object
+        /// CreateSchema object
         /// </summary>
         /// <param name="object">Object</param>
         /// <returns></returns>
@@ -51,7 +62,11 @@ namespace Thunder.Data
         {
             using (var transaction = Session.BeginTransaction())
             {
+                ActiveRecordProperty<T>.SetValue(@object, "Created", DateTime.Now);
+                ActiveRecordProperty<T>.SetValue(@object, "Updated", DateTime.Now);
+                
                 Session.Save(@object);
+                
                 transaction.Commit();
             }
 
@@ -67,7 +82,10 @@ namespace Thunder.Data
         {
             using (var transaction = Session.BeginTransaction())
             {
+                ActiveRecordProperty<T>.SetValue(@object, "Updated", DateTime.Now);
+
                 Session.SaveOrUpdate(@object);
+                
                 transaction.Commit();
             }
 
@@ -264,6 +282,8 @@ namespace Thunder.Data
                 {
                     ActiveRecordProperty<T>.SetValue(entity, property);    
                 }
+
+                ActiveRecordProperty<T>.SetValue(entity, "Updated", DateTime.Now);
                 
                 Session.Update(entity);
 

@@ -42,6 +42,18 @@ namespace Thunder.Data
         }
 
         /// <summary>
+        /// Set property value
+        /// </summary>
+        /// <param name="entity">Value</param>
+        /// <param name="propertyName">Name</param>
+        /// <param name="propertyValue">Value</param>
+        public static void SetValue(T entity, string propertyName, object propertyValue)
+        {
+            var propertyInfo = typeof(T).GetProperty(propertyName);
+            propertyInfo.SetValue(entity, Convert.ChangeType(propertyValue, propertyInfo.PropertyType), null);
+        }
+
+        /// <summary>
         /// Create active record property
         /// </summary>
         /// <param name="name">Name</param>

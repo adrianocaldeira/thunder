@@ -101,6 +101,9 @@
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
     <Compile Include="Collections\ListPaging.cs" />
     <Compile Include="Data\ActiveRecordProperty.cs" />
+    <Compile Include="Data\ConnectionBuilder.cs" />
+    <Compile Include="Data\ConnectionFactory.cs" />
+    <Compile Include="Data\DataBase.cs" />
     <Compile Include="Data\IObjectState.cs" />
     <Compile Include="Collections\IPaging.cs" />
     <Compile Include="Collections\Extensions\ListExtensions.cs" />
@@ -176,7 +179,9 @@
     <EmbeddedResource Include="Security\Domain\Orm\User.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

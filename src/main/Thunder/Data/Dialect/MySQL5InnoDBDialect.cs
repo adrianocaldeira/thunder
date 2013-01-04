@@ -1,6 +1,6 @@
 ﻿using NHibernate.Dialect;
 
-namespace Thunder.NHibernate.Dialect
+namespace Thunder.Data.Dialect
 {
     /// <summary>
     /// Mysql InnoDb dialect

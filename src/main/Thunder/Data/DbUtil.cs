@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHibernate.Tool.hbm2ddl;
@@ -23,27 +25,65 @@ namespace Thunder.Data
         ///</summary>
         public DbUtil()
         {
-            Dialect = Dialect.GetDialect(SessionManager.Configuration.Properties);
+            Dialect = NHibernate.Dialect.Dialect.GetDialect(SessionManager.Configuration.Properties);
         }
 
         /// <summary>
         /// Get dialect
         /// </summary>
-        public Dialect Dialect { get; private set; }
+        public NHibernate.Dialect.Dialect Dialect { get; private set; }
         
         /// <summary>
         /// Create all objects in database
         /// </summary>
-        public DbUtil Create()
+        public DbUtil CreateSchema()
         {
             new SchemaExport(SessionManager.Configuration).Create(false, true);
             return this;
         }
 
         /// <summary>
+        /// Create database
+        /// </summary>
+        public DbUtil CreateDataBase(string name)
+        {
+            if (Dialect is MySQLDialect)
+            {
+                ExecuteCommand(string.Format("CREATE DATABASE IF NOT EXISTS `{0}`;", name));
+            }
+
+            return this;
+        }
+
+
+        public static void Drop()
+        {
+            var dialect = NHibernate.Dialect.Dialect.GetDialect(SessionManager.Configuration.Properties);
+            var connection = Connection(dialect);
+
+            if (dialect is MySQLDialect)
+            {
+                ExecuteCommand(string.Format("DROP DATABASE IF EXISTS `{0}`;", connection.Database), connection);
+            }
+        }
+
+        public static void Create()
+        {
+            var dialect = NHibernate.Dialect.Dialect.GetDialect(SessionManager.Configuration.Properties);
+            var connection = Connection(dialect);
+
+            if (dialect is MySQLDialect)
+            {
+                connection.ConnectionString = connection.ConnectionString.Replace(string.Format("database={0};", connection.Database), "")
+                    .Replace(string.Format("database={0}", connection.Database), "");
+                ExecuteCommand(string.Format("CREATE DATABASE IF NOT EXISTS `{0}`;", connection.Database), connection);
+            }
+        }
+
+        /// <summary>
         /// Drop all objects from database
         /// </summary>
-        public DbUtil Drop()
+        public DbUtil DropSchema()
         {
             new SchemaExport(SessionManager.Configuration).Drop(false, true);
             return this;
@@ -182,7 +222,7 @@ namespace Thunder.Data
 
         private void ExecuteCommand(string commandText)
         {
-            using (IDbConnection connection = Connection())
+            using (IDbConnection connection = Connection(Dialect))
             {
                 connection.Open();
 
@@ -193,32 +233,44 @@ namespace Thunder.Data
             }
         }
 
-        private IDbConnection Connection()
+        private static void ExecuteCommand(string commandText, IDbConnection dbConnection)
+        {
+            using (var connection = dbConnection)
+            {
+                connection.Open();
+
+                IDbCommand command = connection.CreateCommand();
+                command.CommandType = CommandType.Text;
+                command.CommandText = commandText;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static IDbConnection Connection(NHibernate.Dialect.Dialect dialect)
         {
             IDbConnection connection = null;
 
-            if (Dialect is MsSql2000Dialect)
+            if (dialect is MsSql2000Dialect)
             {
                 connection = new SqlConnection();
             }
-            else if (Dialect is SQLiteDialect)
+            else if (dialect is SQLiteDialect)
             {
                 connection = ObjectFactory<IDbConnection>("System.Data.SQLite", "System.Data.SQLite.SQLiteConnection");
             }
-            else if (Dialect is MySQLDialect)
+            else if (dialect is MySQLDialect)
             {
                 connection = ObjectFactory<IDbConnection>("MySql.Data", "MySql.Data.MySqlClient.MySqlConnection");
             }
-            else if (Dialect is FirebirdDialect)
+            else if (dialect is FirebirdDialect)
             {
                 connection = ObjectFactory<IDbConnection>("FirebirdSql.Data.FirebirdClient",
                                                           "FirebirdSql.Data.FirebirdClient.FbConnection");
             }
-
+            
             if (connection != null)
             {
-                connection.ConnectionString = SessionManager.Configuration.GetProperty(
-                    Environment.ConnectionString);
+                connection.ConnectionString = SessionManager.Configuration.GetProperty(Environment.ConnectionString);
             }
 
             return connection;
@@ -238,5 +290,7 @@ namespace Thunder.Data
                 throw new Exception(string.Format(MessageException, assemblyName), ex);
             }
         }
+
+
     }
 }

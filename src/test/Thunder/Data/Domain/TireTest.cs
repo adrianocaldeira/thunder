@@ -16,6 +16,7 @@ namespace Thunder.Data.Domain
         {
             _util = new DbUtil().Bind();
             Tire.Create(new Tire {Name = "Tire 1"});
+            Tire.All(Order.Asc("aaa"));
         }
 
         [TearDown]

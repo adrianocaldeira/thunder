@@ -10,42 +10,26 @@ namespace Thunder.Data
     /// </summary>
     public sealed class SessionManager
     {
-        private readonly Configuration _configuration;
-        private readonly ISessionFactory _sessionFactory;
-
-        /// <summary>
-        /// Initialize new instance of <see cref="SessionManager"/>.
-        /// </summary>
-        private SessionManager()
-        {
-            if (_sessionFactory != null) return;
-
-            var serialized = new CfgSerialization("cfg.thunder");
-            _configuration = serialized.Load();
-
-            if (_configuration == null)
-                throw new InvalidOperationException("NHibernate configuration is null.");
-
-            _sessionFactory = _configuration.BuildSessionFactory();
-
-            if (_sessionFactory == null)
-                throw new InvalidOperationException("Call to configuration.BuildSessionFactory() returned null.");
-        }
-
-        /// <summary>
-        /// Get instance of <see cref="SessionManager"/>.
-        /// </summary>
-        public static SessionManager Instance
-        {
-            get { return NestedSessionManager.SessionManager; }
-        }
+        private static Configuration _configuration;
+        private static ISessionFactory _sessionFactory;
 
         /// <summary>
         /// Get current instance of <see cref="ISessionFactory"/>.
         /// </summary>
         public static ISessionFactory SessionFactory
         {
-            get { return Instance._sessionFactory; }
+            get
+            {
+                if (_sessionFactory == null)
+                {
+                    _sessionFactory = Configuration.BuildSessionFactory();
+
+                    if (_sessionFactory == null)
+                        throw new InvalidOperationException("Call to configuration.BuildSessionFactory() returned null.");
+                }
+
+                return _sessionFactory;
+            }
         }
 
         /// <summary>
@@ -54,7 +38,26 @@ namespace Thunder.Data
         /// <returns><see cref="Configuration"/></returns>
         public static Configuration Configuration
         {
-            get { return Instance._configuration; }
+            get
+            {
+                if (_configuration == null)
+                {
+                    _configuration = new CfgSerialization("cfg.thunder").Load();
+
+                    if (_configuration == null)
+                        throw new InvalidOperationException("NHibernate configuration is null.");
+                }
+                
+                return _configuration;
+            }
+        }
+
+        /// <summary>
+        /// Get current session
+        /// </summary>
+        public static ISession CurrentSession
+        {
+            get { return SessionManager.SessionFactory.GetCurrentSession(); }
         }
 
         /// <summary>
@@ -91,17 +94,5 @@ namespace Thunder.Data
                 session.Dispose();
             }
         }
-
-        #region Nested type: NestedSessionManager
-
-        /// <summary>
-        /// Internal nested session manager
-        /// </summary>
-        internal class NestedSessionManager
-        {
-            internal static readonly SessionManager SessionManager = new SessionManager();
-        }
-
-        #endregion
     }
 }
