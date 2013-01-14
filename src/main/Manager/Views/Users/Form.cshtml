@@ -1,0 +1,50 @@
+﻿@model User
+<script type="text/javascript">
+    $(function () {
+        $.manager.users.form();
+    });
+</script>
+@using (Html.BeginForm("Save", "Users", FormMethod.Post))
+{
+    @Html.Hidden("Id", Model.Id)    
+    using (Html.ContentBox(Model.Id == 0 ? "Novo usuário" : "Alterar usuário", new ContentBoxHeaderLoading { Id = "loading", ImagePath = Href(HardCode.Constants.ImageLoadingForm) }))
+    {
+    @Helpers.NotificationRequired()
+    <div class="column-left">
+        <p>
+            @Html.Label("name", "Nome", true)
+            @Html.TextBox("Name", Model.Name, new { id = "name", title = "Informe o nome do usuário.", maxlength = 100, @class = "text-input large-input" })
+        </p>
+        <p>
+            @Html.Label("email", "E-mail")
+            @Html.TextBox("Email", Model.Email, new { id = "email", title = "Informe o e-mail do usuário.", maxlength = 100, @class = "text-input large-input" })
+        </p>
+        <p>
+            <label class="required">
+                Ativo <span class="required">*</span>
+                <input type="checkbox" value="Active" name="Status" @(Model.State.Equals(State.Active) ? Html.Raw("checked=\"checked\"") : Html.Raw("")) />
+            </label>
+        </p>
+    </div>
+    <div class="column-right">
+        <p>
+            @Html.Label("login", "Login", true)
+            @Html.TextBox("Login", Model.Login, new { id = "login", title = "Informe o login do usuário.", maxlength = 20, @class = "text-input medium-input" })
+        </p>
+        <p>
+            @Html.Label("password", "Senha", true)
+            @Html.Password("Password", "", new { id = "password", title = "Informe a senha do usuário.", maxlength = 8, @class = "text-input small-input" })
+        </p>
+    </div>
+    <div class="clear">
+    </div>
+    <br />
+        using (Html.ContentBox("Módulos", true))
+        {
+    <div class="tree-view">
+        @Helpers.Modules(Model, Module.Parents())
+    </div>        
+        }
+    @Helpers.ActionForSave(Url.Action("Index"))
+    }
+}

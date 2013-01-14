@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Thunder.ComponentModel.DataAnnotations;
 using Thunder.Data;
 using Thunder.Security;
@@ -9,7 +10,7 @@ namespace Manager.Models
     /// <summary>
     /// System user
     /// </summary>
-    public class User : ActiveRecord<User, int>, IValidatableObject
+    public class User : ActiveRecord<User, int>
     {
         private const string PasswordKey = "@9#7$5%W*&1WpC#@&2*%4$6#8@";
 
@@ -54,7 +55,10 @@ namespace Manager.Models
         /// <summary>
         /// Get or set functionalities
         /// </summary>
+        [ListRequired(ErrorMessage = "Selecione ao menos uma funcionalidade.")]
         public virtual IList<Functionality> Functionalities { get; set; }
+
+        #region Public Static Methods
 
         /// <summary>
         /// Encript password
@@ -67,18 +71,50 @@ namespace Manager.Models
         }
 
         /// <summary>
-        /// Determines whether the specified object is valid.
+        /// 
         /// </summary>
-        /// <returns>
-        /// A collection that holds failed-validation information.
-        /// </returns>
-        /// <param name="validationContext">The validation context.</param>
-        public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static User Find(string login, string password)
         {
-            if (Functionalities == null || Functionalities.Count == 0)
+            using (var transaction = Session.BeginTransaction())
             {
-                yield return new ValidationResult("Selecione ao menos uma funcionalidade.", new[] { "Functionalities" });
+                var user = Session.GetNamedQuery("users-find-by-login-password")
+                    .SetString("login", login.ToLower())
+                    .SetString("password", EncriptPassword(password))
+                    .UniqueResult<User>();
+
+                transaction.Commit();
+
+                return user;
             }
         }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Possui acesso ao módulo do sistema
+        /// </summary>
+        /// <param name="module"><see cref="Module"/></param>
+        /// <returns>Possui acesso</returns>
+        public virtual bool HasAccess(Module module)
+        {
+            return Functionalities.Any(module.Contains);
+        }
+
+        /// <summary>
+        /// Possui acesso a funcionalidade de um módulo
+        /// </summary>
+        /// <param name="functionality"><see cref="Functionality"/></param>
+        /// <returns>Possui acesso</returns>
+        public virtual bool HasAccess(Functionality functionality)
+        {
+            return Functionalities.Contains(functionality);
+        }
+
+        #endregion
     }
 }

@@ -128,10 +128,6 @@
     <Compile Include="Security\Hash.cs" />
     <Compile Include="Security\HashHelper.cs" />
     <Compile Include="Security\HashProvider.cs" />
-    <Compile Include="Security\Domain\Area.cs" />
-    <Compile Include="Security\Domain\IArea.cs" />
-    <Compile Include="Security\Domain\IUser.cs" />
-    <Compile Include="Security\Domain\User.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Web\ContentType.cs" />
     <Compile Include="Web\IModel.cs" />
@@ -173,10 +169,6 @@
     <Compile Include="Web\Mvc\MessageResult.cs" />
     <Compile Include="Web\ResultStatus.cs" />
     <Compile Include="Web\Utility.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Security\Domain\Orm\Area.hbm.xml" />
-    <EmbeddedResource Include="Security\Domain\Orm\User.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

@@ -6,17 +6,15 @@
       <generator class="identity" />
     </id>
 
-    <many-to-one name="Parent" column="ParentId" />
+    <many-to-one name="Module" column="ModuleId" />
 
     <property name="Name" length="100" not-null="true" />
     <property name="Description" length="100" />
-    <property name="Path" length="100" />
+    <property name="Action" length="100" not-null="true" />
+    <property name="Controller" length="100" not-null="true" />
+    <property name="HttpMethod" length="100" not-null="true" />
     <property name="Created" not-null="true" />
     <property name="Updated" not-null="true" />
 
-    <bag name="Childs" cascade="all" lazy="true" order-by="Name">
-      <key column="ParentId" />
-      <one-to-many class="Manager.Models.Functionality, Manager" />
-    </bag>
   </class>
 </hibernate-mapping>

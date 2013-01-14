@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Thunder.Security.Domain;
 
 namespace Thunder.Data
 {
@@ -11,7 +10,7 @@ namespace Thunder.Data
         [Test]
         public void PagingShouldWithEnumerableList()
         {
-            var persons = new List<User>().Paging(0, 8);
+            var persons = new List<string>().Paging(0, 8);
 
             Assert.IsNotNull(persons);
         }
@@ -19,7 +18,7 @@ namespace Thunder.Data
         [Test]
         public void PagingShouldWithEnumerableListWithRecords()
         {
-            var persons = new List<User>().Paging(0, 8, 30);
+            var persons = new List<string>().Paging(0, 8, 30);
 
             Assert.IsNotNull(persons);
         }
@@ -27,7 +26,7 @@ namespace Thunder.Data
         [Test]
         public void PagingShouldWithQueryableList()
         {
-            var persons = new List<User>().AsQueryable().Paging(0, 8);
+            var persons = new List<string>().AsQueryable().Paging(0, 8);
 
             Assert.IsNotNull(persons);
         }
@@ -35,7 +34,7 @@ namespace Thunder.Data
         [Test]
         public void PagingShouldWithQueryableListWithRecords()
         {
-            var persons = new List<User>().AsQueryable().Paging(0, 8, 30);
+            var persons = new List<string>().AsQueryable().Paging(0, 8, 30);
 
             Assert.IsNotNull(persons);
         }

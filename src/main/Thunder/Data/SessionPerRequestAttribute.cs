@@ -19,10 +19,10 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// OnActionExecuted
+        /// OnResultExecuted
         /// </summary>
-        /// <param name="filterContext"><see cref="ActionExecutedContext"/></param>
-        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        /// <param name="filterContext"><see cref="ResultExecutedContext"/></param>
+        public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
             SessionManager.Unbind();
         }

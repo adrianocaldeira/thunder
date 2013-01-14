@@ -9,8 +9,8 @@
     <many-to-one name="State" column="StateId" not-null="false" />
 
     <property name="Name" length="100" not-null="true" />
-    <property name="Login" length="20" not-null="true" unique="true" />
-    <property name="Password" length="50" not-null="true" />
+    <property name="Login" length="20" not-null="true" unique="true" index="idx_users_login" />
+    <property name="Password" length="50" not-null="true" index="idx_users_password" />
     <property name="Email" length="100" />
     <property name="Created" not-null="true" />
     <property name="Updated" not-null="true" />
@@ -19,6 +19,10 @@
       <key column="UserId" />
       <many-to-many class="Manager.Models.Functionality, Manager" column="FunctionalityId" />
     </bag>
-
   </class>
+  <query name="users-find-by-login-password">
+    <![CDATA[
+      from User u where lower(u.Login) = :login and u.Password = :password
+      ]]>
+  </query>
 </hibernate-mapping>

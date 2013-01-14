@@ -1,0 +1,64 @@
+﻿body {
+    background: #fff !important;
+	margin: 0;
+	padding: 0;
+	outline: 0;
+	vertical-align: baseline;
+}
+
+.modal-header {
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    background: url("../images/bg-modal-title.png") repeat-x scroll left top #E5E5E5;
+}
+
+.modal-header-title, .modal-header-close {
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.modal-header-title {
+    float: left;
+    padding: 12px;
+}
+
+.modal-header-close {
+    float: right;
+    padding: 10px;
+    margin-right: 4px;
+}
+
+.modal-header-close a {
+    color: #fff;
+    font-size: 12px;
+}
+
+.modal-content {
+    margin: 15px 10px 10px 10px;
+}
+
+.content-box-header {
+    height: 30px !important;
+}
+
+.content-box-header h3 {
+    font-size: 14px !important;
+    padding-top: 8px !important;
+}
+
+.column01-modal {
+    float: left;
+    width: 99%;
+}
+
+.column02-modal {
+    float: left;
+    width: 50%;
+}
+
+.column03-modal {
+    float: left;
+    width: 33%;
+}

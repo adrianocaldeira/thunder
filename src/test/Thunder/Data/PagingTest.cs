@@ -2,24 +2,23 @@
 using System.Linq;
 using NUnit.Framework;
 using Thunder.Collections;
-using Thunder.Security.Domain;
 
 namespace Thunder.Data
 {
     [TestFixture]
     public class PagingTest
     {
-        private System.Collections.Generic.List<User> _persons;
+        private System.Collections.Generic.List<string> _persons;
         private int _pageSize;
 
         [SetUp]
         public void SetUp()
         {
-            _persons = new System.Collections.Generic.List<User>();
+            _persons = new System.Collections.Generic.List<string>();
 
             for (var i = 0; i < 30; i++)
             {
-                _persons.Add(new User { Id = i, Name = "Name" });
+                _persons.Add(i.ToString());
             }
 
             _pageSize = 8;
@@ -31,7 +30,7 @@ namespace Thunder.Data
             const int currentPage = 0;
             const int records = 30;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.AreEqual(currentPage, paging.CurrentPage);
             Assert.AreEqual(8, paging.Count);
@@ -51,7 +50,7 @@ namespace Thunder.Data
             const int currentPage = 0;
             const int records = 30;
 
-            var paging = new Paging<User>(_persons.AsQueryable(), currentPage, _pageSize);
+            var paging = new Paging<string>(_persons.AsQueryable(), currentPage, _pageSize);
 
             Assert.AreEqual(currentPage, paging.CurrentPage);
             Assert.AreEqual(8, paging.Count);
@@ -67,14 +66,14 @@ namespace Thunder.Data
             const int currentPage = 1;
             const int records = 30;
 
-            var persons = new System.Collections.Generic.List<User>();
+            var persons = new System.Collections.Generic.List<string>();
 
             for (var i = 0; i < 5; i++)
             {
-                persons.Add(new User { Id = i, Name = "Name" });
+                persons.Add(i.ToString());
             }
 
-            var paging = new Paging<User>(persons, currentPage, _pageSize, 30);
+            var paging = new Paging<string>(persons, currentPage, _pageSize, 30);
 
             Assert.AreEqual(currentPage, paging.CurrentPage);
             Assert.AreEqual(5, paging.Count);
@@ -89,7 +88,7 @@ namespace Thunder.Data
         {
             const int currentPage = 1;
 
-            var paging = new Paging<User>(new System.Collections.Generic.List<User>(), currentPage, _pageSize);
+            var paging = new Paging<string>(new System.Collections.Generic.List<string>(), currentPage, _pageSize);
 
             Assert.AreEqual(currentPage, paging.CurrentPage);
             Assert.AreEqual(0, paging.Count);
@@ -103,7 +102,7 @@ namespace Thunder.Data
         {
             const int currentPage = 1;
 
-            var paging = new Paging<User>(null, currentPage, _pageSize);
+            var paging = new Paging<string>(null, currentPage, _pageSize);
 
             Assert.AreEqual(currentPage, paging.CurrentPage);
             Assert.AreEqual(0, paging.Count);
@@ -116,14 +115,14 @@ namespace Thunder.Data
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidCurrentPageArgument()
         {
-            new Paging<User>(new System.Collections.Generic.List<User>(), -1, _pageSize);
+            new Paging<string>(new System.Collections.Generic.List<string>(), -1, _pageSize);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidPageSizeArgument()
         {
-            new Paging<User>(new System.Collections.Generic.List<User>(), 0, -1);
+            new Paging<string>(new System.Collections.Generic.List<string>(), 0, -1);
         }
 
         [Test]
@@ -131,7 +130,7 @@ namespace Thunder.Data
         {
             const int currentPage = 0;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsTrue(paging.IsFirstPage);
         }
@@ -141,7 +140,7 @@ namespace Thunder.Data
         {
             const int currentPage = 1;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsFalse(paging.IsFirstPage);
         }
@@ -151,7 +150,7 @@ namespace Thunder.Data
         {
             const int currentPage = 3;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsTrue(paging.IsLastPage);
         }
@@ -161,7 +160,7 @@ namespace Thunder.Data
         {
             const int currentPage = 2;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsFalse(paging.IsLastPage);
         }
@@ -171,7 +170,7 @@ namespace Thunder.Data
         {
             const int currentPage = 0;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsTrue(paging.HasNextPage);
         }
@@ -181,7 +180,7 @@ namespace Thunder.Data
         {
             const int currentPage = 3;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsFalse(paging.HasNextPage);
         }
@@ -191,7 +190,7 @@ namespace Thunder.Data
         {
             const int currentPage = 3;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsTrue(paging.HasPreviousPage);
         }
@@ -201,7 +200,7 @@ namespace Thunder.Data
         {
             const int currentPage = 0;
 
-            var paging = new Paging<User>(_persons, currentPage, _pageSize);
+            var paging = new Paging<string>(_persons, currentPage, _pageSize);
 
             Assert.IsFalse(paging.HasPreviousPage);
         }

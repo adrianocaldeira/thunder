@@ -1,61 +1,49 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
 using Thunder.Data;
 
 namespace Manager.Models
 {
     /// <summary>
-    /// Functionality of system
+    /// Funcionalida de um módulo do sistema
     /// </summary>
     public class Functionality : ActiveRecord<Functionality, int>
     {
         /// <summary>
-        /// Initiaize new instance of class <see cref="Functionality"/>.
+        /// Inicializa uma nova instância da classe <see cref="Functionality"/>.
         /// </summary>
         public Functionality()
         {
-            Childs = new List<Functionality>();
+            HttpMethod = WebRequestMethods.Http.Get;
         }
 
         /// <summary>
-        /// Get or set parent funcionality
+        /// Recupera ou define nome
         /// </summary>
-        public virtual Functionality Parent { get; set; }
+        public virtual Module Module { get; set; }
 
         /// <summary>
-        /// Get or set name
+        /// Recupera ou define nome
         /// </summary>
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// Get or set description
+        /// Recupera ou define descrição
         /// </summary>
         public virtual string Description { get; set; }
 
         /// <summary>
-        /// Get or set childs functionality
+        /// Recupera ou define ação
         /// </summary>
-        public virtual IList<Functionality> Childs { get; set; }
+        public virtual string Action { get; set; }
 
         /// <summary>
-        /// Get or set path
+        /// Recupera ou define controlador
         /// </summary>
-        public virtual string Path { get; set; }
+        public virtual string Controller { get; set; }
 
         /// <summary>
-        /// Check contains path
+        /// Recupera ou define método http
         /// </summary>
-        /// <param name="path">Path</param>
-        /// <returns>Contains</returns>
-        public virtual bool Contains(string path)
-        {
-            if (!string.IsNullOrEmpty(Path))
-            {
-                return path.Contains(Path.Replace("~/", "")) ||
-                       Childs.Any(child => path.Contains(child.Path.Replace("~/", "")));
-            }
-
-            return Childs.Any(child => path.Contains(child.Path.Replace("~/", "")));
-        }
+        public virtual string HttpMethod { get; set; }
     }
 }

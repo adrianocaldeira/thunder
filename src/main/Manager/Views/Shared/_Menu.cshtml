@@ -1,0 +1,22 @@
+﻿@*@{
+    var functionalities = Session[HardCode.Session.Functionalities] as IList<Functionality>;
+}
+@if (functionalities != null && functionalities.Count > 0)
+{
+    <ul id="main-nav">
+        @foreach (var functionality in functionalities)
+        {
+            <li><a href="@(string.IsNullOrEmpty(functionality.Path) ? "javascript:void(0);" : Url.Content(functionality.Path))"  title="@functionality.Description" class="nav-top-item @(functionality.Childs.Count > 0 ? "" : "no-submenu") @(functionality.Contains(Request.Url.ToString()) ? "current" : "")">@functionality.Name</a>
+                @if (functionality.Childs.Count > 0)
+                {
+                    <ul>
+                        @foreach (var child in functionality.Childs)
+                        {
+                            <li><a href="@Href(child.Path)" title="@child.Description"  class="@(child.Contains(Request.Url.ToString()) ? "current" : "")">@child.Name</a></li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+}*@
