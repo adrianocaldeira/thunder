@@ -17,14 +17,19 @@
         <img src="@Href("~/content/manager/images/pencil.png")" alt="Editar" />
     </a>    
 }
-@helper ActionForRemove(string url)
+@helper ActionForDelete(string message, string url, bool delete)
 {
-    <a href="@Href(url)" class="remove" title="Remover">
-        <img src="@Href("~/content/manager/images/icons/cross.png")" alt="Remover" />
-    </a>    
+    <a href="@(delete ? Href(url) : "#")" class="delete" title="Excluir" data-message="@message" data-delete="@delete.ToString().ToLower()">
+        <img src="@Href("~/content/manager/images/icons/cross.png")" alt="Excluir" />
+    </a>   
 }
 
-@helper Modules(Manager.Models.User user, IList<Manager.Models.Module> modules)
+@helper ActionForDelete(string message, string url)
+{
+    @ActionForDelete(message, url, true)
+}
+
+@helper Modules(Manager.Models.UserProfile profile, IList<Manager.Models.Module> modules)
 {
     if (modules.Count > 0)
     { 
@@ -33,7 +38,7 @@
         {
             <li @(module.Childs.Count > 0 ? "class=\"parent\"" : "") data-module="@module.Id">
                 <label>
-                    @if (user.HasAccess(module))
+                    @if (profile.HasAccess(module))
                     {
                         <input type="checkbox" value="@module.Id" checked="checked" />    
                     }
@@ -56,7 +61,7 @@
                         {
                             <p>
                                 <label>
-                                    @if (user.HasAccess(functionality))
+                                    @if (profile.HasAccess(functionality))
                                     {
                                         <input type="checkbox" class="permission" value="@functionality.Id" checked="checked" />
                                     }
@@ -70,7 +75,7 @@
                         }
                     </div>
                 }
-                @Modules(user, module.Childs)
+                @Modules(profile, module.Childs)
             </li>
         }
     </ul>

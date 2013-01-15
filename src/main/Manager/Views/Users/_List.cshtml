@@ -13,6 +13,9 @@ else
                     ID
                 </th>
                 <th>
+                    Perfil
+                </th>
+                <th>
                     Nome
                 </th>
                 <th>
@@ -31,7 +34,7 @@ else
         </thead>
         <tfoot>
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     @Html.Pagination(Model)
                     <div class="clear">
                     </div>
@@ -44,13 +47,15 @@ else
                 <tr>
                     <td>@user.Id
                     </td>
+                    <td>@user.Profile.Name
+                    </td>
                     <td>@user.Name
                     </td>
                     <td>@(string.IsNullOrEmpty(user.Email) ? "-" : user.Email)
                     </td>
                     <td>@user.Login
                     </td>
-                    <td class="align-center">@(user.State.Unproxy().Equals(State.Active) ? "Ativo" : "Inativo")
+                    <td class="align-center">@(user.State.Equals(State.Active) ? "Ativo" : "Inativo")
                     </td>
                     <td class="align-center">
                         @Helpers.ActionForEdit(Url.Action("Edit", new { user.Id }))

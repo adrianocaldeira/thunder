@@ -12,6 +12,10 @@
     @Helpers.NotificationRequired()
     <div class="column-left">
         <p>
+            @Html.Label("Profile", "Perfil", true)
+            @Html.DropDownList("Profile.Id", (IList<SelectListItem>)ViewBag.Profiles, new { id = "Profile", title = "Selecione um perfil de usuário" })
+        </p>
+        <p>
             @Html.Label("name", "Nome", true)
             @Html.TextBox("Name", Model.Name, new { id = "name", title = "Informe o nome do usuário.", maxlength = 100, @class = "text-input large-input" })
         </p>
@@ -39,12 +43,6 @@
     <div class="clear">
     </div>
     <br />
-        using (Html.ContentBox("Módulos", true))
-        {
-    <div class="tree-view">
-        @Helpers.Modules(Model, Module.Parents())
-    </div>        
-        }
     @Helpers.ActionForSave(Url.Action("Index"))
     }
 }

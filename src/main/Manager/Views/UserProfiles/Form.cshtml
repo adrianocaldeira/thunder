@@ -1,0 +1,36 @@
+﻿@model UserProfile
+<script type="text/javascript">
+    $(function () {
+        $.manager.userProfiles.form();
+    });
+</script>
+@using (Html.BeginForm("Save", "UserProfiles", FormMethod.Post))
+{
+    @Html.Hidden("Id", Model.Id)    
+    using (Html.ContentBox(Model.Id == 0 ? "Novo perfil de usuário" : "Alterar perfil de usuário", new ContentBoxHeaderLoading { Id = "loading", ImagePath = Href(HardCode.Constants.ImageLoadingForm) }))
+    {
+    @Helpers.NotificationRequired()
+    <div class="column-left">
+        <p>
+            @Html.Label("name", "Nome", true)
+            @Html.TextBox("Name", Model.Name, new { id = "name", title = "Informe o nome do usuário.", maxlength = 100, @class = "text-input large-input" })
+        </p>
+        <p>
+            <label class="required">
+                Ativo <span class="required">*</span>
+                <input type="checkbox" value="Active" name="Status" @(Model.State.Equals(State.Active) ? Html.Raw("checked=\"checked\"") : Html.Raw("")) />
+            </label>
+        </p>
+    </div>
+    <div class="clear">
+    </div>
+    <br />
+        using (Html.ContentBox("Módulos", true))
+        {
+    <div class="tree-view">
+        @Helpers.Modules(Model, Module.Parents())
+    </div>        
+        }
+    @Helpers.ActionForSave(Url.Action("Index"))
+    }
+}

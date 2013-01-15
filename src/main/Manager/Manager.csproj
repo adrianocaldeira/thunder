@@ -148,6 +148,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogOffController.cs" />
+    <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\AuthorizedAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -159,6 +160,7 @@
     <Compile Include="Models\FilterOrder.cs" />
     <Compile Include="Models\Functionality.cs" />
     <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -292,6 +294,9 @@
     <EmbeddedResource Include="Models\Orm\Functionality.hbm.xml" />
     <EmbeddedResource Include="Models\Orm\User.hbm.xml" />
     <EmbeddedResource Include="Models\Orm\Module.hbm.xml" />
+    <EmbeddedResource Include="Models\Orm\UserProfile.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.js" />
@@ -324,6 +329,9 @@
     <Content Include="Views\Users\Form.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_List.cshtml" />
+    <Content Include="Views\UserProfiles\Index.cshtml" />
+    <Content Include="Views\UserProfiles\_List.cshtml" />
+    <Content Include="Views\UserProfiles\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -359,7 +367,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>1436</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:3830/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

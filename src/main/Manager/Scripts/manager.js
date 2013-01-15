@@ -63,7 +63,7 @@
                 $(selector).live('click', function (e) {
                     var $this = $(this);
 
-                    if ($this.data('destroy')) {
+                    if ($this.data('delete')) {
                         $.confirm($this.data('message'), {
                             onYes: function () {
                                 $.ajax({
@@ -93,13 +93,21 @@
                 });
             }
         },
-        users: {
+        userProfiles: {
             index: function () {
-                $('#grid-users').grid();
+                var $grid = $('#grid-profiles');
+                
+                $grid.grid();
+                
+                $.manager.utility.delete($('a.delete', $grid), {
+                    success: function () {
+                        $grid.grid();
+                    }
+                });
             },
             form: function () {
                 var $form = $('form');
-                
+
                 $form.ajaxForm({
                     loading: $('#loading'),
                     onBeforeSubmit: function () {
@@ -121,7 +129,7 @@
                         modal: true,
                         title: 'Permissões'
                     });
- 
+
                     e.preventDefault();
                 });
 
@@ -130,7 +138,7 @@
                     var $li = $checkbox.parents('li:first');
                     var $childs = $('input:checkbox', $li);
                     var $parents = $('input:checkbox:first', $li.parents('li'));
-                    
+
                     if ($checkbox.is(':checked')) {
                         $parents.attr('checked', 'checked');
                         $childs.attr('checked', 'checked');
@@ -149,10 +157,10 @@
                             var $dialog = $('#permission-modal-' + $parentChild.data('module'));
                             $('input:checkbox', $dialog).removeAttr('checked');
                         });
-                        
+
                     }
                 });
-                
+
                 $('.tree-view input.permission:checkbox').click(function () {
                     var $this = $(this);
                     var $dialog = $this.parents('.ui-dialog-content');
@@ -165,6 +173,21 @@
                         if ($('input:checkbox:checked', $dialog).size() == 0) {
                             $module.removeAttr('checked');
                         }
+                    }
+                });
+            }
+        },
+        users: {
+            index: function () {
+                $('#grid-users').grid();
+            },
+            form: function () {
+                var $form = $('form');
+                
+                $form.ajaxForm({
+                    loading: $('#loading'),
+                    onSuccess: function (f, r) {
+                        window.location.href = r.Data;
                     }
                 });
             }

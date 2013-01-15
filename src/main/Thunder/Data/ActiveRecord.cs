@@ -93,10 +93,10 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Remove object
+        /// Delete object
         /// </summary>
         /// <param name="object">Object</param>
-        public static void Remove(T @object)
+        public static void Delete(T @object)
         {
             using (var transaction = Session.BeginTransaction())
             {
@@ -106,12 +106,12 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Remove object from database
+        /// Delete object from database
         /// </summary>
         /// <param name="id">Id</param>
-        public static void Remove(TKey id)
+        public static void Delete(TKey id)
         {
-            Remove(FindById(id));
+            Delete(FindById(id));
         }
         
         /// <summary>

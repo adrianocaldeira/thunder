@@ -63,14 +63,14 @@ namespace Thunder.Data.Domain
         [Test]
         public void Remove()
         {
-            Tire.Remove(1);
+            Tire.Delete(1);
             Assert.AreEqual(0, Tire.All().Count);
         }
 
         [Test]
         public void RemoveByObject()
         {
-            Tire.Remove(Tire.FindById(1));
+            Tire.Delete(Tire.FindById(1));
             Assert.AreEqual(0, Tire.All().Count);
         }
 

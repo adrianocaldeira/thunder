@@ -1,0 +1,11 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $.manager.userProfiles.index();
+    });
+</script>
+@using (Html.ContentBox("Perfis de Usuário", new ContentBoxHeaderButton { Title = "Novo Perfil", Text = "+", Url = Url.Action("New") }))
+{
+    <div class="grid" id="grid-profiles" data-url="@Url.Action("Index")">
+        @Html.Gif("~/content/manager/images/grid_loading")
+    </div>
+}

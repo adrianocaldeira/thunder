@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Thunder.ComponentModel.DataAnnotations;
 using Thunder.Data;
@@ -8,7 +7,7 @@ using Thunder.Security;
 namespace Manager.Models
 {
     /// <summary>
-    /// System user
+    /// Usuário do sistema
     /// </summary>
     public class User : ActiveRecord<User, int>
     {
@@ -20,8 +19,13 @@ namespace Manager.Models
         public User()
         {
             State = State.Active;
-            Functionalities = new List<Functionality>();
         }
+
+        /// <summary>
+        /// Recupera ou define perfil
+        /// </summary>
+        [Display(Name = "Perfil")]
+        public virtual UserProfile Profile { get; set; }
 
         /// <summary>
         /// Get or set name
@@ -52,14 +56,7 @@ namespace Manager.Models
         /// </summary>
         public virtual State State { get; set; }
 
-        /// <summary>
-        /// Get or set functionalities
-        /// </summary>
-        [ListRequired(ErrorMessage = "Selecione ao menos uma funcionalidade.")]
-        public virtual IList<Functionality> Functionalities { get; set; }
-
         #region Public Static Methods
-
         /// <summary>
         /// Encript password
         /// </summary>
@@ -93,28 +90,6 @@ namespace Manager.Models
 
         #endregion
 
-        #region Public Methods
-
-        /// <summary>
-        /// Possui acesso ao módulo do sistema
-        /// </summary>
-        /// <param name="module"><see cref="Module"/></param>
-        /// <returns>Possui acesso</returns>
-        public virtual bool HasAccess(Module module)
-        {
-            return Functionalities.Any(module.Contains);
-        }
-
-        /// <summary>
-        /// Possui acesso a funcionalidade de um módulo
-        /// </summary>
-        /// <param name="functionality"><see cref="Functionality"/></param>
-        /// <returns>Possui acesso</returns>
-        public virtual bool HasAccess(Functionality functionality)
-        {
-            return Functionalities.Contains(functionality);
-        }
-
-        #endregion
+        
     }
 }

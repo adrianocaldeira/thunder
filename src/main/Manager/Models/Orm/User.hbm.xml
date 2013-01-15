@@ -7,6 +7,7 @@
     </id>
 
     <many-to-one name="State" column="StateId" not-null="false" />
+    <many-to-one name="Profile" column="UserProfileId" not-null="false" />
 
     <property name="Name" length="100" not-null="true" />
     <property name="Login" length="20" not-null="true" unique="true" index="idx_users_login" />
@@ -14,11 +15,6 @@
     <property name="Email" length="100" />
     <property name="Created" not-null="true" />
     <property name="Updated" not-null="true" />
-
-    <bag name="Functionalities" table="users_x_functionalities" lazy="true">
-      <key column="UserId" />
-      <many-to-many class="Manager.Models.Functionality, Manager" column="FunctionalityId" />
-    </bag>
   </class>
   <query name="users-find-by-login-password">
     <![CDATA[

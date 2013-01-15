@@ -86,13 +86,28 @@ namespace Manager.Controllers
                 });
                 #endregion
 
+                #region Perfil de Usuário
+                UserProfile.Create(new UserProfile
+                    {
+                        Name = "Administrador do Sistema",
+                        Functionalities =
+                            new List<Functionality>
+                                {
+                                    new Functionality {Id = 1},
+                                    new Functionality {Id = 2},
+                                    new Functionality {Id = 3},
+                                    new Functionality {Id = 4}
+                                }
+                    });
+                #endregion
+
                 #region User
                 Models.User.Create(new User
                 {
                     Login = "adm",
                     Name = "Administrator",
                     Password = Models.User.EncriptPassword("123"),
-                    Functionalities = new List<Functionality> { new Functionality { Id = 1 }, new Functionality { Id = 2 }, new Functionality { Id = 3 }, new Functionality { Id = 4 } }
+                    Profile = new UserProfile{Id = 1}
                 });
                 #endregion
                 

@@ -8,6 +8,7 @@ using Thunder.Data;
 using Thunder.Web;
 using Manager.Filters;
 using Manager.Models;
+using Thunder.Web.Mvc.Html;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Controllers
@@ -23,6 +24,9 @@ namespace Manager.Controllers
         [HttpGet, SessionPerRequest]
         public ActionResult New()
         {
+            ViewBag.Profiles = UserProfile.FindByState(State.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
+                new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
+
             return View("Form", new User());
         }
 
@@ -30,11 +34,15 @@ namespace Manager.Controllers
         public ActionResult Edit(int id)
         {
             var userDb = Models.User.FindById(id);
-
+            
             if (userDb == null)
             {
                 return new HttpNotFoundResult();
             }
+
+            ViewBag.Profiles = UserProfile.FindByState(State.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
+                userDb.Profile.Id.ToString(),
+                new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", userDb);
         }
@@ -48,6 +56,8 @@ namespace Manager.Controllers
         [HttpPost, SessionPerRequest]
         public ActionResult Save(User user)
         {
+            ExcludePropertiesInValidation("Profile.Name", "Profile.Functionalities");
+
             if (FormIsValid(user))
             {
                 if (user.Id.Equals(0))
@@ -56,9 +66,6 @@ namespace Manager.Controllers
                 }
                 else
                 {
-                    //user.Functionalities = user.Functionalities.Select(
-                    //    functionality => Functionality.FindById(functionality.Id)
-                    //    ).ToList();
                     Models.User.Update(user);
                 }
 
