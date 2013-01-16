@@ -11,27 +11,28 @@ using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Controllers
 {
-    [Authorized]
-    public class UserProfilesController : Library.Controller
+    [Authorized, SessionPerRequest] 
+    public class UserProfilesController : ManagerController
     {
+        [HttpGet]
         public ActionResult Index()
         {
             return View("Index");
         }
 
-        [HttpPost, SessionPerRequest]
+        [HttpPost]
         public ActionResult Index(Models.Filter filter)
         {
             return View("_List", UserProfile.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
         }
 
-        [HttpGet, SessionPerRequest]
+        [HttpGet]
         public ActionResult New()
         {
             return View("Form", new UserProfile());
         }
 
-        [HttpGet, SessionPerRequest]
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var userProdileDb = UserProfile.FindById(id);
@@ -44,7 +45,7 @@ namespace Manager.Controllers
             return View("Form", userProdileDb);
         }
 
-        [HttpPost, SessionPerRequest]
+        [HttpPost]
         public ActionResult Save(UserProfile profile)
         {
             if (FormIsValid(profile))
@@ -66,7 +67,7 @@ namespace Manager.Controllers
             return View(ResultStatus.Attention);
         }
 
-        [HttpDelete, SessionPerRequest]
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
             UserProfile.Delete(id);

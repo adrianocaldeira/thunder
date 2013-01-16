@@ -19,7 +19,7 @@
                     </a>
                 <div id="profile-links">
                     @{
-                       var user = Session[HardCode.Session.ConnectedUser] as User;
+                        var user = Session[HardCode.Session.ConnectedUser] as User;
                     }
                     @if(user != null){
                         <a href="#">@user.Name</a><br />
@@ -27,7 +27,7 @@
                     <br />
                     @Html.ActionLink("Sair", "Index", "LogOff",null, new { title = "Sair"})
                 </div>
-                @Html.Partial("_Menu")
+                @Html.Action("Index","Menu")
             </div>
         </div>
         <div id="main-content">

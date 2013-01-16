@@ -76,11 +76,9 @@ namespace Manager.Controllers
                 {
                     Name = "Perfis de Usuário",
                     Parent = new Module { Id = 1 },
-                    Action = "Index",
-                    Controller = "UserProfiles",
                     Functionalities = new List<Functionality>
                     {
-                        new Functionality{Name = "Listar", Action = "Index", Controller = "UserProfiles", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Listar", Action = "Index", Controller = "UserProfiles", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
                         new Functionality{Name = "Criar", Action = "New", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Editar", Action = "Edit", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Salvar", Action = "Save", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }
@@ -90,11 +88,9 @@ namespace Manager.Controllers
                 {
                     Name = "Usuários",
                     Parent = new Module { Id = 1 },
-                    Action = "Index",
-                    Controller = "Users",
                     Functionalities = new List<Functionality>
                     {
-                        new Functionality{Name = "Listar", Action = "Index", Controller = "Users", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Listar", Action = "Index", Controller = "Users", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
                         new Functionality{Name = "Criar", Action = "New", Controller = "Users", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Editar", Action = "Edit", Controller = "Users", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Salvar", Action = "Save", Controller = "Users", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }

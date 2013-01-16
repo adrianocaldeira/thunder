@@ -148,13 +148,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogOffController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Filters\AuthorizedAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Library\Controller.cs" />
+    <Compile Include="Library\ManagerController.cs" />
     <Compile Include="Library\HardCode.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\FilterOrder.cs" />
@@ -325,13 +326,13 @@
     <Content Include="Views\Db\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Users\Form.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_List.cshtml" />
     <Content Include="Views\UserProfiles\Index.cshtml" />
     <Content Include="Views\UserProfiles\_List.cshtml" />
     <Content Include="Views\UserProfiles\Form.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

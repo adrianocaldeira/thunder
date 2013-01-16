@@ -1,12 +1,12 @@
 ﻿using System.Web.Mvc;
+using Manager.Library;
 using Thunder.Data;
 using Thunder.Web;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
-using Manager.Models;
 
 namespace Manager.Controllers
 {
-    public class LoginController : Library.Controller
+    public class LoginController : ManagerController
     {
         public ActionResult Index()
         {
@@ -14,7 +14,7 @@ namespace Manager.Controllers
         }
 
         [HttpPost, SessionPerRequest]
-        public ActionResult Index(string login, string password, string path)
+        public ActionResult Index(string login, string password, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -26,13 +26,13 @@ namespace Manager.Controllers
                     return View(ResultStatus.Attention);
                 }
 
-                SetConnectedUser(user, Module.FindByUser(user));
+                ConnectedUser = user;
 
                 return new JsonResult
                 {
                     Data = new
                     {
-                        Path = string.IsNullOrEmpty(path) ? Url.Content("~/") : path
+                        Path = string.IsNullOrEmpty(returnUrl) ? Url.Action("Index","Home") : returnUrl
                     }
                 };
             }

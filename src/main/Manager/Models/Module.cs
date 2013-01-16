@@ -32,16 +32,6 @@ namespace Manager.Models
         public virtual Module Parent { get; set; }
 
         /// <summary>
-        /// Recupera ou define ação
-        /// </summary>
-        public virtual string Action { get; set; }
-
-        /// <summary>
-        /// Recupera ou define controlador
-        /// </summary>
-        public virtual string Controller { get; set; }
-
-        /// <summary>
         /// Recupera ou define descrição do módulo
         /// </summary>
         public virtual string Description { get; set; }
@@ -55,6 +45,14 @@ namespace Manager.Models
         /// Recupera ou define funcionalidades do módulo
         /// </summary>
         public virtual IList<Functionality> Functionalities { get; set; }
+
+        /// <summary>
+        /// Recupera ou define funcionalidade padrão do módulo
+        /// </summary>
+        public virtual Functionality DefaultFunctionality
+        {
+            get { return Functionalities.SingleOrDefault(x => x.Default); }
+        }
 
         /// <summary>
         /// Recupera ou define filhos do módulo
@@ -86,12 +84,7 @@ namespace Manager.Models
         /// <returns></returns>
         private IList<Functionality> AllFunctionalities()
         {
-            if (_allFunctionalities == null)
-            {
-                _allFunctionalities = AllFunctionalities(this);
-            }
-
-            return _allFunctionalities;
+            return _allFunctionalities ?? (_allFunctionalities = AllFunctionalities(this));
         }
 
         /// <summary>
@@ -112,9 +105,8 @@ namespace Manager.Models
                     Name = parent.Name,
                     Order = parent.Order,
                     Description = parent.Description,
-                    Action = parent.Action,
-                    Controller = parent.Controller,
-                    Created = parent.Created, Updated = parent.Updated,
+                    Created = parent.Created,
+                    Updated = parent.Updated,
                     Functionalities = parent.Functionalities
                 };
 
@@ -184,6 +176,25 @@ namespace Manager.Models
             return AllFunctionalities().Any(functionality => functionality.Controller.ToLower().Equals(controllerName.ToLower()) && functionality.Action.ToLower().Equals(actionName.ToLower()));
         }
 
+        /// <summary>
+        /// Clona módulo
+        /// </summary>
+        /// <returns><see cref="Module"/></returns>
+        public virtual Module Clone()
+        {
+            return new Module
+            {
+                Id = Id,
+                Name = Name,
+                Order = Order,
+                Description = Description,
+                Created = Created,
+                Updated = Updated,
+                Functionalities = Functionalities,
+                Childs = Childs,
+                Parent = Parent
+            };
+        }
         #endregion
     }
 }

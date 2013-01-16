@@ -88,6 +88,30 @@ namespace Manager.Models
             }
         }
 
+        /// <summary>
+        /// Possui acesso a uma funcionalidade
+        /// </summary>
+        /// <param name="id">Código</param>
+        /// <param name="controllerName">Nome da Controller</param>
+        /// <param name="actionName">Nome da Action</param>
+        /// <param name="httpMethod">Método Http</param>
+        /// <returns>Possui acesso</returns>
+        public static bool AllowAccess(int id, string controllerName, string actionName, string httpMethod)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var functionalities = Session.GetNamedQuery("users-allow-access")
+                    .SetInt32("id", id)
+                    .SetString("controllerName", controllerName.ToLower())
+                    .SetString("actionName", actionName.ToLower())
+                    .List<Functionality>();
+
+                transaction.Commit();
+
+                return functionalities.Any(functionality => functionality.HttpMethod.ToLower().Contains(httpMethod.ToLower()));
+            }
+        }
+
         #endregion
 
         

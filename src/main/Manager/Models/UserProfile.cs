@@ -25,7 +25,7 @@ namespace Manager.Models
         /// Recupera ou define código
         /// </summary>
         [Display(Name = "Perfil")]
-        public new virtual int Id { get; set; }
+        public new virtual int Id { get { return base.Id; } set { base.Id = value; } }
 
         /// <summary>
         /// Recuper ou define nome

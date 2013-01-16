@@ -45,5 +45,10 @@ namespace Manager.Models
         /// Recupera ou define método http
         /// </summary>
         public virtual string HttpMethod { get; set; }
+
+        /// <summary>
+        /// Recupera ou define se a funcionalidade é a padrão do módulo
+        /// </summary>
+        public virtual bool Default { get; set; }
     }
 }

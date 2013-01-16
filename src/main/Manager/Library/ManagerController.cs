@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using Thunder;
+﻿using Thunder;
 using Manager.Models;
 
 
 namespace Manager.Library
 {
-    public class Controller : Thunder.Web.Mvc.Controller
+    public class ManagerController : Thunder.Web.Mvc.Controller
     {
-        public void SetConnectedUser(User user, IList<Module> modules)
+        public User ConnectedUser
         {
-            Session[HardCode.Session.ConnectedUser] = user;
-            Session[HardCode.Session.Modules] = modules;
+            get { return Session[HardCode.Session.ConnectedUser] as User; }
+            set { Session[HardCode.Session.ConnectedUser] = value; }
         }
 
         protected override void OnException(System.Web.Mvc.ExceptionContext filterContext)

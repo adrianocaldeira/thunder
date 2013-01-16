@@ -21,7 +21,7 @@
         <h1>Acesso ao Sistema</h1>
         @using (Html.BeginForm("Index", "Login", FormMethod.Post))
         {
-            @Html.Hidden("path", @Request.QueryString["path"])
+            @Html.Hidden("ReturnUrl", @Request.QueryString["ReturnUrl"])
             <div id="message">
             </div>
             <p>

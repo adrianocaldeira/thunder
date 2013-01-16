@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Manager.Library;
 using NHibernate;
@@ -13,15 +12,16 @@ using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Controllers
 {
-    [Authorized]
-    public class UsersController : Library.Controller
+    [Authorized, SessionPerRequest] 
+    public class UsersController : ManagerController
     {
+        [HttpGet]
         public ActionResult Index()
         {
             return View("Index");
         }
 
-        [HttpGet, SessionPerRequest]
+        [HttpGet]
         public ActionResult New()
         {
             ViewBag.Profiles = UserProfile.FindByState(State.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
@@ -30,11 +30,11 @@ namespace Manager.Controllers
             return View("Form", new User());
         }
 
-        [HttpGet, SessionPerRequest]
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var userDb = Models.User.FindById(id);
-            
+
             if (userDb == null)
             {
                 return new HttpNotFoundResult();
@@ -47,13 +47,13 @@ namespace Manager.Controllers
             return View("Form", userDb);
         }
 
-        [HttpPost, SessionPerRequest]
+        [HttpPost]
         public ActionResult Index(Models.Filter filter)
         {
-            return View("_List", Models.User.Page(filter.CurrentPage, filter.PageSize, new List<Order> {Order.Asc("Name")}));
+            return View("_List", Models.User.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
         }
 
-        [HttpPost, SessionPerRequest]
+        [HttpPost]
         public ActionResult Save(User user)
         {
             ExcludePropertiesInValidation("Profile.Name", "Profile.Functionalities");
@@ -71,7 +71,7 @@ namespace Manager.Controllers
 
                 AddMessage(HardCode.Constants.MessageWithSuccess);
 
-                return new JsonResult {Data = Url.Action("Index", "Users")};
+                return new JsonResult { Data = Url.Action("Index", "Users") };
             }
 
             return View(ResultStatus.Attention);

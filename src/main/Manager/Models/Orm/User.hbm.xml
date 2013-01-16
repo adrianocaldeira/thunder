@@ -21,4 +21,9 @@
       from User u where lower(u.Login) = :login and u.Password = :password
       ]]>
   </query>
+  <query name="users-allow-access">
+    <![CDATA[
+      select f from User u join u.Profile.Functionalities f where u.Id = :id and lower(f.Controller) = :controllerName and lower(f.Action) = :actionName
+      ]]>    
+  </query>
 </hibernate-mapping>
