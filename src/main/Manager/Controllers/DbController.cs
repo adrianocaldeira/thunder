@@ -74,8 +74,24 @@ namespace Manager.Controllers
                 Module.Create(new Module{ Name = "Cadastros"});
                 Module.Create(new Module
                 {
+                    Name = "Perfis de Usuário",
+                    Parent = new Module { Id = 1 },
+                    Action = "Index",
+                    Controller = "UserProfiles",
+                    Functionalities = new List<Functionality>
+                    {
+                        new Functionality{Name = "Listar", Action = "Index", Controller = "UserProfiles", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Criar", Action = "New", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Editar", Action = "Edit", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Salvar", Action = "Save", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }
+                    }
+                });
+                Module.Create(new Module
+                {
                     Name = "Usuários",
                     Parent = new Module { Id = 1 },
+                    Action = "Index",
+                    Controller = "Users",
                     Functionalities = new List<Functionality>
                     {
                         new Functionality{Name = "Listar", Action = "Index", Controller = "Users", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now},
@@ -96,7 +112,11 @@ namespace Manager.Controllers
                                     new Functionality {Id = 1},
                                     new Functionality {Id = 2},
                                     new Functionality {Id = 3},
-                                    new Functionality {Id = 4}
+                                    new Functionality {Id = 4},
+                                    new Functionality {Id = 5},
+                                    new Functionality {Id = 6},
+                                    new Functionality {Id = 7},
+                                    new Functionality {Id = 8}
                                 }
                     });
                 #endregion

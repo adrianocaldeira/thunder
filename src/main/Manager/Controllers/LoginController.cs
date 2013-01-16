@@ -26,7 +26,7 @@ namespace Manager.Controllers
                     return View(ResultStatus.Attention);
                 }
 
-                //SetConnectedUser(user, Functionality.Parents());
+                SetConnectedUser(user, Module.FindByUser(user));
 
                 return new JsonResult
                 {

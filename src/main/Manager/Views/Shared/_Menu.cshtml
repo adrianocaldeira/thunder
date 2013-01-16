@@ -1,22 +1,27 @@
-﻿@*@{
-    var functionalities = Session[HardCode.Session.Functionalities] as IList<Functionality>;
+﻿@{
+    var modules = Session[HardCode.Session.Modules] as IList<Module>;
 }
-@if (functionalities != null && functionalities.Count > 0)
+@if (modules != null && modules.Count > 0)
 {
+    var controllerName = ViewContext.RouteData.GetRequiredString("controller");
+    var actionName = ViewContext.RouteData.GetRequiredString("action");
     <ul id="main-nav">
-        @foreach (var functionality in functionalities)
+        @foreach (var module in modules)
         {
-            <li><a href="@(string.IsNullOrEmpty(functionality.Path) ? "javascript:void(0);" : Url.Content(functionality.Path))"  title="@functionality.Description" class="nav-top-item @(functionality.Childs.Count > 0 ? "" : "no-submenu") @(functionality.Contains(Request.Url.ToString()) ? "current" : "")">@functionality.Name</a>
-                @if (functionality.Childs.Count > 0)
+            <li>
+                <a href="@(string.IsNullOrEmpty(module.Controller) && string.IsNullOrEmpty(module.Action) ? "javascript:void(0);" : Url.Action(module.Action, module.Controller))"  title="@module.Description" class="nav-top-item @(module.Childs.Count > 0 ? "" : "no-submenu") @(module.Contains(controllerName, actionName) ? "current" : "")">@module.Name</a>
+                @if (module.Childs.Count > 0)
                 {
                     <ul>
-                        @foreach (var child in functionality.Childs)
+                        @foreach (var child in module.Childs)
                         {
-                            <li><a href="@Href(child.Path)" title="@child.Description"  class="@(child.Contains(Request.Url.ToString()) ? "current" : "")">@child.Name</a></li>
+                            <li>
+                                <a href="@Url.Action(child.Action, child.Controller)" title="@child.Description"  class=" @(child.Contains(controllerName, actionName) ? "current" : "")">@child.Name</a>
+                            </li>
                         }
                     </ul>
                 }
             </li>
         }
     </ul>
-}*@
+}

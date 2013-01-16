@@ -7,9 +7,10 @@ namespace Manager.Library
 {
     public class Controller : Thunder.Web.Mvc.Controller
     {
-        public void SetConnectedUser(User user, IList<Functionality> functionalities)
+        public void SetConnectedUser(User user, IList<Module> modules)
         {
             Session[HardCode.Session.ConnectedUser] = user;
+            Session[HardCode.Session.Modules] = modules;
         }
 
         protected override void OnException(System.Web.Mvc.ExceptionContext filterContext)

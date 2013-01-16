@@ -10,6 +10,8 @@ namespace Manager.Models
     /// </summary>
     public class Module : ActiveRecord<Module, int>
     {
+        private IList<Functionality> _allFunctionalities;
+
         /// <summary>
         /// Inicializa uma nova instância da classe <see cref="Module"/>.
         /// </summary>
@@ -28,6 +30,16 @@ namespace Manager.Models
         /// Recupera ou define módulo pai
         /// </summary>
         public virtual Module Parent { get; set; }
+
+        /// <summary>
+        /// Recupera ou define ação
+        /// </summary>
+        public virtual string Action { get; set; }
+
+        /// <summary>
+        /// Recupera ou define controlador
+        /// </summary>
+        public virtual string Controller { get; set; }
 
         /// <summary>
         /// Recupera ou define descrição do módulo
@@ -74,7 +86,47 @@ namespace Manager.Models
         /// <returns></returns>
         private IList<Functionality> AllFunctionalities()
         {
-            return AllFunctionalities(this);
+            if (_allFunctionalities == null)
+            {
+                _allFunctionalities = AllFunctionalities(this);
+            }
+
+            return _allFunctionalities;
+        }
+
+        /// <summary>
+        /// Localiza módulo do usuário recursivamente
+        /// </summary>
+        /// <param name="user"><see cref="User"/></param>
+        /// <param name="parent"><see cref="Module"/></param>
+        /// <returns></returns>
+        private static IEnumerable<Module> FindByUser(User user, Module parent)
+        {
+            var modules = new List<Module>();
+            
+            if(user.Profile.HasAccess(parent))
+            {
+                var module = new Module
+                {
+                    Id = parent.Id,
+                    Name = parent.Name,
+                    Order = parent.Order,
+                    Description = parent.Description,
+                    Action = parent.Action,
+                    Controller = parent.Controller,
+                    Created = parent.Created, Updated = parent.Updated,
+                    Functionalities = parent.Functionalities
+                };
+
+                foreach (var item in parent.Childs.SelectMany(child => FindByUser(user, child)))
+                {
+                    module.Childs.Add(item);
+                }
+
+                modules.Add(module);
+            }
+
+            return modules;
         }
 
         #endregion
@@ -90,6 +142,23 @@ namespace Manager.Models
             return Where(Restrictions.IsNull("Parent")).OrderBy(x => x.Order).ToList();
         }
 
+        /// <summary>
+        /// Lista os módulos que o usuário possui acesso
+        /// </summary>
+        /// <param name="user">Usuário</param>
+        /// <returns></returns>
+        public static IList<Module> FindByUser(User user)
+        {
+            var modules = new List<Module>();
+
+            foreach (var module in Parents())
+            {
+                modules.AddRange(FindByUser(user, module));
+            }
+
+            return modules;
+        }
+
         #endregion
 
         #region Public Methods
@@ -102,6 +171,17 @@ namespace Manager.Models
         public virtual bool Contains(Functionality functionality)
         {
             return AllFunctionalities().Contains(functionality);
+        }
+
+        /// <summary>
+        /// Módulo contém funcionalidade
+        /// </summary>
+        /// <param name="controllerName">Nome da controller</param>
+        /// <param name="actionName">Nome da action</param>
+        /// <returns>Contém</returns>
+        public virtual bool Contains(string controllerName, string actionName)
+        {
+            return AllFunctionalities().Any(functionality => functionality.Controller.ToLower().Equals(controllerName.ToLower()) && functionality.Action.ToLower().Equals(actionName.ToLower()));
         }
 
         #endregion

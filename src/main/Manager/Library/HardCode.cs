@@ -29,7 +29,7 @@ namespace Manager.Library
         public static class Session
         {
             public static string ConnectedUser = "SESSION_CONNECTED_USER";
-            public static string Functionalities = "SESSION_FUNCTIONALITIES";
+            public static string Modules = "SESSION_FUNCTIONALITIES";
         }
 
         #endregion

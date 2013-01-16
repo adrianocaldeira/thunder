@@ -10,6 +10,8 @@
 
     <property name="Name" length="100" not-null="true" />
     <property name="Description" length="100" />
+    <property name="Action" length="100" />
+    <property name="Controller" length="100" />    
     <property name="Order" column="Module_Order" not-null="true" />
     <property name="Created" not-null="true" />
     <property name="Updated" not-null="true" />
