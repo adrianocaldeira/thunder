@@ -9,26 +9,19 @@ else
     <table>
         <thead>
             <tr>
-                <th>
-                    ID
+                <th>ID
                 </th>
-                <th>
-                    Perfil
+                <th>Perfil
                 </th>
-                <th>
-                    Nome
+                <th>Nome
                 </th>
-                <th>
-                    E-mail
+                <th>E-mail
                 </th>
-                <th>
-                    Login
+                <th>Login
                 </th>
-                <th class="align-center">
-                    Status
+                <th class="align-center">Status
                 </th>
-                <th class="align-center" style="width: 80px;">
-                    Operação
+                <th class="align-center" style="width: 80px;">Operação
                 </th>
             </tr>
         </thead>
@@ -55,10 +48,11 @@ else
                     </td>
                     <td>@user.Login
                     </td>
-                    <td class="align-center">@(user.State.Equals(State.Active) ? "Ativo" : "Inativo")
+                    <td class="align-center">@user.State.Name
                     </td>
                     <td class="align-center">
                         @Helpers.ActionForEdit(Url.Action("Edit", new { user.Id }))
+                        @Helpers.ActionForDelete("Deseja realmente excluir esse usuário?", Url.Action("Delete", new { user.Id }))
                     </td>
                 </tr>
             }

@@ -7,6 +7,7 @@ using NHibernate;
 using NHibernate.Criterion;
 using Thunder.Data;
 using Thunder.Web;
+using Thunder.Web.Mvc.Html;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Controllers
@@ -29,6 +30,9 @@ namespace Manager.Controllers
         [HttpGet]
         public ActionResult New()
         {
+            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+                new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
+
             return View("Form", new UserProfile());
         }
 
@@ -41,6 +45,10 @@ namespace Manager.Controllers
             {
                 return new HttpNotFoundResult();
             }
+
+            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+                userProdileDb.State.Id.ToString(),
+                new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", userProdileDb);
         }

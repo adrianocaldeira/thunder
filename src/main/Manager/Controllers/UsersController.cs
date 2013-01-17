@@ -86,6 +86,14 @@ namespace Manager.Controllers
             return View(ResultStatus.Attention);
         }
 
+        [HttpDelete]
+        public ActionResult Delete(int id)
+        {
+            Models.User.Delete(id);
+
+            return new JsonResult();
+        }
+
         private bool FormIsValid(User user)
         {
             if (ModelState.IsValid)

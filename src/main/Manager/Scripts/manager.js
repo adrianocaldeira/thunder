@@ -179,7 +179,15 @@
         },
         users: {
             index: function () {
-                $('#grid-users').grid();
+                var $grid = $('#grid-users');
+
+                $grid.grid();
+
+                $.manager.utility.delete($('a.delete', $grid), {
+                    success: function () {
+                        $grid.grid();
+                    }
+                });
             },
             form: function () {
                 var $form = $('form');

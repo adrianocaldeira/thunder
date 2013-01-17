@@ -14,7 +14,7 @@ namespace Manager.Models
         private const string PasswordKey = "@9#7$5%W*&1WpC#@&2*%4$6#8@";
 
         /// <summary>
-        /// Initialize new instance off <see cref="User"/>.
+        /// Inicializa uma nova instância da classe <see cref="User"/>.
         /// </summary>
         public User()
         {
@@ -28,31 +28,31 @@ namespace Manager.Models
         public virtual UserProfile Profile { get; set; }
 
         /// <summary>
-        /// Get or set name
+        /// Recupera ou define nome
         /// </summary>
         [Display(Name = "Nome"), Required]
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// Get or set e-mail
+        /// Recupera ou define e-mail
         /// </summary>
         [Email(ErrorMessage = "E-mail informado é inválido.")]
         public virtual string Email { get; set; }
 
         /// <summary>
-        /// Get or set login
+        /// Recupera ou define login
         /// </summary>
         [Display(Name = "Login"), Required]
         public virtual string Login { get; set; }
 
         /// <summary>
-        /// Get or set password
+        /// Recupera ou define senha
         /// </summary>
         [Display(Name = "Senha"), Required]
         public virtual string Password { get; set; }
 
         /// <summary>
-        /// Get or set status
+        /// Recupera ou define status
         /// </summary>
         public virtual State State { get; set; }
 
@@ -79,11 +79,11 @@ namespace Manager.Models
 
 
         /// <summary>
-        /// 
+        /// Localiza usuário pelo login e senha
         /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="login">Login</param>
+        /// <param name="password">Senha</param>
+        /// <returns><see cref="User"/></returns>
         public static User Find(string login, string password)
         {
             using (var transaction = Session.BeginTransaction())
@@ -91,6 +91,7 @@ namespace Manager.Models
                 var user = Session.GetNamedQuery("users-find-by-login-password")
                     .SetString("login", login.ToLower())
                     .SetString("password", EncriptPassword(password))
+                    .SetEntity("state", State.Active)
                     .UniqueResult<User>();
 
                 transaction.Commit();

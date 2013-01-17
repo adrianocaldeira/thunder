@@ -34,7 +34,7 @@ else
                 <tr>
                     <td>@profile.Id</td>
                     <td>@profile.Name</td>
-                    <td class="align-center">@(profile.State.Equals(State.Active) ? "Ativo" : "Inativo")</td>
+                    <td class="align-center">@profile.State.Name</td>
                     <td class="align-center">
                         @Helpers.ActionForEdit(Url.Action("Edit", new { profile.Id }))
                         @Helpers.ActionForDelete("Deseja realmente excluir esse perfil?",Url.Action("Delete", new { profile.Id }),profile.CanDelete())   

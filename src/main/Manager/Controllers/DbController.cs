@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Web.Mvc;
 using Manager.Models;
 using Thunder.Data;
@@ -81,6 +82,7 @@ namespace Manager.Controllers
                         new Functionality{Name = "Listar", Action = "Index", Controller = "UserProfiles", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
                         new Functionality{Name = "Criar", Action = "New", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Editar", Action = "Edit", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Excluir", Action = "Delete", Controller = "UserProfiles", HttpMethod = HttpMethod.Delete.Method , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Salvar", Action = "Save", Controller = "UserProfiles", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }
                     }
                 });
@@ -93,6 +95,7 @@ namespace Manager.Controllers
                         new Functionality{Name = "Listar", Action = "Index", Controller = "Users", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
                         new Functionality{Name = "Criar", Action = "New", Controller = "Users", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Editar", Action = "Edit", Controller = "Users", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Excluir", Action = "Delete", Controller = "Users", HttpMethod = HttpMethod.Delete.Method , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Salvar", Action = "Save", Controller = "Users", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }
                     }
                 });
@@ -112,7 +115,9 @@ namespace Manager.Controllers
                                     new Functionality {Id = 5},
                                     new Functionality {Id = 6},
                                     new Functionality {Id = 7},
-                                    new Functionality {Id = 8}
+                                    new Functionality {Id = 8},
+                                    new Functionality {Id = 9},
+                                    new Functionality {Id = 10}
                                 }
                     });
                 #endregion

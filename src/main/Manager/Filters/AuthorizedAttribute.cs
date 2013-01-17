@@ -5,7 +5,6 @@ using System.Web.Routing;
 using Manager.Library;
 using Manager.Models;
 using Thunder.Web;
-using Thunder.Web.Mvc;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Filters

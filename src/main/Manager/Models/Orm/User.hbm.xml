@@ -18,7 +18,7 @@
   </class>
   <query name="users-find-by-login-password">
     <![CDATA[
-      from User u where lower(u.Login) = :login and u.Password = :password
+      from User u where lower(u.Login) = :login and u.Password = :password and u.State = :state
       ]]>
   </query>
   <query name="users-allow-access">

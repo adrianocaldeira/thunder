@@ -9,20 +9,23 @@ namespace Manager.Models
     public class State : ActiveRecord<State, short>
     {
         /// <summary>
-        /// Active
+        /// Ativo
         /// </summary>
         public static State Active = new State {Id = 1, Name = "Ativo"};
 
         /// <summary>
-        /// Inactive
+        /// Inativo
         /// </summary>
         public static State Inactive = new State {Id = 2, Name = "Inativo"};
 
+        /// <summary>
+        /// Recupera ou define código
+        /// </summary>
         [Display(Name = "Status"), Required]
         public new virtual short Id { get { return base.Id; } set { base.Id = value; } }
 
         /// <summary>
-        /// Get or set name
+        /// Recupera ou define nome
         /// </summary>
         public virtual string Name { get; set; }
     }

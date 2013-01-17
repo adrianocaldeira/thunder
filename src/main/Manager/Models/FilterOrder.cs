@@ -1,12 +1,12 @@
 ﻿namespace Manager.Models
 {
     ///<summary>
-    /// Filter Order
+    /// Ordem de filtro
     ///</summary>
     public class FilterOrder
     {
         /// <summary>
-        /// Initialize new instance of class <see cref="FilterOrder"/>.
+        /// Inicializa uma nova instância da classe <see cref="FilterOrder"/>.
         /// </summary>
         public FilterOrder()
         {
@@ -14,12 +14,12 @@
         }
 
         ///<summary>
-        /// Get or set property
+        /// Recupera ou define propriedade
         ///</summary>
         public string Property { get; set; }
 
         /// <summary>
-        /// Get or set order asc
+        /// Recupera ou define tipo da ordem
         /// </summary>
         public bool Asc { get; set; }
 
