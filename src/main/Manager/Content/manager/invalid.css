@@ -4,7 +4,8 @@
 .thunder-pagination-next a,
 #main-content table tfoot td .bulk-actions select,
 .pagination a.number,
-form input.text-input,
+form input[type="text"],
+form input[type="password"],
 form textarea,
 form .wysiwyg,
 form select, .grid table tfoot select {

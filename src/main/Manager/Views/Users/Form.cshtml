@@ -10,39 +10,33 @@
     using (Html.ContentBox(Model.Id == 0 ? "Novo usuário" : "Alterar usuário", new ContentBoxHeaderLoading { Id = "loading", ImagePath = Href(HardCode.Constants.ImageLoadingForm) }))
     {
     @Helpers.NotificationRequired()
-    <div class="column-left">
-        <p>
-            @Html.Label("Profile", "Perfil", true)
-            @Html.DropDownList("Profile.Id", (IList<SelectListItem>)ViewBag.Profiles, new { id = "Profile", title = "Selecione um perfil de usuário" })
-        </p>
-        <p>
-            @Html.Label("name", "Nome", true)
-            @Html.TextBox("Name", Model.Name, new { id = "name", title = "Informe o nome do usuário.", maxlength = 100, @class = "text-input large-input" })
-        </p>
-        <p>
-            @Html.Label("email", "E-mail")
-            @Html.TextBox("Email", Model.Email, new { id = "email", title = "Informe o e-mail do usuário.", maxlength = 100, @class = "text-input large-input" })
-        </p>
-        <p>
-            <label class="required">
-                Ativo <span class="required">*</span>
-                <input type="checkbox" value="Active" name="Status" @(Model.State.Equals(State.Active) ? Html.Raw("checked=\"checked\"") : Html.Raw("")) />
-            </label>
-        </p>
-    </div>
-    <div class="column-right">
-        <p>
-            @Html.Label("login", "Login", true)
-            @Html.TextBox("Login", Model.Login, new { id = "login", title = "Informe o login do usuário.", maxlength = 20, @class = "text-input medium-input" })
-        </p>
-        <p>
-            @Html.Label("password", "Senha", true)
-            @Html.Password("Password", "", new { id = "password", title = "Informe a senha do usuário.", maxlength = 8, @class = "text-input small-input" })
-        </p>
-    </div>
+    <p class="column">
+        @Html.Label("Profile", "Perfil", true)
+        @Html.DropDownList("Profile.Id", (IList<SelectListItem>)ViewBag.Profiles, new { id = "Profile" })
+    </p>
+    <div class="clear"></div>
+    <p class="column">
+        @Html.Label("name", "Nome", true)
+        @Html.TextBoxFor(x => x.Name, new { id = "name", maxlength = 100, @class = "medium-input-fixed" })
+    </p>
+    <p class="column">
+        @Html.Label("email", "E-mail")
+        @Html.TextBoxFor(x => x.Email, new { id = "email", maxlength = 100, @class = "medium-input-fixed" })
+    </p>
+    <p class="column">
+        @Html.Label("login", "Login", true)
+        @Html.TextBoxFor(x => x.Login, new { id = "login", maxlength = 20, @class = "small-input-fixed" })
+    </p>
+    <p class="column">
+        @Html.Label("password", "Senha", true)
+        @Html.TextBox("Password",(string.IsNullOrEmpty(Model.Password) ? "" : Manager.Models.User.DecryptPassword(Model.Password)), new { id = "password", maxlength = 8, @class = "small-input-fixed" })
+    </p>
+    <p class="column">
+        @Html.Label("Status", "Status", true)
+        @Html.DropDownList("State.Id", (IList<SelectListItem>)ViewBag.States, new { id = "Status" })
+    </p>    
     <div class="clear">
     </div>
-    <br />
     @Helpers.ActionForSave(Url.Action("Index"))
     }
 }

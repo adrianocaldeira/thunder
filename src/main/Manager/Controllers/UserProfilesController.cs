@@ -11,7 +11,7 @@ using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Controllers
 {
-    [Authorized, SessionPerRequest] 
+    [Authorized(Order = 2), SessionPerRequest(Order = 1)] 
     public class UserProfilesController : ManagerController
     {
         [HttpGet]

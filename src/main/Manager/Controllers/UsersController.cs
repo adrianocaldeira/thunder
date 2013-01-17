@@ -12,7 +12,7 @@ using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Controllers
 {
-    [Authorized, SessionPerRequest] 
+    [Authorized(Order = 2), SessionPerRequest(Order = 1)] 
     public class UsersController : ManagerController
     {
         [HttpGet]
@@ -25,6 +25,9 @@ namespace Manager.Controllers
         public ActionResult New()
         {
             ViewBag.Profiles = UserProfile.FindByState(State.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
+                new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
+
+            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", new User());
@@ -44,6 +47,10 @@ namespace Manager.Controllers
                 userDb.Profile.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
+            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+                userDb.State.Id.ToString(),
+                new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
+
             return View("Form", userDb);
         }
 
@@ -60,6 +67,8 @@ namespace Manager.Controllers
 
             if (FormIsValid(user))
             {
+                user.Password = Models.User.EncriptPassword(user.Password);
+
                 if (user.Id.Equals(0))
                 {
                     Models.User.Create(user);

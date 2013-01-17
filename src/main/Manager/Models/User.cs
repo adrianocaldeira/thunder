@@ -58,14 +58,25 @@ namespace Manager.Models
 
         #region Public Static Methods
         /// <summary>
-        /// Encript password
+        /// Encripta senha
         /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
+        /// <param name="password">Senha</param>
+        /// <returns>Senha criptografada</returns>
         public static string EncriptPassword(string password)
         {
             return password.Encrypt(PasswordKey);
         }
+
+        /// <summary>
+        /// Descriptografa senha
+        /// </summary>
+        /// <param name="password">Senha</param>
+        /// <returns>Senha descriptografada</returns>
+        public static string DecryptPassword(string password)
+        {
+            return password.Decrypt(PasswordKey);
+        }
+
 
         /// <summary>
         /// 

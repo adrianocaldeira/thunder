@@ -1,16 +1,37 @@
 ﻿body {
     background: #fff !important;
-	margin: 0;
-	padding: 0;
-	outline: 0;
-	vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    vertical-align: baseline;
+    border: 0;
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%;
 }
 
 .modal-header {
     padding: 0;
     margin: 0;
     height: 40px;
-    background: url("../images/bg-modal-title.png") repeat-x scroll left top #E5E5E5;
+    background: url("images/bg-modal-title.png") repeat-x scroll left top #E5E5E5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.modal-footer {
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    background: #E5E5E5;
 }
 
 .modal-header-title, .modal-header-close {
@@ -35,6 +56,15 @@
     font-size: 12px;
 }
 
+.modal-frame {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    overflow: auto;
+}
+
 .modal-content {
     margin: 15px 10px 10px 10px;
 }
@@ -47,18 +77,6 @@
     font-size: 14px !important;
     padding-top: 8px !important;
 }
-
-.column01-modal {
-    float: left;
-    width: 99%;
-}
-
-.column02-modal {
-    float: left;
-    width: 50%;
-}
-
-.column03-modal {
-    float: left;
-    width: 33%;
+.actions {
+    margin: 7px 0 0 7px;
 }
