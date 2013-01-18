@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
-using $rootnamespace$.Models;
 using Thunder.Data;
+using $rootnamespace$.Models;
 
 namespace $rootnamespace$.Controllers
 {
@@ -67,8 +67,8 @@ namespace $rootnamespace$.Controllers
             try
             {
                 #region State
-                State.Create(State.Active);
-                State.Create(State.Inactive);
+                Status.Create(Status.Active);
+                Status.Create(Status.Inactive);
                 #endregion
 
                 #region Módulos

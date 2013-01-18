@@ -22,13 +22,20 @@ namespace $rootnamespace$.App_Start
             BundleTable.Bundles.Add(new StyleBundle("~/content/manager/css").Include(
                 "~/Content/manager/reset.css",
                 "~/Content/manager/style.css",
-                "~/Content/manager/green.css",
+                "~/Content/manager/color.css",
                 "~/Content/manager/invalid.css"));
+
+            BundleTable.Bundles.Add(new StyleBundle("~/content/manager/modal").Include(
+                "~/Content/manager/reset.css",
+                "~/Content/manager/style.css",
+                "~/Content/manager/color.css",
+                "~/Content/manager/invalid.css",
+                "~/Content/manager/modal.css"));
 
             BundleTable.Bundles.Add(new StyleBundle("~/content/manager/login").Include(
                 "~/Content/manager/reset.css",
                 "~/Content/manager/style.css",
-                "~/Content/manager/green.css",
+                "~/Content/manager/color.css",
                 "~/Content/manager/invalid.css",
                 "~/Content/manager/login.css"));
 

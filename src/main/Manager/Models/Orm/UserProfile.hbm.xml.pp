@@ -6,7 +6,7 @@
       <generator class="identity" />
     </id>
     
-    <many-to-one name="State" column="StateId" not-null="false" />
+    <many-to-one name="Status" column="StatusId" not-null="false" />
 
     <property name="Name" length="100" not-null="true" unique="true" />
 

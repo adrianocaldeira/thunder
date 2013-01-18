@@ -1,0 +1,58 @@
+﻿.modal-header { background: url("images/bg-modal-title.png") repeat-x scroll left top #E5E5E5; }
+
+.modal-footer { background: #459300; }
+
+a { color: #57a000; }
+
+.button,
+.thunder-pagination-previous a,
+.thunder-pagination-next a {
+    background: #459300 url(images/bg-button-green.gif) top left repeat-x !important;
+    border: 1px solid #459300 !important;
+}
+
+.back {
+    background: #950000 url(images/bg-button-red.gif) top left repeat-x !important;
+    border: 1px solid #940000 !important;
+}
+
+a.remove-link { color: #bb0000; }
+
+#sidebar #main-nav li a.nav-top-item { background: transparent url(images/bg-menu-item-green.gif) right center no-repeat; /* Background image for default color scheme - green */ }
+
+#sidebar #main-nav li a.current { background-image: url(images/bg-menu-item-current.gif) !important; }
+
+ul.content-box-tabs li a:hover { color: #57a000; }
+
+.pagination a.current,
+.thunder-pagination-previous a.current,
+.thunder-pagination-next a.current {
+    background: #469400 url(images/bg-button-blue.gif) top left repeat-x !important;
+    border-color: #459300 !important;
+}
+
+.shortcut-button span:hover { color: #57a000; }
+
+.thunder-confirm-yes, .thunder-confirm-no {
+    background: #e1a954 url(images/bg-button-green.gif) top left repeat-x !important;
+    border: 1px solid #459300 !important;
+}
+
+.thunder-confirm-no {
+    background: #950000 url(images/bg-button-red.gif) top left repeat-x !important;
+    border: 1px solid #940000 !important;
+}
+
+.thunder-confirm-action {
+    background: #459300;
+    text-align: center;
+}
+
+.thunder-alert-ok {
+    background: #459300 url(images/bg-button-green.gif) top left repeat-x !important;
+    border: 1px solid #459300 !important;
+}
+
+.thunder-alert-action { background: #459300; }
+
+.ui-dialog { border: 1px solid #459300 !important; }

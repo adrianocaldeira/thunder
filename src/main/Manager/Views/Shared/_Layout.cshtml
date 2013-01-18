@@ -8,26 +8,27 @@
     @Scripts.Render("~/scripts/jqueryui")
     @Scripts.Render("~/scripts/manager")
 </head>
-<body data-root="@Href("~/")" >
+<body data-root="@Href("~/")">
     <div id="body-wrapper">
         <div id="sidebar">
             <div id="sidebar-wrapper">
                 <h1 id="sidebar-title">
                     <a href="#">Privee</a></h1>
                 <a href="#">
-                    @Html.Png("~/content/manager/images/logo", new { id="logo" })
-                    </a>
+                    @Html.Png("~/content/manager/images/logo", new { id = "logo" })
+                </a>
                 <div id="profile-links">
                     @{
                         var user = Session[HardCode.Session.ConnectedUser] as User;
                     }
-                    @if(user != null){
+                    @if (user != null)
+                    {
                         <a href="#">@user.Name</a><br />
                     }
                     <br />
-                    @Html.ActionLink("Sair", "Index", "LogOff",null, new { title = "Sair"})
+                    @Html.ActionLink("Sair", "Index", "LogOff", null, new { title = "Sair" })
                 </div>
-                @Html.Action("Index","Menu")
+                @Html.Action("Index", "Menu")
             </div>
         </div>
         <div id="main-content">

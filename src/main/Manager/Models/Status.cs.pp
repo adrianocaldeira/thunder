@@ -1,22 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Thunder.Data;
 
-namespace Manager.Models
+namespace $rootnamespace$.Models
 {
     /// <summary>
     /// Status
     /// </summary>
-    public class State : ActiveRecord<State, short>
+    public class Status : ActiveRecord<Status, short>
     {
         /// <summary>
         /// Ativo
         /// </summary>
-        public static State Active = new State {Id = 1, Name = "Ativo"};
+        public static Status Active = new Status {Id = 1, Name = "Ativo"};
 
         /// <summary>
         /// Inativo
         /// </summary>
-        public static State Inactive = new State {Id = 2, Name = "Inativo"};
+        public static Status Inactive = new Status {Id = 2, Name = "Inativo"};
 
         /// <summary>
         /// Recupera ou define código

@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
+using Thunder.Data;
 using $rootnamespace$.Library;
 using $rootnamespace$.Models;
-using Thunder.Data;
 
 namespace $rootnamespace$.Controllers
 {

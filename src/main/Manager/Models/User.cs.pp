@@ -18,7 +18,7 @@ namespace $rootnamespace$.Models
         /// </summary>
         public User()
         {
-            State = State.Active;
+            Status = Status.Active;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace $rootnamespace$.Models
         /// <summary>
         /// Recupera ou define status
         /// </summary>
-        public virtual State State { get; set; }
+        public virtual Status Status { get; set; }
 
         #region Public Static Methods
         /// <summary>
@@ -91,7 +91,7 @@ namespace $rootnamespace$.Models
                 var user = Session.GetNamedQuery("users-find-by-login-password")
                     .SetString("login", login.ToLower())
                     .SetString("password", EncriptPassword(password))
-                    .SetEntity("state", State.Active)
+                    .SetEntity("status", Status.Active)
                     .UniqueResult<User>();
 
                 transaction.Commit();
@@ -125,7 +125,5 @@ namespace $rootnamespace$.Models
         }
 
         #endregion
-
-        
     }
 }

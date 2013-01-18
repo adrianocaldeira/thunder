@@ -67,8 +67,8 @@ namespace Manager.Controllers
             try
             {
                 #region State
-                State.Create(State.Active);
-                State.Create(State.Inactive);
+                Status.Create(Status.Active);
+                Status.Create(Status.Inactive);
                 #endregion
 
                 #region Módulos

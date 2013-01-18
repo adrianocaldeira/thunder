@@ -13,7 +13,7 @@
 }
 @helper ActionForEdit(string url)
 {
-    <a href="@Href(url)" title="Editar">
+    <a href="@Href(url)" title="Editar" class="edit">
         <img src="@Href("~/content/manager/images/pencil.png")" alt="Editar" />
     </a>    
 }

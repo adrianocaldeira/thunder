@@ -7,6 +7,7 @@ using Thunder.Data;
 using Thunder.Web;
 using Manager.Filters;
 using Manager.Models;
+using Thunder.Web.Mvc.Filter;
 using Thunder.Web.Mvc.Html;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
@@ -21,19 +22,19 @@ namespace Manager.Controllers
             return View("Index");
         }
 
-        [HttpGet]
+        [HttpGet, LayoutInject("Modal")]
         public ActionResult New()
         {
-            ViewBag.Profiles = UserProfile.FindByState(State.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
+            ViewBag.Profiles = UserProfile.FindByStatus(Status.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
-            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+            ViewBag.Status = Status.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", new User());
         }
 
-        [HttpGet]
+        [HttpGet, LayoutInject("Modal")]
         public ActionResult Edit(int id)
         {
             var userDb = Models.User.FindById(id);
@@ -43,12 +44,12 @@ namespace Manager.Controllers
                 return new HttpNotFoundResult();
             }
 
-            ViewBag.Profiles = UserProfile.FindByState(State.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
+            ViewBag.Profiles = UserProfile.FindByStatus(Status.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
                 userDb.Profile.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
-            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
-                userDb.State.Id.ToString(),
+            ViewBag.Status = Status.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+                userDb.Status.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", userDb);

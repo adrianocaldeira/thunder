@@ -30,7 +30,7 @@ namespace Manager.Controllers
         [HttpGet]
         public ActionResult New()
         {
-            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+            ViewBag.Status = Status.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", new UserProfile());
@@ -46,8 +46,8 @@ namespace Manager.Controllers
                 return new HttpNotFoundResult();
             }
 
-            ViewBag.States = State.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
-                userProdileDb.State.Id.ToString(),
+            ViewBag.Status = Status.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
+                userProdileDb.Status.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             return View("Form", userProdileDb);

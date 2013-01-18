@@ -35,7 +35,7 @@ Usuário
     </p>
     <p class="column">
         @Html.Label("password", "Senha", true)
-        @Html.TextBox("Password", (string.IsNullOrEmpty(Model.Password) ? "" : Manager.Models.User.DecryptPassword(Model.Password)), new { id = "password", maxlength = 8, @class = "small-input-fixed" })
+        @Html.TextBox("Password", (string.IsNullOrEmpty(Model.Password) ? "" : $rootnamespace$.Models.User.DecryptPassword(Model.Password)), new { id = "password", maxlength = 8, @class = "small-input-fixed" })
     </p>
     <p class="column">
         @Html.Label("Status", "Status", true)

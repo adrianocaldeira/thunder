@@ -182,6 +182,16 @@
                 var $grid = $('#grid-users');
 
                 $grid.grid();
+                
+                $('#add-user, #grid-users a.edit').live('click', function (e) {
+                    $.modal({
+                        iframe: true,
+                        url: $(this).attr('href'),
+                        width: 900,
+                        height: 500
+                    });
+                    e.preventDefault();
+                });
 
                 $.manager.utility.delete($('a.delete', $grid), {
                     success: function () {
@@ -189,13 +199,20 @@
                     }
                 });
             },
+            updateIndex: function () {
+                $('form', '#grid-users').submit();
+            },
             form: function () {
-                var $form = $('form');
-                
+                var $form = $('#user');
+                var $submit = $('#submit');
+
+                $.manager.utility.submitButton($submit, $form);
+
                 $form.ajaxForm({
-                    loading: $('#loading'),
-                    onSuccess: function (f, r) {
-                        window.location.href = r.Data;
+                    loading: '#loading',
+                    onSuccess: function () {
+                        window.parent.$.manager.users.updateIndex();
+                        window.parent.$.closeModal();
                     }
                 });
             }

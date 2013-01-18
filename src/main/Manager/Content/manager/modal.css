@@ -14,7 +14,6 @@
     padding: 0;
     margin: 0;
     height: 40px;
-    background: url("images/bg-modal-title.png") repeat-x scroll left top #E5E5E5;
     position: absolute;
     top: 0;
     left: 0;
@@ -31,7 +30,6 @@
     left: 0;
     width: 100%;
     overflow: hidden;
-    background: #E5E5E5;
 }
 
 .modal-header-title, .modal-header-close {

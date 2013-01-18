@@ -4,10 +4,10 @@ using System.Web.Mvc.Html;
 using Thunder.Web.Mvc;
 using log4net.Config;
 
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Manager.App_Start.CustomConfig), "Register")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Manager.App_Start.ApplicationConfig), "Register")]
 namespace Manager.App_Start
 {
-    public static class CustomConfig
+    public static class ApplicationConfig
     {
         public static void Register()
         {

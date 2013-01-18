@@ -6,7 +6,7 @@
       <generator class="identity" />
     </id>
 
-    <many-to-one name="State" column="StateId" not-null="false" />
+    <many-to-one name="Status" column="StatusId" not-null="false" />
     <many-to-one name="Profile" column="UserProfileId" not-null="false" />
 
     <property name="Name" length="100" not-null="true" />
@@ -18,7 +18,7 @@
   </class>
   <query name="users-find-by-login-password">
     <![CDATA[
-      from User u where lower(u.Login) = :login and u.Password = :password and u.State = :state
+      from User u where lower(u.Login) = :login and u.Password = :password and u.Status = :status
       ]]>
   </query>
   <query name="users-allow-access">

@@ -17,7 +17,7 @@ namespace Manager.Models
         /// </summary>
         public UserProfile()
         {
-            State = State.Active;
+            Status = Status.Active;
             Functionalities = new List<Functionality>();
         }
 
@@ -42,18 +42,18 @@ namespace Manager.Models
         /// <summary>
         /// Recupera ou define estado do perfil
         /// </summary>
-        public virtual State State { get; set; }
+        public virtual Status Status { get; set; }
 
         #region Public Static Methods
 
         /// <summary>
         /// Localiza perfis de usuário pelo estado
         /// </summary>
-        /// <param name="state"><see cref="State"/></param>
-        /// <returns></returns>
-        public static IList<UserProfile> FindByState(State state)
+        /// <param name="status"><see cref="Status"/></param>
+        /// <returns>Lista de perfis de usuário</returns>
+        public static IList<UserProfile> FindByStatus(Status status)
         {
-            return Where(Restrictions.Eq("State", state)).OrderBy(x => x.Name).ToList();
+            return Where(Restrictions.Eq("Status", status)).OrderBy(x => x.Name).ToList();
         }
 
         #endregion
@@ -98,7 +98,5 @@ namespace Manager.Models
             }
         }
         #endregion
-
-
     }
 }
