@@ -3,7 +3,6 @@
         $.manager.users.index();
     });
 </script>
-@*@Html.Partial("_Message", (IModel)ViewBag.Messages)*@
 @using (Html.ContentBox("Usuários", new ContentBoxHeaderButton { Title = "Novo Usuário", Text = "+", Url = Url.Action("New") }))
 {
     <div class="grid" id="grid-users" data-url="@Url.Action("Index")">

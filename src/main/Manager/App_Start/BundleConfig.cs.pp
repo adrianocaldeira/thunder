@@ -1,7 +1,7 @@
 ﻿using System.Web.Optimization;
 
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Manager.App_Start.BundleConfig), "Register")]
-namespace Manager.App_Start
+[assembly: WebActivator.PostApplicationStartMethod(typeof($rootnamespace$.App_Start.BundleConfig), "Register")]
+namespace $rootnamespace$.App_Start
 {
     public class BundleConfig
     {
