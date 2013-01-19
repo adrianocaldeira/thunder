@@ -1,0 +1,61 @@
+﻿@{ Layout = null;}
+@model IPaging<User>
+@if (Model.Count == 0)
+{
+    @Html.Attention("Não existe nenhum usuário cadastrado.")
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID
+                </th>
+                <th>Perfil
+                </th>
+                <th>Nome
+                </th>
+                <th>E-mail
+                </th>
+                <th>Login
+                </th>
+                <th class="align-center">Status
+                </th>
+                <th class="align-center" style="width: 80px;">Operação
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="7">
+                    @Html.Pagination(Model)
+                    <div class="clear">
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id
+                    </td>
+                    <td>@user.Profile.Name
+                    </td>
+                    <td>@user.Name
+                    </td>
+                    <td>@(string.IsNullOrEmpty(user.Email) ? "-" : user.Email)
+                    </td>
+                    <td>@user.Login
+                    </td>
+                    <td class="align-center">@user.Status.Name
+                    </td>
+                    <td class="align-center">
+                        @Helpers.ActionForEdit(Url.Action("Edit", new { user.Id }))
+                        @Helpers.ActionForDelete("Deseja realmente excluir esse usuário?", Url.Action("Delete", new { user.Id }))
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

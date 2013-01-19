@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/content/manager/login", "~/content/jquerythunder/css")
+    @Scripts.Render("~/scripts/jquery")
+    @Scripts.Render("~/scripts/jqueryui")
+    @Scripts.Render("~/scripts/manager")
+    <script type="text/javascript">
+        $(function () {
+            $.manager.login.index();
+        });
+    </script>
+</head>
+<body data-root="@Href("~/")">
+    <div id="content">
+        <h1>Acesso ao Sistema</h1>
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+        {
+            @Html.Hidden("ReturnUrl", @Request.QueryString["ReturnUrl"])
+            <div id="message">
+            </div>
+            <p>
+                @Html.Label("login", "Login")
+                @Html.TextBox("login", string.Empty, 20, WidthStyle.Large, new { id = "login" })
+            </p>
+            <p>
+                @Html.Label("password", "Senha")
+                @Html.Password("password", string.Empty, new { @class = "text-input large-input", maxlength = 8, id="password" })
+            </p>
+            <p>
+                <input type="submit" value="Acessar" title="Acessar" class="button">
+            </p>
+        }
+    </div>
+</body>
+</html>

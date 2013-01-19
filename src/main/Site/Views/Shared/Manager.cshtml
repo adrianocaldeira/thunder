@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Administração - @HardCode.Version</title>
+    @Styles.Render("~/content/manager/css", "~/content/jquerythunder/css", "~/content/themes/base/css")
+    @Scripts.Render("~/scripts/jquery")
+    @Scripts.Render("~/scripts/jqueryui")
+    @Scripts.Render("~/scripts/manager")
+</head>
+<body data-root="@Href("~/")">
+    <div id="body-wrapper">
+        <div id="sidebar">
+            <div id="sidebar-wrapper">
+                <h1 id="sidebar-title">
+                    <a href="#">Privee</a></h1>
+                <a href="#">
+                    @Html.Png("~/content/manager/images/logo", new { id = "logo" })
+                </a>
+                <div id="profile-links">
+                    @{
+                        var user = Session[HardCode.Session.ConnectedUser] as User;
+                    }
+                    @if (user != null)
+                    {
+                        <a href="#">@user.Name</a><br />
+                    }
+                    <br />
+                    @Html.ActionLink("Sair", "Index", "LogOff", null, new { title = "Sair" })
+                </div>
+                @Html.Action("Index", "Menu")
+            </div>
+        </div>
+        <div id="main-content">
+            <noscript>
+                <div class="notification error png_bg">
+                    <div>
+                        JavaScript está desabilitado ou não é suportado pelo seu navegador. Por favor <a
+                            href="http://browsehappy.com/" title="Atualizar navegador" target="_blank">atualize</a>
+                        seu navegador ou <a href="http://www.google.com/support/bin/answer.py?answer=23852"
+                            title="Ativar javascript" target="_blank">ative</a> o JavaScript para navegar
+                        normalmente.
+                    </div>
+                </div>
+            </noscript>
+            @RenderBody()
+            <div class="clear">
+            </div>
+            <div id="footer">
+                <small>&#169; Copyright @DateTime.Now.Year | Desenvolvido por <a href="http://www.integgro.com.br"
+                    target="_blank">Integgro</a> | <a href="#">Topo</a> </small>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

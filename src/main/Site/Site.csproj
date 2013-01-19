@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{252F4E0B-2088-4C72-8C14-F3C1AB6A6B94}</ProjectGuid>
+    <ProjectGuid>{2E6CBE33-9E99-4818-908A-6B59D6DE6279}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Manager</RootNamespace>
-    <AssemblyName>Manager</AssemblyName>
+    <RootNamespace>Site</RootNamespace>
+    <AssemblyName>Site</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -44,28 +44,19 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections">
-      <HintPath>..\..\..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\Thunder\bin\Release\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\packages\MySql.Data.6.5.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\Thunder\bin\Release\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -73,8 +64,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -89,6 +80,9 @@
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http">
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
@@ -100,6 +94,10 @@
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
@@ -110,8 +108,9 @@
       <Private>True</Private>
       <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -133,73 +132,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Adapters\RequiredAttributeAdapter.cs.pp" />
     <Compile Include="Adapters\RequiredAttributeAdapter.cs" />
     <Compile Include="App_GlobalResources\Message.Designer.cs">
+      <DependentUpon>Message.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Message.resx</DependentUpon>
     </Compile>
-    <None Include="App_Start\BundleConfig.cs.pp" />
-    <None Include="App_Start\ApplicationConfig.cs.pp" />
     <Compile Include="App_Start\ApplicationConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
-    <None Include="Controllers\DbController.cs.pp" />
-    <None Include="Controllers\HomeController.cs.pp" />
-    <None Include="Controllers\LoginController.cs.pp" />
-    <None Include="Controllers\LogOffController.cs.pp" />
-    <None Include="Controllers\MenuController.cs.pp" />
-    <None Include="Controllers\UserProfilesController.cs.pp" />
-    <None Include="Controllers\UsersController.cs.pp" />
-    <Compile Include="Controllers\DbController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\LogOffController.cs" />
-    <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\UserProfilesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Areas\Manager\Controllers\DbController.cs" />
+    <Compile Include="Areas\Manager\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Manager\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Manager\Controllers\LogOffController.cs" />
+    <Compile Include="Areas\Manager\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Manager\Controllers\UserProfilesController.cs" />
+    <Compile Include="Areas\Manager\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Manager\ManagerAreaRegistration.cs" />
     <Compile Include="Filters\AuthorizedAttribute.cs" />
-    <Content Include="Content\manager\color.css" />
-    <Content Include="Content\manager\images\bg-modal-title.png" />
-    <Content Include="Views\Shared\Modal.cshtml" />
-    <None Include="Web.config.transform">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.config.Debug.transform">
-      <DependentUpon>Web.config.transform</DependentUpon>
-    </None>
-    <None Include="Web.config.Release.transform">
-      <DependentUpon>Web.config.transform</DependentUpon>
-    </None>
-    <None Include="Filters\AuthorizedAttribute.cs.pp" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <None Include="Library\HardCode.cs.pp" />
-    <None Include="Library\ManagerController.cs.pp" />
-    <Compile Include="Library\ManagerController.cs" />
     <Compile Include="Library\HardCode.cs" />
-    <None Include="Models\Filter.cs.pp" />
-    <None Include="Models\FilterOrder.cs.pp" />
-    <None Include="Models\Functionality.cs.pp" />
-    <None Include="Models\Module.cs.pp" />
-    <None Include="Models\Status.cs.pp" />
-    <None Include="Models\User.cs.pp" />
-    <None Include="Models\UserProfile.cs.pp" />
+    <Compile Include="Library\ManagerController.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\FilterOrder.cs" />
     <Compile Include="Models\Functionality.cs" />
     <Compile Include="Models\Module.cs" />
-    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Views\Web.config.transform" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Content\jquerythunder\images\attention.png" />
     <Content Include="Content\jquerythunder\images\close.png" />
     <Content Include="Content\jquerythunder\images\error.png" />
@@ -211,6 +178,7 @@
     <Content Include="Content\jquerythunder\images\success.png" />
     <Content Include="Content\jquerythunder\jquery.thunder-1.1.6.css" />
     <Content Include="Content\jquerythunder\jquery.thunder-1.1.6.min.css" />
+    <Content Include="Content\manager\color.css" />
     <Content Include="Content\manager\ie.css" />
     <Content Include="Content\manager\images\b.png" />
     <Content Include="Content\manager\images\background_body_login.png" />
@@ -228,6 +196,7 @@
     <Content Include="Content\manager\images\bg-menu-item-current.gif" />
     <Content Include="Content\manager\images\bg-menu-item-green.gif" />
     <Content Include="Content\manager\images\bg-menu-item-red.gif" />
+    <Content Include="Content\manager\images\bg-modal-title.png" />
     <Content Include="Content\manager\images\bg-radial-gradient.gif" />
     <Content Include="Content\manager\images\bg-sidebar.gif" />
     <Content Include="Content\manager\images\bl.png" />
@@ -320,38 +289,68 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="Global.asax" />
+    <Content Include="Adapters\RequiredAttributeAdapter.cs.pp" />
     <Content Include="App_Code\Helpers.cshtml" />
-    <None Include="App_Code\Helpers.cshtml.pp" />
+    <Content Include="App_Code\Helpers.cshtml.pp" />
+    <Content Include="Models\Filter.cs.pp" />
+    <Content Include="Models\FilterOrder.cs.pp" />
+    <Content Include="Models\Functionality.cs.pp" />
+    <Content Include="Models\Module.cs.pp" />
+    <Content Include="Models\Orm\Functionality.hbm.xml.pp" />
+    <Content Include="Models\Orm\Module.hbm.xml.pp" />
+    <Content Include="Models\Orm\Status.hbm.xml.pp" />
+    <Content Include="Models\Orm\User.hbm.xml.pp" />
+    <Content Include="Models\Orm\UserProfile.hbm.xml.pp">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Models\Status.cs.pp" />
+    <Content Include="Models\User.cs.pp" />
+    <Content Include="Models\UserProfile.cs.pp" />
+    <Content Include="Areas\Manager\Views\Web.config" />
+    <Content Include="Areas\Manager\Views\Db\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Menu\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\UserProfiles\_List.cshtml" />
+    <Content Include="Areas\Manager\Views\UserProfiles\Form.cshtml" />
+    <Content Include="Areas\Manager\Views\UserProfiles\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Users\_List.cshtml" />
+    <Content Include="Areas\Manager\Views\Users\Form.cshtml" />
+    <Content Include="Areas\Manager\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Web.config.transform" />
+    <Content Include="Areas\Manager\Controllers\DbController.cs.pp" />
+    <Content Include="Areas\Manager\Controllers\HomeController.cs.pp" />
+    <Content Include="Areas\Manager\Controllers\LoginController.cs.pp" />
+    <Content Include="Areas\Manager\Controllers\LogOffController.cs.pp" />
+    <Content Include="Areas\Manager\Controllers\MenuController.cs.pp" />
+    <Content Include="Areas\Manager\Controllers\UserProfilesController.cs.pp" />
+    <Content Include="Areas\Manager\Controllers\UsersController.cs.pp" />
+    <Content Include="Filters\AuthorizedAttribute.cs.pp" />
+    <Content Include="Library\HardCode.cs.pp" />
+    <Content Include="Library\ManagerController.cs.pp" />
+    <Content Include="App_Start\ApplicationConfig.cs.pp" />
+    <Content Include="App_Start\BundleConfig.cs.pp" />
     <None Include="Scripts\jquery-1.8.3.intellisense.js" />
-    <EmbeddedResource Include="Models\Orm\Status.hbm.xml" />
     <EmbeddedResource Include="Models\Orm\Functionality.hbm.xml" />
-    <EmbeddedResource Include="Models\Orm\User.hbm.xml" />
     <EmbeddedResource Include="Models\Orm\Module.hbm.xml" />
+    <EmbeddedResource Include="Models\Orm\Status.hbm.xml" />
+    <EmbeddedResource Include="Models\Orm\User.hbm.xml" />
     <EmbeddedResource Include="Models\Orm\UserProfile.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="Models\Orm\Functionality.hbm.xml.pp" />
-    <None Include="Models\Orm\Module.hbm.xml.pp" />
-    <None Include="Models\Orm\Status.hbm.xml.pp" />
-    <None Include="Models\Orm\User.hbm.xml.pp" />
-    <None Include="Models\Orm\UserProfile.hbm.xml.pp">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Scripts\jquery-1.8.3.js" />
     <Content Include="Scripts\jquery-1.8.3.min.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.js" />
     <Content Include="Scripts\jquery-ui-1.9.2.min.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
     <Content Include="Scripts\jquery-ui-i18n.min.js" />
-    <Content Include="Scripts\jquery.maskedinput-1.3.min.js" />
+    <Content Include="Scripts\jquery.makedinput-1.3.1.js" />
+    <Content Include="Scripts\jquery.maskedinput-1.3.1.min.js" />
     <Content Include="Scripts\jquery.maskMoney.js" />
     <Content Include="Scripts\jquery.thunder-1.1.6.js" />
     <Content Include="Scripts\jquery.thunder-1.1.6.min.js" />
     <Content Include="Scripts\manager.js" />
-    <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -359,26 +358,31 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config.Debug.transform">
+      <DependentUpon>Web.config.transform</DependentUpon>
+    </Content>
+    <Content Include="Web.config.Release.transform">
+      <DependentUpon>Web.config.transform</DependentUpon>
+    </Content>
+    <Content Include="Web.config.transform">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config.transform" />
+    <Content Include="Views\Shared\Manager.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Db\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Users\Form.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\Users\_List.cshtml" />
-    <Content Include="Views\UserProfiles\Index.cshtml" />
-    <Content Include="Views\UserProfiles\_List.cshtml" />
-    <Content Include="Views\UserProfiles\Form.cshtml" />
-    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\Shared\Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Message.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Message.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -386,12 +390,6 @@
       <Project>{85e79781-5311-482c-bc8b-3f7781061ed5}</Project>
       <Name>Thunder %28main\Thunder%29</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_GlobalResources\Message.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-      <LastGenOutput>Message.Designer.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -409,9 +407,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1436</DevelopmentServerPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:3830/</IISUrl>
+          <IISUrl>http://localhost:2793/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

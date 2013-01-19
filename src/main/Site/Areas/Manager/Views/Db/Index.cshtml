@@ -1,0 +1,33 @@
+﻿@model string
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Banco de Dados</title>
+    </head>
+    <body>
+        <h1>Banco de Dados</h1>
+        <div>@Html.Raw(Model)</div>
+        <h2>Criar</h2>
+        <p>
+            @Html.ActionLink("Clique aqui", "Create") para criar o banco de dados do projeto.
+        </p>
+        <h2>Atualizar</h2>
+        <p>
+            @Html.ActionLink("Clique aqui", "Update") para atualizar as diferenças do banco de dados.
+        </p>
+        <h2>Remover</h2>
+        <p>
+            @Html.ActionLink("Clique aqui", "Drop") para remover o banco de dados.
+        </p>
+        <h2>Carga</h2>
+        <p>
+            @Html.ActionLink("Clique aqui", "Dump") para efetuar a carga inicial no banco de dados.
+        </p>
+    </body>
+</html>

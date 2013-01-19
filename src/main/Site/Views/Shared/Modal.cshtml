@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Administração - @HardCode.Version</title>
+    @Styles.Render("~/content/manager/modal", "~/content/jquerythunder/css", "~/content/themes/base/css")
+    @Scripts.Render("~/scripts/jquery")
+    @Scripts.Render("~/scripts/jqueryui")
+    @Scripts.Render("~/scripts/manager")
+    @RenderSection("Scripts", false)
+</head>
+<body data-root="@Href("~/")" >
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-header-title">
+                @RenderSection("Title", true)
+            </div>
+            <div class="modal-header-close">
+                <a href="#" class="thunder-modal-close button current">X</a>
+            </div>
+        </div>
+        <div class="modal-footer">
+            @RenderSection("Actions", false)
+        </div>
+        <div class="modal-frame">
+            <div class="modal-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
