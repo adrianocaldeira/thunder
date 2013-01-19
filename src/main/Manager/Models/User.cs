@@ -56,6 +56,14 @@ namespace Manager.Models
         /// </summary>
         public virtual Status Status { get; set; }
 
+        /// <summary>
+        /// Recupera senha descriptografada
+        /// </summary>
+        public virtual string PlanPassword
+        {
+            get { return Password.Decrypt(PasswordKey); }
+        }
+
         #region Public Static Methods
         /// <summary>
         /// Encripta senha
@@ -66,17 +74,6 @@ namespace Manager.Models
         {
             return password.Encrypt(PasswordKey);
         }
-
-        /// <summary>
-        /// Descriptografa senha
-        /// </summary>
-        /// <param name="password">Senha</param>
-        /// <returns>Senha descriptografada</returns>
-        public static string DecryptPassword(string password)
-        {
-            return password.Decrypt(PasswordKey);
-        }
-
 
         /// <summary>
         /// Localiza usuário pelo login e senha

@@ -11,7 +11,7 @@ namespace $rootnamespace$.Models
     /// </summary>
     public class User : ActiveRecord<User, int>
     {
-        private const string PasswordKey = "@9#7$5%W*&1WpC#@&2*%4$6#8@";
+        private const string PasswordKey = "@9#7$5%W*&KUXW1WpC#@&2*%4$6#8@";
 
         /// <summary>
         /// Inicializa uma nova instância da classe <see cref="User"/>.
@@ -56,6 +56,14 @@ namespace $rootnamespace$.Models
         /// </summary>
         public virtual Status Status { get; set; }
 
+        /// <summary>
+        /// Recupera senha descriptografada
+        /// </summary>
+        public virtual string PlanPassword
+        {
+            get { return Password.Decrypt(PasswordKey); }
+        }
+
         #region Public Static Methods
         /// <summary>
         /// Encripta senha
@@ -66,17 +74,6 @@ namespace $rootnamespace$.Models
         {
             return password.Encrypt(PasswordKey);
         }
-
-        /// <summary>
-        /// Descriptografa senha
-        /// </summary>
-        /// <param name="password">Senha</param>
-        /// <returns>Senha descriptografada</returns>
-        public static string DecryptPassword(string password)
-        {
-            return password.Decrypt(PasswordKey);
-        }
-
 
         /// <summary>
         /// Localiza usuário pelo login e senha

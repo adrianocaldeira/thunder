@@ -165,7 +165,6 @@
     <Content Include="Content\manager\color.css" />
     <Content Include="Content\manager\images\bg-modal-title.png" />
     <Content Include="Views\Shared\Modal.cshtml" />
-    <None Include="Views\Users\Form.cshtml.pp" />
     <None Include="Web.config.transform">
       <SubType>Designer</SubType>
     </None>
