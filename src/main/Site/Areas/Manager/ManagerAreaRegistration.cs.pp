@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Site.Areas.Manager
+namespace $rootnamespace$.Areas.Manager
 {
     public class ManagerAreaRegistration : AreaRegistration
     {
@@ -18,7 +18,7 @@ namespace Site.Areas.Manager
                 "Manager_default",
                 "Manager/{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                new[] { "Site.Areas.Manager.Controllers" }
+                new[] { "$rootnamespace$.Areas.Manager.Controllers" }
             );
         }
     }

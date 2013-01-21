@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
-  <class name="Manager.Models.UserProfile, Manager" table="user_profiles">
+  <class name="Site.Models.UserProfile, Site" table="user_profiles">
     <id name="Id">
       <generator class="identity" />
     </id>
@@ -12,7 +12,7 @@
 
     <bag name="Functionalities" table="user_profiles_x_functionalities" lazy="true">
       <key column="UserProfileId" />
-      <many-to-many class="Manager.Models.Functionality, Manager" column="FunctionalityId" />
+      <many-to-many class="Site.Models.Functionality, Site" column="FunctionalityId" />
     </bag>
   </class>
   <query name="user-profiles-can-remove">

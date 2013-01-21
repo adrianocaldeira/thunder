@@ -1,0 +1,14 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Site - @HardCode.Version</title>
+    @Styles.Render("~/content/site/css", "~/content/jquerythunder/css", "~/content/themes/base/css")
+    @Scripts.Render("~/scripts/jquery")
+    @Scripts.Render("~/scripts/jqueryui")
+    @Scripts.Render("~/scripts/site")
+</head>
+<body data-root="@Href("~/")">
+    @RenderBody()
+</body>
+</html>

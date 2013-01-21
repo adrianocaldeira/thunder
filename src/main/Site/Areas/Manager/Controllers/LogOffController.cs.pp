@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace $rootnamespace$.Controllers
+namespace $rootnamespace$.Areas.Manager.Controllers
 {
     public class LogOffController : Controller
     {

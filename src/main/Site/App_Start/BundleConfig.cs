@@ -20,11 +20,21 @@ namespace Site.App_Start
                         "~/Scripts/jquery.maskedinput-*",
                         "~/Scripts/manager.js"));
 
+            BundleTable.Bundles.Add(new ScriptBundle("~/scripts/site").Include(
+                        "~/Scripts/jquery.thunder-*",
+                        "~/Scripts/jquery.maskMoney.js",
+                        "~/Scripts/jquery.maskedinput-*",
+                        "~/Scripts/site.js"));
+
             BundleTable.Bundles.Add(new StyleBundle("~/content/manager/css").Include(
                 "~/Content/manager/reset.css",
                 "~/Content/manager/style.css",
                 "~/Content/manager/color.css",
                 "~/Content/manager/invalid.css"));
+
+            BundleTable.Bundles.Add(new StyleBundle("~/content/site/css").Include(
+                "~/Content/site/reset.css",
+                "~/Content/site/style.css"));
 
             BundleTable.Bundles.Add(new StyleBundle("~/content/manager/modal").Include(
                 "~/Content/manager/reset.css",

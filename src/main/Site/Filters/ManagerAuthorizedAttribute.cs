@@ -9,7 +9,7 @@ using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Site.Filters
 {
-    public class AuthorizedAttribute : ActionFilterAttribute
+    public class ManagerAuthorizedAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -20,7 +20,10 @@ namespace Site.Filters
             {
                 var route = new RouteValueDictionary
                     {
-                        {"Action", "Index"}, {"Controller", "Login"}, {"ReturnUrl", context.Request.RawUrl}
+                        {"Action", "Index"}, 
+                        {"Controller", "Login"}, 
+                        {"Area", "Manager"}, 
+                        {"ReturnUrl", context.Request.RawUrl}
                     };
 
                 if (context.Request.IsAjaxRequest())

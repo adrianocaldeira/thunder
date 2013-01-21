@@ -1,10 +1,10 @@
 ﻿using System.Web.Mvc;
+using $rootnamespace$.Library;
 using Thunder.Data;
 using Thunder.Web;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
-using $rootnamespace$.Library;
 
-namespace $rootnamespace$.Controllers
+namespace $rootnamespace$.Areas.Manager.Controllers
 {
     public class LoginController : ManagerController
     {

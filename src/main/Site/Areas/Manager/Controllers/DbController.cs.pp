@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
-using Thunder.Data;
 using $rootnamespace$.Models;
+using Thunder.Data;
 
-namespace $rootnamespace$.Controllers
+namespace $rootnamespace$.Areas.Manager.Controllers
 {
     public class DbController : Controller
     {

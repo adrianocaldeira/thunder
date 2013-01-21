@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
+using Thunder.Data;
 using Site.Library;
 using Site.Models;
-using Thunder.Data;
 
 namespace Site.Areas.Manager.Controllers
 {
@@ -12,6 +12,5 @@ namespace Site.Areas.Manager.Controllers
         {
             return PartialView("Index", Module.FindByUser(Models.User.FindById(ConnectedUser.Id)));
         }
-
     }
 }

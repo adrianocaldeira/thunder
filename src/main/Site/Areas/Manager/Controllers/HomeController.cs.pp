@@ -1,10 +1,11 @@
 ﻿using System.Web.Mvc;
 using $rootnamespace$.Filters;
 using $rootnamespace$.Library;
+using Thunder.Web.Mvc.Filter;
 
-namespace $rootnamespace$.Controllers
+namespace $rootnamespace$.Areas.Manager.Controllers
 {
-    [Authorized]
+    [ManagerAuthorized, LayoutInject("Manager")] 
     public class HomeController : ManagerController
     {
         public ActionResult Index()

@@ -164,6 +164,7 @@
     <Compile Include="Filters\AuthorizedAttribute.cs" />
     <Content Include="Content\manager\color.css" />
     <Content Include="Content\manager\images\bg-modal-title.png" />
+    <Content Include="Content\manager\images\database.png" />
     <Content Include="Views\Shared\Modal.cshtml" />
     <None Include="Web.config.transform">
       <SubType>Designer</SubType>

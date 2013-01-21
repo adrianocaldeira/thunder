@@ -7,13 +7,13 @@ using Thunder.Web;
 using Thunder.Web.Mvc.Filter;
 using Thunder.Web.Mvc.Html;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
-using $rootnamespace$.Library;
 using $rootnamespace$.Filters;
+using $rootnamespace$.Library;
 using $rootnamespace$.Models;
 
-namespace $rootnamespace$.Controllers
+namespace $rootnamespace$.Areas.Manager.Controllers
 {
-    [Authorized(Order = 2), SessionPerRequest(Order = 1)] 
+    [ManagerAuthorized(Order = 2), SessionPerRequest(Order = 1), LayoutInject("Manager")] 
     public class UsersController : ManagerController
     {
         [HttpGet]

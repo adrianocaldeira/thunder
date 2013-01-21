@@ -2,17 +2,18 @@
 using System.Web.Mvc;
 using NHibernate;
 using NHibernate.Criterion;
+using Thunder.Data;
+using Thunder.Web;
+using Thunder.Web.Mvc.Filter;
+using Thunder.Web.Mvc.Html;
+using JsonResult = Thunder.Web.Mvc.JsonResult;
 using Site.Filters;
 using Site.Library;
 using Site.Models;
-using Thunder.Data;
-using Thunder.Web;
-using Thunder.Web.Mvc.Html;
-using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Site.Areas.Manager.Controllers
 {
-    [Authorized(Order = 2), SessionPerRequest(Order = 1)] 
+    [ManagerAuthorized(Order = 2), SessionPerRequest(Order = 1), LayoutInject("Manager")] 
     public class UserProfilesController : ManagerController
     {
         [HttpGet]

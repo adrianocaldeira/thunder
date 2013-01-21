@@ -3,7 +3,7 @@ using Thunder.Data;
 using $rootnamespace$.Library;
 using $rootnamespace$.Models;
 
-namespace $rootnamespace$.Controllers
+namespace $rootnamespace$.Areas.Manager.Controllers
 {
     public class MenuController : ManagerController
     {
@@ -12,6 +12,5 @@ namespace $rootnamespace$.Controllers
         {
             return PartialView("Index", Module.FindByUser(Models.User.FindById(ConnectedUser.Id)));
         }
-
     }
 }
