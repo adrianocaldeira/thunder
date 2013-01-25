@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHibernate.Tool.hbm2ddl;
@@ -56,6 +54,9 @@ namespace Thunder.Data
         }
 
 
+        /// <summary>
+        /// Drop database
+        /// </summary>
         public static void Drop()
         {
             var dialect = NHibernate.Dialect.Dialect.GetDialect(SessionManager.Configuration.Properties);
@@ -67,6 +68,9 @@ namespace Thunder.Data
             }
         }
 
+        /// <summary>
+        /// Create database
+        /// </summary>
         public static void Create()
         {
             var dialect = NHibernate.Dialect.Dialect.GetDialect(SessionManager.Configuration.Properties);

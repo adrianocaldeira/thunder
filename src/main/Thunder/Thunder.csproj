@@ -150,6 +150,7 @@
     <Compile Include="Web\Mvc\Html\Design\ImageExtensions.cs" />
     <Compile Include="Web\Mvc\Html\Design\LabelExtensions.cs" />
     <Compile Include="Web\Mvc\Html\Design\MessageExtensions.cs" />
+    <Compile Include="Web\Mvc\Html\Design\MvcGrid.cs" />
     <Compile Include="Web\Mvc\Html\Design\NumericExtensions.cs" />
     <Compile Include="Web\Mvc\Html\Design\PaginationExtensions.cs" />
     <Compile Include="Web\Mvc\Html\Design\PhoneExtensions.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Web\Mvc\Html\Design\TextBoxExtensions.cs" />
     <Compile Include="Web\Mvc\Html\Design\WidthStyle.cs" />
     <Compile Include="Web\Mvc\Html\Design\ZipCodeExtensions.cs" />
+    <Compile Include="Web\Mvc\Html\Design\GridExtensions.cs" />
     <Compile Include="Web\Mvc\Html\JavaScriptExtensions.cs" />
     <Compile Include="Web\Mvc\Html\SelectListExtensions.cs" />
     <Compile Include="Web\Mvc\Html\StyleSheetExtensions.cs" />

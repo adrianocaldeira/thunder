@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using $rootnamespace$.Filters;
+using $rootnamespace$.Library;
+using $rootnamespace$.Models;
 using NHibernate;
 using NHibernate.Criterion;
 using Thunder.Data;
 using Thunder.Web;
 using Thunder.Web.Mvc.Html;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
-using $rootnamespace$.Filters;
-using $rootnamespace$.Library;
-using $rootnamespace$.Models;
 
 namespace $rootnamespace$.Controllers
 {
@@ -22,9 +22,9 @@ namespace $rootnamespace$.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Models.Filter filter)
+        public PartialViewResult Index(Models.Filter filter)
         {
-            return View("_List", UserProfile.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
+            return PartialView("_List", UserProfile.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
         }
 
         [HttpGet]

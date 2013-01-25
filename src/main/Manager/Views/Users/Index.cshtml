@@ -5,7 +5,8 @@
 </script>
 @using (Html.ContentBox("Usuários", new ContentBoxHeaderButton { Title = "Novo Usuário", Text = "+", Url = Url.Action("New"), HtmlAttributes = new { id = "add-user" } }))
 {
-    <div class="grid" id="grid-users" data-url="@Url.Action("Index")">
+    using (Html.Grid(@Url.Action("Index"), new { id = "grid-users" }))
+    {
         @Html.Gif("~/content/manager/images/grid_loading")
-    </div>
+    }
 }

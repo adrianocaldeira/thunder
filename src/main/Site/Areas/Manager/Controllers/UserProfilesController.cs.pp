@@ -23,9 +23,9 @@ namespace $rootnamespace$.Areas.Manager.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(Models.Filter filter)
+        public PartialViewResult Index(Models.Filter filter)
         {
-            return View("_List", UserProfile.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
+            return PartialView("_List", UserProfile.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
         }
 
         [HttpGet]
