@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -37,6 +38,24 @@ namespace Thunder.Web.Mvc.Html.Design
         public static MvcHtmlString LabelFor<TModel, TProperty>(this HtmlHelper helper, Expression<Func<TModel, TProperty>> expression, string labelText, bool required)
         {
             return helper.Label(ExpressionHelper.GetExpressionText(expression), labelText, required, null);
+        }
+
+        /// <summary>
+        /// Label For
+        /// </summary>
+        /// <param name="helper">Helper</param>
+        /// <param name="expression">Expression</param>
+        /// <param name="required">Required</param>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <returns><see cref="MvcHtmlString"/></returns>
+        public static MvcHtmlString LabelFor<TModel, TProperty>(this HtmlHelper<TModel> helper, Expression<Func<TModel, TProperty>> expression, bool required)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression(expression, helper.ViewData);
+            var forName = ExpressionHelper.GetExpressionText(expression);
+	        var labelText = metadata.DisplayName ?? metadata.PropertyName ?? forName.Split('.').Last();
+
+            return helper.Label(forName, labelText, required, null);
         }
 
         /// <summary>
