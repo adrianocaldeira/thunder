@@ -41,6 +41,22 @@ namespace Thunder.Data
         }
 
         /// <summary>
+        /// Notify updated object
+        /// </summary>
+        public virtual void NotifyUpdated()
+        {
+            ActiveRecordProperty<ActiveRecord<T, TKey>>.SetValue(this, "Updated", DateTime.Now);
+        }
+
+        /// <summary>
+        /// Notify created object
+        /// </summary>
+        public virtual void NotifyCreated()
+        {
+            ActiveRecordProperty<ActiveRecord<T, TKey>>.SetValue(this, "Created", DateTime.Now);
+        }
+
+        /// <summary>
         /// Get current session
         /// </summary>
         public static ISession Session
