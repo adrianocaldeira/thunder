@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq.Expressions;
+using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Thunder.Web.Mvc.Html.Design
@@ -12,30 +14,45 @@ namespace Thunder.Web.Mvc.Html.Design
         /// Label
         ///</summary>
         ///<param name="helper">Helper</param>
-        ///<param name="expression">Expression</param>
+        ///<param name="forName">For Name</param>
         ///<param name="labelText">Label text</param>
         ///<param name="required">Required</param>
-        ///<returns>Label tag</returns>
-        public static MvcHtmlString Label(this HtmlHelper helper, string expression, string labelText, bool required)
+        /// <returns><see cref="MvcHtmlString"/></returns>
+        public static MvcHtmlString Label(this HtmlHelper helper, string forName, string labelText, bool required)
         {
          
-            return helper.Label(expression, labelText, required, null);
+            return helper.Label(forName, labelText, required, null);
+        }
+
+        /// <summary>
+        /// Label For
+        /// </summary>
+        /// <param name="helper">Helper</param>
+        /// <param name="expression">Expression</param>
+        /// <param name="labelText">Label Text</param>
+        /// <param name="required">Required</param>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <returns><see cref="MvcHtmlString"/></returns>
+        public static MvcHtmlString LabelFor<TModel, TProperty>(this HtmlHelper helper, Expression<Func<TModel, TProperty>> expression, string labelText, bool required)
+        {
+            return helper.Label(ExpressionHelper.GetExpressionText(expression), labelText, required, null);
         }
 
         /// <summary>
         /// Label
         /// </summary>
         /// <param name="helper">Helper</param>
-        /// <param name="expression">Expression</param>
+        /// <param name="forName">For name</param>
         /// <param name="labelText">Label text</param>
         /// <param name="required">Required</param>
         /// <param name="htmlAttributes">Html attributes</param>
-        /// <returns></returns>
-        public static MvcHtmlString Label(this HtmlHelper helper, string expression, string labelText, bool required, object htmlAttributes)
+        /// <returns><see cref="MvcHtmlString"/></returns>
+        public static MvcHtmlString Label(this HtmlHelper helper, string forName, string labelText, bool required, object htmlAttributes)
         {
             var builder = new TagBuilder("label");
 
-            builder.Attributes.Add("for", expression);
+            builder.Attributes.Add("for", forName.Replace(".", builder.IdAttributeDotReplacement));
             builder.SetInnerText(labelText);
 
             if (required)
