@@ -31,6 +31,16 @@ namespace Thunder.Data
         public virtual DateTime Updated { get; set; }
 
         /// <summary>
+        /// Is new object
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool IsNew()
+        {
+            var id = Convert.ChangeType(Id, TypeCode.Int64);
+            return id == null || (Int64)id <= 0;
+        }
+
+        /// <summary>
         /// Get current session
         /// </summary>
         public static ISession Session

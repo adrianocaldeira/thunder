@@ -13,7 +13,7 @@ Usuário
 @using (Html.BeginForm("Save", "Users", FormMethod.Post, new { id = "user" }))
 {
     @Html.Hidden("Id", Model.Id)    
-    using (Html.ContentBox(Model.Id == 0 ? "Novo usuário" : "Alterar usuário"))
+    using (Html.ContentBox(Model.IsNew() ? "Novo usuário" : "Alterar usuário"))
     {
     @Helpers.NotificationRequired()
     <p class="column">
