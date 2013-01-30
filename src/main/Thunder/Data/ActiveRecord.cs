@@ -91,7 +91,7 @@ namespace Thunder.Data
 
                     foreach (var property in propertiesForUpdate)
                     {
-                        var propertyName = ((MemberExpression) property.Body).Member.Name;
+                        var propertyName = Utility.GetPropertyName(property);
                         var propertyInfoItem = item.GetType().GetProperty(propertyName);
                         var propertyInfoCurrentItem = currentItem.GetType().GetProperty(propertyName);
                         

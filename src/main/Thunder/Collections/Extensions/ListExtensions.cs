@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Thunder.Data;
 
 namespace Thunder.Collections.Extensions
@@ -150,6 +151,17 @@ namespace Thunder.Collections.Extensions
             return source.OfType<IObjectState>()
                 .Where(item => !states.Contains((item).State))
                 .Select(item => (T) item).ToList();
+        }
+
+        public static void Reorganize<T>(this IList<T> source, Expression<Func<T, object>> expression)
+        {
+            var propertyName = Utility.GetPropertyName(expression);
+            var propertyInfo = typeof(T).GetProperty(propertyName);
+
+            for(var i=0; i<source.Count;i++)
+            {
+                propertyInfo.SetValue(source[i], Convert.ChangeType(i,propertyInfo.PropertyType), null);
+            }
         }
     }
 }
