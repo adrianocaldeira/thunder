@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Extensions\ListExtensionsTest.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttributeTest.cs" />
     <Compile Include="Data\Domain\TireItem.cs" />
     <Compile Include="Data\Domain\TireTest.cs" />

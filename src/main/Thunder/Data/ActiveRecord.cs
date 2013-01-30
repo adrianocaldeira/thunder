@@ -73,6 +73,12 @@ namespace Thunder.Data
 
                 if (state.Equals(ObjectState.Added))
                 {
+                    item.GetType().GetProperty("Updated").SetValue(item, 
+                        Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
+
+                    item.GetType().GetProperty("Created").SetValue(item, 
+                        Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
+
                     current.Add(item);
                 }
                 else if (state.Equals(ObjectState.Deleted))

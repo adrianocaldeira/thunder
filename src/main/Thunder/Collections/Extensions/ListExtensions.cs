@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Thunder.Data;
 
 namespace Thunder.Collections.Extensions
 {
@@ -121,6 +122,34 @@ namespace Thunder.Collections.Extensions
             {
                 source.Remove(item);
             }
+        }
+
+        /// <summary>
+        /// Filter source where state equals states parameters
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"><see cref="T:System.Collections.Generic.IList`1"/></param>
+        /// <param name="states"><see cref="T:System.Collections.Generic.IList`1"/></param>
+        /// <returns><see cref="T:System.Collections.Generic.IList`1"/></returns>
+        public static IList<T> In<T>(this IList<T> source, params ObjectState[] states)
+        {
+            return source.OfType<IObjectState>()
+                .Where(item => states.Contains((item).State))
+                .Select(item => (T)item).ToList();
+        }
+
+        /// <summary>
+        /// Filter source where state not equals states parameters
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"><see cref="T:System.Collections.Generic.IList`1"/></param>
+        /// <param name="states"><see cref="T:System.Collections.Generic.IList`1"/></param>
+        /// <returns><see cref="T:System.Collections.Generic.IList`1"/></returns>/param>
+        public static IList<T> NotIn<T>(this IList<T> source, params ObjectState[] states)
+        {
+            return source.OfType<IObjectState>()
+                .Where(item => !states.Contains((item).State))
+                .Select(item => (T) item).ToList();
         }
     }
 }
