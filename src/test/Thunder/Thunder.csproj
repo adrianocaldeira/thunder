@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttributeTest.cs" />
+    <Compile Include="Data\Domain\TireItem.cs" />
     <Compile Include="Data\Domain\TireTest.cs" />
     <Compile Include="MessageTest.cs" />
     <Compile Include="Data\CfgSerializationTest.cs" />

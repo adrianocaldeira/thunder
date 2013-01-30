@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Transform;
 using Thunder.Collections;
+using Thunder.Collections.Extensions;
 
 namespace Thunder.Data
 {
@@ -54,6 +56,46 @@ namespace Thunder.Data
         public virtual void NotifyCreated()
         {
             ActiveRecordProperty<ActiveRecord<T, TKey>>.SetValue(this, "Created", DateTime.Now);
+        }
+
+        /// <summary>
+        /// Merge list type of <see cref="IObjectState"/>
+        /// </summary>
+        /// <param name="current">Current list</param>
+        /// <param name="list">List</param>
+        /// <param name="propertiesForUpdate">Property</param>
+        /// <typeparam name="TList"></typeparam>
+        public virtual void Merge<TList>(IList<TList> current, IList<TList> list, params Expression<Func<TList, object>>[] propertiesForUpdate)
+        {
+            foreach (var item in list)
+            {
+                var state = ((IObjectState)item).State;
+
+                if (state.Equals(ObjectState.Added))
+                {
+                    current.Add(item);
+                }
+                else if (state.Equals(ObjectState.Deleted))
+                {
+                    current.Remove(item);
+                }
+                else if (state.Equals(ObjectState.Modified))
+                {
+                    var currentItem = current.Get(item);
+
+                    foreach (var property in propertiesForUpdate)
+                    {
+                        var propertyName = ((MemberExpression) property.Body).Member.Name;
+                        var propertyInfoItem = item.GetType().GetProperty(propertyName);
+                        var propertyInfoCurrentItem = currentItem.GetType().GetProperty(propertyName);
+                        
+                        propertyInfoCurrentItem.SetValue(currentItem, Convert.ChangeType(propertyInfoItem.GetValue(item, null), 
+                            propertyInfoCurrentItem.PropertyType), null);
+
+                        currentItem.GetType().GetProperty("Updated").SetValue(currentItem, Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
+                    }
+                }
+            }
         }
 
         /// <summary>

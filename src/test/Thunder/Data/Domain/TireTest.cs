@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using NHibernate.Criterion;
 using NUnit.Framework;
@@ -37,7 +38,7 @@ namespace Thunder.Data.Domain
         {
             var tire = Tire.FindById(1);
             tire.Name = "Tire 2";
-            tire.NotifyChange();
+            tire.NotifyUpdated();
 
             Tire.Update(tire);
 
@@ -157,6 +158,32 @@ namespace Thunder.Data.Domain
 
             Assert.AreEqual("Tire 4", tire.Name);
             Assert.AreEqual("28", tire.Size);
+        }
+
+        [Test]
+        public void Merge()
+        {
+            var tire = new Tire();
+            var items = new List<TireItem>();
+
+            tire.Items.Add(new TireItem { Id = 1, Name = "Item 1" });
+            tire.Items.Add(new TireItem { Id = 2, Name = "Item 2" });
+            tire.Items.Add(new TireItem { Id = 3, Name = "Item 3" });
+
+            items.Add(new TireItem { Id = 4, Name = "Item 4", State = ObjectState.Added });
+            items.Add(new TireItem { Id = 2, Name = "Item 2", State = ObjectState.Deleted });
+            items.Add(new TireItem { Id = 3, Name = "Item 3 - Modified", Type = "1", State = ObjectState.Modified });
+
+            tire.Merge(tire.Items, items, x=>x.Name, x=>x.Type);
+
+            var actualItems = tire.Items.OrderBy(x => x.Id).ToList();
+
+            Assert.AreEqual(3, actualItems.Count);
+            Assert.AreEqual(1, actualItems[0].Id);
+            Assert.AreEqual(3, actualItems[1].Id);
+            Assert.AreEqual(4, actualItems[2].Id);
+            Assert.AreEqual("Item 3 - Modified", actualItems[1].Name);
+            Assert.AreEqual("Item 4", actualItems[2].Name);
         }
     }
 }
