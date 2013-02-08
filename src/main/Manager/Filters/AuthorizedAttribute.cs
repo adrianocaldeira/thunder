@@ -14,7 +14,7 @@ namespace Manager.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var context = filterContext.HttpContext;
-            var user = context.Session[HardCode.Session.ConnectedUser] as User;
+            var user = context.Session[Settings.Session.ConnectedUser] as User;
 
             if (user == null)
             {
@@ -25,6 +25,8 @@ namespace Manager.Filters
 
                 if (context.Request.IsAjaxRequest())
                 {
+                    route.Remove("ReturnUrl");
+
                     filterContext.Result = new JsonResult
                     {
                         Status = ResultStatus.NotConnected,

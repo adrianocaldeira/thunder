@@ -22,7 +22,10 @@ namespace Thunder.Web.Mvc
             object actualValue = null;
             try
             {
-                actualValue = Convert.ToDecimal(valueProviderResult.AttemptedValue, CultureInfo.CurrentCulture);
+                if (!string.IsNullOrEmpty(valueProviderResult.AttemptedValue))
+                {
+                    actualValue = Convert.ToDecimal(valueProviderResult.AttemptedValue, CultureInfo.CurrentCulture); 
+                }
             }
             catch (FormatException e)
             {

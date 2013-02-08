@@ -8,8 +8,8 @@ namespace Manager.Library
     {
         public User ConnectedUser
         {
-            get { return Session[HardCode.Session.ConnectedUser] as User; }
-            set { Session[HardCode.Session.ConnectedUser] = value; }
+            get { return Session[Settings.Session.ConnectedUser] as User; }
+            set { Session[Settings.Session.ConnectedUser] = value; }
         }
 
         protected override void OnException(System.Web.Mvc.ExceptionContext filterContext)

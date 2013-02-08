@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
+using NHibernate;
+using NHibernate.Criterion;
 using Thunder.ComponentModel.DataAnnotations;
 using Thunder.Data;
 using Thunder.Security;
@@ -121,6 +124,32 @@ namespace Manager.Models
             }
         }
 
+        /// <summary>
+        /// Verifica se modelo é válido
+        /// </summary>
+        /// <param name="modelState"><see cref="ModelStateDictionary"/></param>
+        /// <returns>Válido</returns>
+        public virtual bool IsValid(ModelStateDictionary modelState)
+        {
+            if (modelState.IsValid)
+            {
+                if (Exist(Id, Restrictions.Eq(Projections.SqlFunction("lower", NHibernateUtil.String,
+                    Projections.Property("Login")), Login.ToLower())))
+                {
+                    modelState.AddModelError("Login", "O login informado já existe.");
+                }
+
+                if (!string.IsNullOrEmpty(Email) && Exist(Id, Restrictions.Eq(Projections.SqlFunction("lower",
+                    NHibernateUtil.String, Projections.Property("Email")), Login.ToLower())))
+                {
+                    modelState.AddModelError("Login", "O e-mail informado já existe.");
+                }
+
+                return modelState.IsValid;
+            }
+
+            return modelState.IsValid;
+        }
         #endregion
     }
 }

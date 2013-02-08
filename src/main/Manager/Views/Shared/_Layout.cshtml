@@ -2,11 +2,17 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Administração - @HardCode.Version</title>
+    <title>Administração - @Settings.Version</title>
     @Styles.Render("~/content/manager/css", "~/content/jquerythunder/css", "~/content/themes/base/css")
     @Scripts.Render("~/scripts/jquery")
     @Scripts.Render("~/scripts/jqueryui")
     @Scripts.Render("~/scripts/manager")
+    @RenderSection("Scripts", false)
+    <script type="text/javascript">
+        $(function () {
+            $.manager.stay('@Url.Action("Index","Stay")');
+        });
+    </script>
 </head>
 <body data-root="@Href("~/")">
     <div id="body-wrapper">
@@ -19,7 +25,7 @@
                 </a>
                 <div id="profile-links">
                     @{
-                        var user = Session[HardCode.Session.ConnectedUser] as User;
+                        var user = Session[Settings.Session.ConnectedUser] as User;
                     }
                     @if (user != null)
                     {

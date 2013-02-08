@@ -3,125 +3,87 @@
     $.manager = manager = {
         root: '',
         utility: {
-            resetDropDown: function (selector) {
-                var $dropDown = $(selector);
-                $('option', $dropDown).removeAttr('selected');
-                $('option:first', $dropDown).attr('selected', 'selected');
-            },
-            resetText: function (selector) {
-                $(selector).val('');
-            },
-            submitButton: function (button, form, options) {
-                var settings = $.extend({}, {
-                    before: null
-                }, options);
-                var $button = $(button);
+            applyAjaxForm: function(form, options) {
                 var $form = $(form);
-
-                $form.data('button', $button);
-
-                $button.click(function () {
-                    if (settings.before) {
-                        settings.before.call($form, $button);
-                    } else {
-                        $form.submit();
-                    }
-                });
-
-                $('input[type="text"]', $form).keypress(function (e) {
-                    if (e.keyCode == 13) {
-                        $button.trigger('click');
-                        e.preventDefault();
-                    }
-                });
-            },
-            setReadOnly: function (elements) {
-                $.each(elements, function () {
-                    var $element = $(this);
-                    if ($element.is('a') || $element.is('input:button')) {
-                        $element.remove();
-                    } else {
-                        if ($element.is('select')) {
-                            $element.attr('disabled', 'disabled');
-                        } else {
-                            $element.attr('readonly', 'readonly');
-                            if ($element.is('.date')) {
-                                $element.unmask();
-                                $element.datepicker('destroy');
-                            }
-                        }
-                        $element.addClass('readonly');
-                    }
-                });
-            },
-            delete: function (selector, options) {
-                var settings = $.extend({
-                    success: function () {
-                    }
+                var settings = $.extend({ }, {
+                    onSuccess: function() {
+                    },
+                    onBefore: function() {
+                    },
+                    submitButton: $('#submit'),
+                    loading: $('#loading'),
+                    modal: false
                 }, options);
 
-                $(selector).live('click', function (e) {
-                    var $this = $(this);
+                if (settings.modal && settings.submitButton != null) {
+                    $.thunder.submitButton(settings.submitButton, $form);
+                }
 
-                    if ($this.data('delete')) {
-                        $.confirm($this.data('message'), {
-                            onYes: function () {
-                                $.ajax({
-                                    url: $this.attr('href'),
-                                    type: 'delete',
-                                    success: function (r) {
-                                        settings.success.call($this, r);
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        $.alert('Registro não pode ser excluído, pois encontra-se relacionado com outra funcionalidade do sistema.', { height: 140 });
+                $form.ajaxForm({
+                    loading: settings.loading,
+                    onBeforeSubmit: function() {
+                        settings.onBefore.call($form);
+                    },
+                    onSuccess: function(f, r) {
+                        settings.onSuccess.call($form, r);
                     }
-
-                    e.preventDefault();
                 });
             }
         },
         login: {
-            index: function () {
+            index: function() {
                 $('form').ajaxForm({
                     message: $('#message'),
-                    onSuccess: function (f, r) {
+                    onSuccess: function(f, r) {
                         window.location.href = r.Data.Path;
                     }
                 });
             }
         },
+        stay: function(url) {
+
+            var connected = function() {
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    success: function() {
+                        window.setTimeout(connected, 30000);
+                    }
+                });
+            };
+
+            window.setTimeout(connected, 30000);
+        },
         userProfiles: {
-            index: function () {
+            index: function() {
                 var $grid = $('#grid-profiles');
-                
+
                 $grid.grid();
-                
-                $.manager.utility.delete($('a.delete', $grid), {
-                    success: function () {
-                        $grid.grid();
+
+                $.thunder.applyDelete($('a.delete', $grid), {
+                    success: function() {
+                        $.manager.userProfiles.list();
                     }
                 });
             },
-            form: function () {
-                var $form = $('form');
-
-                $form.ajaxForm({
-                    loading: $('#loading'),
-                    onBeforeSubmit: function () {
+            list: function() {
+                $('form', '#grid-profiles').submit();
+            },
+            form: function() {
+                $.manager.utility.applyAjaxForm('#user-profile', {
+                    onBefore: function() {
+                        var $form = $(this);
                         $form.find('.functionality').remove();
-                        $.each($('.permission:input:checkbox:checked'), function (i) {
+                        $.each($('.permission:input:checkbox:checked'), function(i) {
                             $form.append('<input type="hidden" class="functionality" name="Functionalities[' + i + '].Id" value="' + $(this).val() + '" />');
                         });
                     },
-                    onSuccess: function (f, r) {
+                    onSuccess: function(r) {
                         window.location.href = r.Data;
                     }
                 });
 
-                $('a.permission').click(function (e) {
+                $('a.permission').click(function(e) {
                     var $this = $(this);
                     var $dialog = $('#permission-modal-' + $this.data('module'));
 
@@ -133,7 +95,7 @@
                     e.preventDefault();
                 });
 
-                $('.tree-view input:checkbox:not(.permission)').click(function () {
+                $('.tree-view input:checkbox:not(.permission)').click(function() {
                     var $checkbox = $(this);
                     var $li = $checkbox.parents('li:first');
                     var $childs = $('input:checkbox', $li);
@@ -142,7 +104,7 @@
                     if ($checkbox.is(':checked')) {
                         $parents.attr('checked', 'checked');
                         $childs.attr('checked', 'checked');
-                        $.each($childs, function () {
+                        $.each($childs, function() {
                             var $this = $(this);
                             var $parentChild = $this.parents('li:first');
                             var $dialog = $('#permission-modal-' + $parentChild.data('module'));
@@ -151,7 +113,7 @@
                     } else {
                         $childs.removeAttr('checked');
                         $('input:checkbox', $('#permission-modal-' + $li.data('module'))).removeAttr('checked');
-                        $.each($childs, function () {
+                        $.each($childs, function() {
                             var $this = $(this);
                             var $parentChild = $this.parents('li:first');
                             var $dialog = $('#permission-modal-' + $parentChild.data('module'));
@@ -161,7 +123,7 @@
                     }
                 });
 
-                $('.tree-view input.permission:checkbox').click(function () {
+                $('.tree-view input.permission:checkbox').click(function() {
                     var $this = $(this);
                     var $dialog = $this.parents('.ui-dialog-content');
                     var $li = $('li[data-module="' + $dialog.data('module') + '"]');
@@ -178,12 +140,12 @@
             }
         },
         users: {
-            index: function () {
+            index: function() {
                 var $grid = $('#grid-users');
 
                 $grid.grid();
-                
-                $('#add-user, #grid-users a.edit').live('click', function (e) {
+
+                $('#add-user, #grid-users a.edit').live('click', function(e) {
                     $.modal({
                         iframe: true,
                         url: $(this).attr('href'),
@@ -193,26 +155,44 @@
                     e.preventDefault();
                 });
 
-                $.manager.utility.delete($('a.delete', $grid), {
-                    success: function () {
-                        $grid.grid();
+                $.thunder.applyDelete($('a.delete', $grid), {
+                    success: function() {
+                        $.manager.users.list();
                     }
                 });
             },
-            updateIndex: function () {
+            list: function() {
                 $('form', '#grid-users').submit();
             },
-            form: function () {
-                var $form = $('#user');
-                var $submit = $('#submit');
-
-                $.manager.utility.submitButton($submit, $form);
-
-                $form.ajaxForm({
-                    loading: '#loading',
-                    onSuccess: function () {
-                        window.parent.$.manager.users.updateIndex();
+            form: function() {
+                $.manager.utility.applyAjaxForm('#user', {
+                    modal: true,
+                    onSuccess: function() {
+                        window.parent.$.manager.users.list();
                         window.parent.$.closeModal();
+                    }
+                });
+            }
+        },
+        news: {
+            index: function() {
+                var $grid = $('#news');
+
+                $grid.grid();
+
+                $.thunder.applyDelete($('a.delete', $grid), {
+                    success: function() {
+                        $.manager.news.list();
+                    }
+                });
+            },
+            list: function() {
+                $('form', '#news').submit();
+            },
+            form: function() {
+                $.manager.utility.applyAjaxForm('#form-news', {
+                    onSuccess: function(r) {
+                        window.location.href = r.Data;
                     }
                 });
             }
@@ -232,7 +212,7 @@
 
         $('.date').datepicker({
             showOn: 'button',
-            buttonImage: manager.root + 'content/manager/icons/calendar.png',
+            buttonImage: manager.root + 'content/manager/images/icons/calendar.png',
             buttonImageOnly: true
         });
 
@@ -245,6 +225,7 @@
         });
 
         $('.date').mask('99/99/9999');
+        $('.date-time').mask('99/99/9999 99:99?:99');
         $('.time').mask('99:99');
         $('.cpf').mask('999.999.999-99');
         $('.cnpj').mask('99.999.999/9999-99');
@@ -252,6 +233,13 @@
         $('.phone').mask("(99) 9999-9999?9", {
             completed: function () {
                 this.mask("(99) 99999-999?9");
+            }
+        });
+        
+        $('.date-time').blur(function () {
+            var $this = $(this);
+            if ($this.val().length == 16) {
+                $this.val($this.val() + ':00');
             }
         });
 
@@ -272,6 +260,11 @@
             symbolStay: false,
             defaultZero: true,
             allowNegative: true
+        });
+        
+        $('.close').click(function (e) {
+            $('.thunder-notification').slideUp();
+            e.preventDefault();
         });
 
         $("#main-nav li ul").hide();

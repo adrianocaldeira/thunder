@@ -1,0 +1,16 @@
+﻿@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $.manager.news.index();
+        });
+    </script>
+}
+@Html.Partial("Message")
+@using (Html.ContentBox("Notícias", new ContentBoxHeaderButton { Title = "Novo Notícia", Text = "+", Url = Url.Action("New") }))
+{
+    using (Html.Grid(@Url.Action("Index", "News"), new { id = "news" }))
+    {
+    @Html.Gif("~/content/manager/images/grid_loading")
+    }
+}

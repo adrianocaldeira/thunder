@@ -1,0 +1,42 @@
+﻿@model News
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $.manager.news.form();
+        });
+    </script>
+}
+@using (Html.BeginForm("Save", "News", FormMethod.Post, new { id = "form-news" }))
+{
+    @Html.HiddenFor(m=>m.Id)    
+    using (Html.ContentBox(string.Format("{0} notícia", Model.IsNew() ? "Nova" : "Alterar"), new ContentBoxHeaderLoading { Id = "loading", ImagePath = Href(Settings.Constants.ImageLoadingForm) }))
+    {
+    @Helpers.NotificationRequired()
+    <p class="column">
+        @Html.LabelFor(m => m.Title, true)
+        @Html.TextBoxFor(m => m.Title, new { maxlength = 100, @class = "large-input-fixed" })
+    </p>
+    <p class="column">
+        @Html.LabelFor(m => m.Date, true)
+        @Html.TextBox("Date", string.Format("{0:dd/MM/yyyy}", (Model.IsNew() ? DateTime.Now : Model.Date)), new { @class = "date" })
+    </p>     
+    <p class="column clear" style="width: 100%">
+        @Html.LabelFor(m => m.Call, true)
+        @Html.TextAreaFor(m => m.Call, new { maxlength = 500, rows = 5 })
+    </p>    
+    <div class="clear"></div>
+    <br />
+        using (Html.ContentBox("Conteúdo", true))
+        {
+    @Html.EditorFor(m => m.Content)
+        }
+    <p class="column">
+        @Html.LabelFor(m => m.Author)
+        @Html.TextBoxFor(m => m.Author, new { maxlength = 100, @class = "medium-input-fixed" })
+    </p>  
+    <div class="clear"></div>
+    @Helpers.ActionForSave(Url.Action("Index"))
+    }
+}
+

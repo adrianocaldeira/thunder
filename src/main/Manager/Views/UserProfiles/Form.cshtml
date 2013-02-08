@@ -1,26 +1,28 @@
 ﻿@model UserProfile
-<script type="text/javascript">
-    $(function () {
-        $.manager.userProfiles.form();
-    });
-</script>
-@using (Html.BeginForm("Save", "UserProfiles", FormMethod.Post))
+@section Scripts
 {
-    @Html.Hidden("Id", Model.Id)    
-    using (Html.ContentBox(Model.Id == 0 ? "Novo perfil de usuário" : "Alterar perfil de usuário", new ContentBoxHeaderLoading { Id = "loading", ImagePath = Href(HardCode.Constants.ImageLoadingForm) }))
+    <script type="text/javascript">
+        $(function () {
+            $.manager.userProfiles.form();
+        });
+    </script>
+}
+@using (Html.BeginForm("Save", "UserProfiles", FormMethod.Post, new { id = "user-profile" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    using (Html.ContentBox(string.Format("{0} perfil de usuário", Model.IsNew() ? "Novo" : "Alterar"), new ContentBoxHeaderLoading { Id = "loading", ImagePath = Href(Settings.Constants.ImageLoadingForm) }))
     {
     @Helpers.NotificationRequired()
     <p class="column">
-        @Html.Label("name", "Nome", true)
-        @Html.TextBox("Name", Model.Name, new { id = "name", maxlength = 100, @class = "large-input-fixed" })
+        @Html.LabelFor(m => m.Name, true)
+        @Html.TextBoxFor(m => m.Name, new { maxlength = 100, @class = "large-input-fixed" })
     </p>
     <p class="column">
-        @Html.Label("Status", "Status", true)
-        @Html.DropDownList("Status.Id", (IList<SelectListItem>)ViewBag.Status, new { id = "Status" })
+        @Html.LabelFor(m => m.Status.Id, true)
+        @Html.DropDownListFor(m => m.Status.Id, (IList<SelectListItem>)ViewBag.Status)
     </p>    
     <div class="clear">
     </div>
-    <br />
         using (Html.ContentBox("Módulos", true))
         {
     <div class="tree-view">

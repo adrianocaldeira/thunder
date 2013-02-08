@@ -9,6 +9,8 @@
     <many-to-one name="Status" column="StatusId" not-null="false" />
 
     <property name="Name" length="100" not-null="true" unique="true" />
+    <property name="Created" not-null="true" />
+    <property name="Updated" not-null="true" />
 
     <bag name="Functionalities" table="user_profiles_x_functionalities" lazy="true">
       <key column="UserProfileId" />

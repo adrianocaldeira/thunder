@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using NHibernate;
 using NHibernate.Criterion;
 using Thunder.ComponentModel.DataAnnotations;
 using Thunder.Data;
@@ -96,6 +98,24 @@ namespace Manager.Models
 
                 return list.Count == 0;
             }
+        }
+
+        /// <summary>
+        /// Verifica se modelo é válido
+        /// </summary>
+        /// <param name="modelState"><see cref="ModelStateDictionary"/></param>
+        /// <returns>Válido</returns>
+        public virtual bool IsValid(ModelStateDictionary modelState)
+        {
+            if (modelState.IsValid)
+            {
+                if (Exist(Id, Restrictions.Eq(Projections.SqlFunction("lower", NHibernateUtil.String, Projections.Property("Name")), Name.ToLower())))
+                {
+                    modelState.AddModelError("Name", "O nome informado já existe.");
+                }
+            }
+
+            return modelState.IsValid;
         }
         #endregion
     }
