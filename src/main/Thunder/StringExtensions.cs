@@ -217,11 +217,7 @@ namespace Thunder
         /// <returns>Valid</returns>
         public static bool IsEmail(this string email)
         {
-            //Cria expressão regular de cpf
-            var reg = new Regex(@"^(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6}$");
-
-            //Verifica se a expressão é válida
-            return reg.IsMatch(email);
+            return new Regex(@"^\w+([-+.]*[\w-]+)*@(\w+([-.]?\w+)){1,}\.\w{2,4}$").IsMatch(email);
         }
 
         /// <summary>
