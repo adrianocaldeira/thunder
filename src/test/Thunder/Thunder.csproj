@@ -97,7 +97,6 @@
     <Compile Include="Web\Mvc\Html\Design\DateExtensionsTest.cs" />
     <Compile Include="Web\Mvc\Html\Design\LabelExtensionsTest.cs" />
     <Compile Include="Web\Mvc\Html\Design\NumericExtensionsTest.cs" />
-    <Compile Include="Web\Mvc\Html\Design\TextBoxExtensionsTest.cs" />
     <Compile Include="Web\Mvc\Html\ImageExtensionsTest.cs" />
     <Compile Include="Web\Mvc\Html\JavaScriptExtensionsTest.cs" />
     <Compile Include="Web\Mvc\Html\SelectListExtensionsTest.cs" />

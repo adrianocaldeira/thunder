@@ -33,25 +33,33 @@ namespace Manager.Models
         /// <summary>
         /// Recupera ou define nome
         /// </summary>
-        [Display(Name = "Nome"), Required]
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Nome")]
         public virtual string Name { get; set; }
 
         /// <summary>
         /// Recupera ou define e-mail
         /// </summary>
         [Email(ErrorMessage = "E-mail informado é inválido.")]
+        [StringLength(100)]
+        [Display(Name = "E-mail")]
         public virtual string Email { get; set; }
 
         /// <summary>
         /// Recupera ou define login
         /// </summary>
-        [Display(Name = "Login"), Required]
+        [Required]
+        [StringLength(20)]
+        [Display(Name = "Login")]
         public virtual string Login { get; set; }
 
         /// <summary>
         /// Recupera ou define senha
         /// </summary>
-        [Display(Name = "Senha"), Required]
+        [Required]
+        [Display(Name = "Senha")]
+        [StringLength(10)]
         public virtual string Password { get; set; }
 
         /// <summary>

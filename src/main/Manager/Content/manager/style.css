@@ -294,6 +294,7 @@ a.remove-link:hover { color: #000; }
     border: 1px solid #ccc;
     margin: 0 0 10px 0;
     background: #fff;
+    padding-bottom: 10px;
 }
 
 .content-box-header {
@@ -355,7 +356,7 @@ ul.content-box-tabs li a.current {
 }
 
 .content-box-content {
-    padding: 10px;
+    padding: 10px 10px 0 10px;
     font-size: 13px;
     border-top: 1px solid #ccc;
 }
@@ -506,23 +507,15 @@ form .wysiwyg {
 
 form .readonly { background: #f6f6f6 !important; }
 
-form .xsmall-input { width: 10% !important; }
+form .xsmall-input { width: 120px !important; }
 
-form .xsmall-input-fixed { width: 120px !important; }
+form .small-input { width: 240px !important; }
 
-form .small-input { width: 25% !important; }
+form .medium-input { width: 360px !important; }
 
-form .x-small-input-fixed { width: 120px !important; }
+form .large-input { width: 480px !important; }
 
-form .small-input-fixed { width: 240px !important; }
-
-form .medium-input { width: 50% !important; }
-
-form .medium-input-fixed { width: 360px !important; }
-
-form .large-input { width: 90% !important; }
-
-form .large-input-fixed { width: 480px !important; }
+form .xlarge-input { width: 600px !important; }
 
 form .zip-code { width: 80px !important; }
 

@@ -15,20 +15,21 @@
     @Helpers.NotificationRequired()
     <p class="column">
         @Html.LabelFor(m => m.Name, true)
-        @Html.TextBoxFor(m => m.Name, new { maxlength = 100, @class = "large-input-fixed" })
+        @Thunder.TextBoxFor(m => m.Name, TextBoxStyle.Large)
     </p>
     <p class="column">
         @Html.LabelFor(m => m.Status.Id, true)
         @Html.DropDownListFor(m => m.Status.Id, (IList<SelectListItem>)ViewBag.Status)
     </p>    
-    <div class="clear">
-    </div>
+        <div class="clear">
+        </div>
+    <br/>
         using (Html.ContentBox("Módulos", true))
         {
     <div class="tree-view">
         @Helpers.Modules(Model, Module.Parents())
     </div>        
         }
-    @Helpers.ActionForSave(Url.Action("Index"))
+        @Helpers.ActionForSave(Url.Action("Index"))
     }
 }

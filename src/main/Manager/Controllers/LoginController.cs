@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Manager.Library;
+using Manager.Models;
 using Thunder.Data;
 using Thunder.Web;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
@@ -10,19 +11,24 @@ namespace Manager.Controllers
     {
         public ActionResult Index()
         {
-            return View("Index");
+            return View("Index", new User());
         }
 
-        [HttpPost, SessionPerRequest]
-        public ActionResult Index(string login, string password, string returnUrl)
+        [HttpPost]
+        [SessionPerRequest]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(User model, string returnUrl)
         {
+            ExcludePropertiesInValidation("Name");
+
             if (ModelState.IsValid)
             {
-                var user = Models.User.Find(login, password);
+                var user = Models.User.Find(model.Login, model.Password);
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("login", "Usuário ou senha inválidos.");
+                    ModelState.AddModelError("Login", "Usuário ou senha inválidos.");
+
                     return View(ResultStatus.Attention);
                 }
 
@@ -32,7 +38,7 @@ namespace Manager.Controllers
                 {
                     Data = new
                     {
-                        Path = string.IsNullOrEmpty(returnUrl) ? Url.Action("Index","Home") : returnUrl
+                        Path = string.IsNullOrEmpty(returnUrl) ? Url.Action("Index", "Home") : returnUrl
                     }
                 };
             }

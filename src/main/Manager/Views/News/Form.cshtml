@@ -15,7 +15,7 @@
     @Helpers.NotificationRequired()
     <p class="column">
         @Html.LabelFor(m => m.Title, true)
-        @Html.TextBoxFor(m => m.Title, new { maxlength = 100, @class = "large-input-fixed" })
+        @Thunder.TextBoxFor(m => m.Title, TextBoxStyle.Large)
     </p>
     <p class="column">
         @Html.LabelFor(m => m.Date, true)

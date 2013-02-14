@@ -32,7 +32,9 @@ namespace Manager.Models
         /// <summary>
         /// Recuper ou define nome
         /// </summary>
-        [Display(Name = "Nome"), Required]
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Nome")]
         public virtual string Name { get; set; }
 
         /// <summary>

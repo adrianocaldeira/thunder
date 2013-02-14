@@ -21,7 +21,8 @@ namespace Manager.Models
         /// <summary>
         /// Recupera ou define código
         /// </summary>
-        [Display(Name = "Status"), Required]
+        [Required]
+        [Display(Name = "Status")]
         public new virtual short Id { get { return base.Id; } set { base.Id = value; } }
 
         /// <summary>

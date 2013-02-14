@@ -1,10 +1,14 @@
 ﻿namespace Thunder.Web.Mvc.Html.Design
 {
     /// <summary>
-    /// Width style
+    /// Text box style
     /// </summary>
-    public enum WidthStyle
+    public enum TextBoxStyle
     {
+        /// <summary>
+        /// None
+        /// </summary>
+        None,
         ///<summary>
         /// XSmall
         ///</summary>
@@ -20,6 +24,10 @@
         /// <summary>
         /// Large
         /// </summary>
-        Large
+        Large,
+        /// <summary>
+        /// XLarge
+        /// </summary>
+        Xlarge
     }
 }

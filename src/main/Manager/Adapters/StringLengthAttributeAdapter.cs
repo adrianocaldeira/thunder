@@ -4,21 +4,21 @@ using Resources;
 
 namespace Manager.Adapters
 {
-    public class RequiredAttributeAdapter : System.Web.Mvc.RequiredAttributeAdapter
+    public class StringLengthAttributeAdapter : System.Web.Mvc.StringLengthAttributeAdapter
     {
-        public RequiredAttributeAdapter(ModelMetadata metadata, ControllerContext context, RequiredAttribute attribute)
+        public StringLengthAttributeAdapter(ModelMetadata metadata, ControllerContext context, StringLengthAttribute attribute)
             : base(metadata, context, attribute)
         {
             if (!string.IsNullOrWhiteSpace(Attribute.ErrorMessage)) return;
 
             if (Attribute.ErrorMessageResourceType == null)
             {
-                Attribute.ErrorMessageResourceType = typeof (Message);
+                Attribute.ErrorMessageResourceType = typeof(Message);
             }
-            
+
             if (string.IsNullOrWhiteSpace(Attribute.ErrorMessageResourceName))
             {
-                Attribute.ErrorMessageResourceName = "PropertyValueRequired";
+                Attribute.ErrorMessageResourceName = "PropertyValueStringLength";
             }
         }
     }

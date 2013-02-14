@@ -161,8 +161,8 @@
     <Compile Include="Web\Mvc\Html\Design\SimplaAdmin\ContentBoxHeaderLoading.cs" />
     <Compile Include="Web\Mvc\Html\Design\SimplaAdmin\ContentBoxHeaderTab.cs" />
     <Compile Include="Web\Mvc\Html\Design\SimplaAdmin\MvcContentBox.cs" />
-    <Compile Include="Web\Mvc\Html\Design\TextBoxExtensions.cs" />
-    <Compile Include="Web\Mvc\Html\Design\WidthStyle.cs" />
+    <Compile Include="Web\Mvc\Html\Design\InputExtensions.cs" />
+    <Compile Include="Web\Mvc\Html\Design\TextBoxStyle.cs" />
     <Compile Include="Web\Mvc\Html\Design\ZipCodeExtensions.cs" />
     <Compile Include="Web\Mvc\Html\Design\GridExtensions.cs" />
     <Compile Include="Web\Mvc\Html\JavaScriptExtensions.cs" />
@@ -170,6 +170,10 @@
     <Compile Include="Web\Mvc\Html\StyleSheetExtensions.cs" />
     <Compile Include="Web\Mvc\JsonResult.cs" />
     <Compile Include="Web\Mvc\MessageResult.cs" />
+    <Compile Include="Web\Mvc\ThunderHelper.cs" />
+    <Compile Include="Web\Mvc\ThunderHelperOfTModel.cs" />
+    <Compile Include="Web\Mvc\WebViewPage.cs" />
+    <Compile Include="Web\Mvc\WebViewPageOfTModel.cs" />
     <Compile Include="Web\ResultStatus.cs" />
     <Compile Include="Web\Utility.cs" />
   </ItemGroup>

@@ -18,6 +18,12 @@ namespace Manager.App_Start
             DataAnnotationsModelValidatorProvider.RegisterAdapterFactory(typeof(RequiredAttribute), 
                     (metadata, controllerContext, attribute) => new Adapters.RequiredAttributeAdapter(metadata, controllerContext, (RequiredAttribute)attribute));
 
+            DataAnnotationsModelValidatorProvider.RegisterAdapterFactory(typeof(StringLengthAttribute),
+                    (metadata, controllerContext, attribute) => new Adapters.StringLengthAttributeAdapter(metadata, controllerContext, (StringLengthAttribute)attribute));
+
+            DataAnnotationsModelValidatorProvider.RegisterAdapterFactory(typeof(RangeAttribute),
+                    (metadata, controllerContext, attribute) => new Adapters.RangeAttributeAdapter(metadata, controllerContext, (RangeAttribute)attribute));
+
             DefaultModelBinder.ResourceClassKey = "Messages";
             ValidationExtensions.ResourceClassKey = "Messages";
         }

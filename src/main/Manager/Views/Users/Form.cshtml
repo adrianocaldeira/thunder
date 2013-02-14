@@ -9,9 +9,9 @@
 @section Title {
 Usuário
 }
-
 @using (Html.BeginForm("Save", "Users", FormMethod.Post, new { id = "user" }))
 {
+    @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)    
     using (Html.ContentBox(string.Format("{0} usuário", Model.IsNew() ? "Novo" : "Alterar")))
     {
@@ -23,15 +23,15 @@ Usuário
     <div class="clear"></div>
     <p class="column">
         @Html.LabelFor(m => m.Name, true)
-        @Html.TextBoxFor(m => m.Name, new { maxlength = 100, @class = "medium-input-fixed" })
+        @Thunder.TextBoxFor(m => m.Name, TextBoxStyle.Medium)
     </p>
     <p class="column">
         @Html.LabelFor(m => m.Email)
-        @Html.TextBoxFor(m => m.Email, new { maxlength = 100, @class = "medium-input-fixed" })
+        @Thunder.TextBoxFor(m => m.Email, TextBoxStyle.Medium)
     </p>
     <p class="column">
         @Html.LabelFor(m => m.Login, true)
-        @Html.TextBoxFor(m => m.Login, new { maxlength = 20, @class = "small-input-fixed" })
+        @Thunder.TextBoxFor(m => m.Login, TextBoxStyle.Small)
     </p>
     <p class="column">
         @Html.LabelFor(m => m.Password, true)

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model User
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -21,19 +22,20 @@
         <h1>Acesso ao Sistema</h1>
         @using (Html.BeginForm("Index", "Login", FormMethod.Post))
         {
+            @Html.AntiForgeryToken()
             @Html.Hidden("ReturnUrl", @Request.QueryString["ReturnUrl"])
             <div id="message">
             </div>
             <p>
-                @Html.Label("login", "Login")
-                @Html.TextBox("login", string.Empty, 20, WidthStyle.Large, new { id = "login" })
+                @Html.LabelFor(m=>m.Login)
+                @Thunder.TextBoxFor(m=>m.Login, TextBoxStyle.Xsmall)
             </p>
             <p>
-                @Html.Label("password", "Senha")
-                @Html.Password("password", string.Empty, new { @class = "text-input large-input", maxlength = 8, id="password" })
+                @Html.LabelFor(m=>m.Password)
+                @Thunder.PasswordFor(m => m.Password, TextBoxStyle.Xsmall)
             </p>
             <p>
-                <input type="submit" value="Acessar" title="Acessar" class="button">
+                @Html.Button("Acessar", "Acessar")
             </p>
         }
     </div>

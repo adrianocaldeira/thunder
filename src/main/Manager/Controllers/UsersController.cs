@@ -61,6 +61,7 @@ namespace Manager.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(User model)
         {
             ExcludePropertiesInValidation("Profile.Name", "Profile.Functionalities");

@@ -120,7 +120,16 @@
   <data name="PropertyValueInvalid" xml:space="preserve">
     <value>O valor {0} do campo {1} é inválido.</value>
   </data>
+  <data name="PropertyValueRangeDecimal" xml:space="preserve">
+    <value>O campo {0} só aceita valores entre {1:C2} e {2:C2}.</value>
+  </data>
+  <data name="PropertyValueRangeNumber" xml:space="preserve">
+    <value>O campo {0} só aceita valores entre {1} e {2}.</value>
+  </data>
   <data name="PropertyValueRequired" xml:space="preserve">
     <value>Preencha o campo {0}.</value>
+  </data>
+  <data name="PropertyValueStringLength" xml:space="preserve">
+    <value>Máximo permitido para o campo {0} é de {1} caracteres.</value>
   </data>
 </root>
