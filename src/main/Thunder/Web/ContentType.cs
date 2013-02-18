@@ -34,6 +34,18 @@ namespace Thunder.Web
                     return "image/png";
                 case ".swf":
                     return "application/x-shockwave-flash";
+                case ".rtf":
+                    return "text/richtext";
+                case ".wav":
+                    return "audio/wav";
+                case ".tiff":
+                    return "image/tiff";
+                case ".avi":
+                    return "video/avi";
+                case ".mpeg":
+                    return "video/mpeg";
+                case ".csv":
+                    return "application/vnd.ms-excel";
                 case ".doc":
                     return "application/msword";
                 case ".docx":
@@ -52,6 +64,8 @@ namespace Thunder.Web
                     return "application/vnd.openxmlformats-officedocument.presentationml.slideshow";
                 case ".txt":
                     return "text/plain";
+                case ".xml":
+                    return "application/xml";
                 default:
                     return "application/octet-stream";
             }

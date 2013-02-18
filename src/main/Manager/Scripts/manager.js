@@ -3,6 +3,70 @@
     $.manager = manager = {
         root: '',
         utility: {
+            upload: function (options) {
+                var settings = $.extend({ }, {
+                    url: '',
+                    directory: 'temporary',
+                    description: 'Todos os arquivos',
+                    extension: '*.*',
+                    multiple: false,
+                    size: '1MB',
+                    width: 370,
+                    height: 145,
+                    id: 'id',
+                    queueSize: 3,
+                    onSuccess: function() {
+                    }
+                }, options);
+                var $modal = $('#modal-upload');
+                var url = settings.url + '?';
+                
+                url += 'multiple=' + settings.multiple;
+                url += '&directory=' + settings.directory;
+                url += '&multiple=' + settings.multiple;
+                url += '&extension=' + settings.extension;
+                url += '&description=' + settings.description;
+                url += '&size=' + settings.size;
+                url += '&queueSize=' + settings.queueSize;
+                url += '&callback=' + settings.id;  
+                
+                if ($modal.size() == 0) {
+                    $('body').prepend('<div id="modal-upload"></div>');
+                    $modal = $('#modal-upload');
+                }
+
+                $modal.css('display', 'none');
+
+                $('body').bind('manager-upload-complete-' + settings.id, function (e, data) {
+                    settings.onSuccess(data.files);
+                    $('body').unbind('manager-upload-complete-' + settings.id);
+                    $modal.dialog('destroy');
+                });
+
+                $.ajax({
+                    url: url,
+                    success: function (html) {
+                        $modal.html(html);
+
+                        $modal.dialog({
+                            title: 'Upload de arquivos',
+                            modal: true,
+                            resizable: false,
+                            width: settings.width,
+                            height: settings.height,
+                            autoOpen: false,
+                            open: function () {
+                                $modal.css('padding', 0);
+                            },
+                            close: function () {
+                                $('body').unbind('manager-upload-complete-' + settings.id);
+                            }
+                        });
+
+                        $modal.dialog('open');
+                    }
+                });
+            },
             applyAjaxForm: function(form, options) {
                 var $form = $(form);
                 var settings = $.extend({ }, {

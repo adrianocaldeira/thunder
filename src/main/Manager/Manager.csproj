@@ -44,6 +44,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="CsQuery">
+      <HintPath>..\..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -180,6 +183,7 @@
     <Content Include="Content\jquerythunder\jquery.thunder-1.2.1.css" />
     <Content Include="Content\jquerythunder\jquery.thunder-1.2.1.min.css" />
     <Content Include="Content\manager\color.css" />
+    <Content Include="Content\manager\images\transparency.png" />
     <Content Include="Content\manager\tinymce.css" />
     <Content Include="Content\manager\images\bg-modal-title.png" />
     <Content Include="Content\manager\images\database.png" />
@@ -529,6 +533,12 @@
     <Content Include="Scripts\tinymce\utils\form_utils.js" />
     <Content Include="Scripts\tinymce\utils\mctabs.js" />
     <Content Include="Scripts\tinymce\utils\validate.js" />
+    <Content Include="Scripts\uploadify\jquery.uploadify-3.2.js" />
+    <Content Include="Scripts\uploadify\jquery.uploadify-3.2.min.js" />
+    <Content Include="Scripts\uploadify\license.txt" />
+    <Content Include="Scripts\uploadify\uploadify-cancel.png" />
+    <Content Include="Scripts\uploadify\uploadify.css" />
+    <Content Include="Scripts\uploadify\uploadify.swf" />
     <Content Include="Views\Shared\Modal.cshtml" />
     <Content Include="Views\Shared\Message.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TinyMceSimple.cshtml" />
@@ -560,6 +570,7 @@
     <None Include="Models\Status.cs.pp" />
     <None Include="Models\User.cs.pp" />
     <None Include="Models\UserProfile.cs.pp" />
+    <Compile Include="Library\StringExtensions.cs" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\FilterOrder.cs" />
     <Compile Include="Models\Functionality.cs" />
@@ -568,6 +579,7 @@
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Views\Upload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Views\Web.config.transform" />
   </ItemGroup>

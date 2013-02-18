@@ -63,6 +63,7 @@ namespace Manager.Controllers
             if (model.IsValid(ModelState))
             {
                 model.Sponsor = ConnectedUser;
+                model.Content = model.Content.MoveImages(Url.Action("Viewer", "Files"));
 
                 if (model.IsNew())
                 {

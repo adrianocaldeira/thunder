@@ -88,7 +88,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Preencha o campo {0}..
+        ///   Looks up a localized string similar to {0} não pode ficar vazio..
         /// </summary>
         internal static string PropertyValueRequired {
             get {

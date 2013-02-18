@@ -14,6 +14,8 @@ namespace Manager.Library
             }
         }
 
+        public static string FileRepository = System.Configuration.ConfigurationManager.AppSettings["FileRepository"];
+
         #region Nested type: Constants
 
         public static class Constants
