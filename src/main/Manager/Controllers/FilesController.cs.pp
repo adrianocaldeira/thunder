@@ -2,10 +2,10 @@
 using System.Web;
 using System.Web.Mvc;
 using Thunder.Web;
-using Manager.Library;
-using Manager.Models.Views;
+using $rootnamespace$.Library;
+using $rootnamespace$.Models.Views;
 
-namespace Manager.Controllers
+namespace $rootnamespace$.Controllers
 {
     public class FilesController : Controller
     {

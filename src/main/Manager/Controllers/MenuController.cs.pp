@@ -12,6 +12,5 @@ namespace $rootnamespace$.Controllers
         {
             return PartialView("Index", Module.FindByUser(Models.User.FindById(ConnectedUser.Id)));
         }
-
     }
 }

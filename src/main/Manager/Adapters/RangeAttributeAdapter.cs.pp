@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Resources;
 
-namespace Manager.Adapters
+namespace $rootnamespace$.Adapters
 {
     public class RangeAttributeAdapter : System.Web.Mvc.RangeAttributeAdapter
     {

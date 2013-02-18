@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Thunder.Web;
 using $rootnamespace$.Library;
 using $rootnamespace$.Models;
-using Thunder.Web;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace $rootnamespace$.Filters
@@ -14,7 +14,7 @@ namespace $rootnamespace$.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var context = filterContext.HttpContext;
-            var user = context.Session[HardCode.Session.ConnectedUser] as User;
+            var user = context.Session[Settings.Session.ConnectedUser] as User;
 
             if (user == null)
             {
@@ -25,6 +25,8 @@ namespace $rootnamespace$.Filters
 
                 if (context.Request.IsAjaxRequest())
                 {
+                    route.Remove("ReturnUrl");
+
                     filterContext.Result = new JsonResult
                     {
                         Status = ResultStatus.NotConnected,

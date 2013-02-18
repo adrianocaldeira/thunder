@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
-using Manager.Models;
 using Thunder.Data;
+using Manager.Models;
 
 namespace Manager.Controllers
 {

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace $rootnamespace$.Library
 {
-    public static class HardCode
+    public static class Settings
     {
         public static string Version
         {
@@ -13,6 +13,8 @@ namespace $rootnamespace$.Library
                 return string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
             }
         }
+
+        public static string FileRepository = System.Configuration.ConfigurationManager.AppSettings["FileRepository"];
 
         #region Nested type: Constants
 

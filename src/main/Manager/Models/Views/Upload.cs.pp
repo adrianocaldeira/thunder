@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Thunder.Web;
-using Manager.Library;
+using $rootnamespace$.Library;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
-namespace Manager.Models.Views
+namespace $rootnamespace$.Models.Views
 {
     /// <summary>
     /// Upload

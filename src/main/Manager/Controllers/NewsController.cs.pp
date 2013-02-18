@@ -3,12 +3,12 @@ using System.Web.Mvc;
 using NHibernate.Criterion;
 using Thunder.Data;
 using Thunder.Web;
-using Manager.Filters;
-using Manager.Library;
-using Manager.Models;
+using $rootnamespace$.Filters;
+using $rootnamespace$.Library;
+using $rootnamespace$.Models;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
-namespace Manager.Controllers
+namespace $rootnamespace$.Controllers
 {
     [Authorized(Order = 2), SessionPerRequest(Order = 1)]
     public class NewsController : ManagerController

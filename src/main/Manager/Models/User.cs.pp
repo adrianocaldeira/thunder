@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
+using NHibernate;
+using NHibernate.Criterion;
 using Thunder.ComponentModel.DataAnnotations;
 using Thunder.Data;
 using Thunder.Security;
@@ -11,7 +14,7 @@ namespace $rootnamespace$.Models
     /// </summary>
     public class User : ActiveRecord<User, int>
     {
-        private const string PasswordKey = "@9#7$5%W*&KUXW1WpC#@&2*%4$6#8@";
+        private const string PasswordKey = "@9#7$5%W*&1WpC#@&2*%4$6#8@";
 
         /// <summary>
         /// Inicializa uma nova instância da classe <see cref="User"/>.
@@ -30,25 +33,33 @@ namespace $rootnamespace$.Models
         /// <summary>
         /// Recupera ou define nome
         /// </summary>
-        [Display(Name = "Nome"), Required]
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Nome")]
         public virtual string Name { get; set; }
 
         /// <summary>
         /// Recupera ou define e-mail
         /// </summary>
         [Email(ErrorMessage = "E-mail informado é inválido.")]
+        [StringLength(100)]
+        [Display(Name = "E-mail")]
         public virtual string Email { get; set; }
 
         /// <summary>
         /// Recupera ou define login
         /// </summary>
-        [Display(Name = "Login"), Required]
+        [Required]
+        [StringLength(20)]
+        [Display(Name = "Login")]
         public virtual string Login { get; set; }
 
         /// <summary>
         /// Recupera ou define senha
         /// </summary>
-        [Display(Name = "Senha"), Required]
+        [Required]
+        [Display(Name = "Senha")]
+        [StringLength(10)]
         public virtual string Password { get; set; }
 
         /// <summary>
@@ -121,6 +132,32 @@ namespace $rootnamespace$.Models
             }
         }
 
+        /// <summary>
+        /// Verifica se modelo é válido
+        /// </summary>
+        /// <param name="modelState"><see cref="ModelStateDictionary"/></param>
+        /// <returns>Válido</returns>
+        public virtual bool IsValid(ModelStateDictionary modelState)
+        {
+            if (modelState.IsValid)
+            {
+                if (Exist(Id, Restrictions.Eq(Projections.SqlFunction("lower", NHibernateUtil.String,
+                    Projections.Property("Login")), Login.ToLower())))
+                {
+                    modelState.AddModelError("Login", "O login informado já existe.");
+                }
+
+                if (!string.IsNullOrEmpty(Email) && Exist(Id, Restrictions.Eq(Projections.SqlFunction("lower",
+                    NHibernateUtil.String, Projections.Property("Email")), Login.ToLower())))
+                {
+                    modelState.AddModelError("Login", "O e-mail informado já existe.");
+                }
+
+                return modelState.IsValid;
+            }
+
+            return modelState.IsValid;
+        }
         #endregion
     }
 }

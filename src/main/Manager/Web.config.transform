@@ -14,6 +14,7 @@
     <add key="PreserveLoginUrl" value="true" />
     <add key="ClientValidationEnabled" value="true" />
     <add key="UnobtrusiveJavaScriptEnabled" value="true" />
+    <add key="FileRepository" value="c:\files" />
   </appSettings>
   <system.web>
     <globalization uiCulture="pt-BR" culture="pt-BR" />

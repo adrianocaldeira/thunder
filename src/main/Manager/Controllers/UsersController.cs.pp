@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using $rootnamespace$.Library;
-using NHibernate;
 using NHibernate.Criterion;
 using Thunder.Data;
 using Thunder.Web;
-using $rootnamespace$.Filters;
-using $rootnamespace$.Models;
 using Thunder.Web.Mvc.Filter;
 using Thunder.Web.Mvc.Html;
+using $rootnamespace$.Filters;
+using $rootnamespace$.Models;
+using $rootnamespace$.Library;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace $rootnamespace$.Controllers
@@ -37,51 +36,50 @@ namespace $rootnamespace$.Controllers
         [HttpGet, LayoutInject("Modal")]
         public ActionResult Edit(int id)
         {
-            var userDb = Models.User.FindById(id);
+            var model = Models.User.FindById(id);
 
-            if (userDb == null)
+            if (model == null)
             {
                 return new HttpNotFoundResult();
             }
 
             ViewBag.Profiles = UserProfile.FindByStatus(Status.Active).ToSelectList(x => x.Name, x => x.Id.ToString(),
-                userDb.Profile.Id.ToString(),
+                model.Profile.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
             ViewBag.Status = Status.All().ToSelectList(x => x.Name, x => x.Id.ToString(),
-                userDb.Status.Id.ToString(),
+                model.Status.Id.ToString(),
                 new SelectListItem { Selected = true, Text = "Selecione", Value = "" });
 
-            return View("Form", userDb);
+            return View("Form", model);
         }
 
         [HttpPost]
         public PartialViewResult Index(Models.Filter filter)
         {
-            return PartialView("_List", Models.User.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
+            return PartialView("List", Models.User.Page(filter.CurrentPage, filter.PageSize, new List<Order> { Order.Asc("Name") }));
         }
 
         [HttpPost]
-        public ActionResult Save(User user)
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(User model)
         {
             ExcludePropertiesInValidation("Profile.Name", "Profile.Functionalities");
 
-            if (FormIsValid(user))
+            if (model.IsValid(ModelState))
             {
-                user.Password = Models.User.EncriptPassword(user.Password);
+                model.Password = Models.User.EncriptPassword(model.Password);
 
-                if (user.Id.Equals(0))
+                if (model.Id.Equals(0))
                 {
-                    Models.User.Create(user);
+                    Models.User.Create(model);
                 }
                 else
                 {
-                    Models.User.Update(user);
+                    Models.User.Update(model);
                 }
 
-                AddMessage(HardCode.Constants.MessageWithSuccess);
-
-                return new JsonResult { Data = Url.Action("Index", "Users") };
+                return new JsonResult ();
             }
 
             return View(ResultStatus.Attention);
@@ -93,26 +91,6 @@ namespace $rootnamespace$.Controllers
             Models.User.Delete(id);
 
             return new JsonResult();
-        }
-
-        private bool FormIsValid(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                if (Models.User.Exist(user.Id, Restrictions.Eq(Projections.SqlFunction("lower", NHibernateUtil.String, Projections.Property("Login")), user.Login.ToLower())))
-                {
-                    ModelState.AddModelError("Login", "O login informado já existe.");
-                }
-
-                if (!string.IsNullOrEmpty(user.Email) && Models.User.Exist(user.Id, Restrictions.Eq(Projections.SqlFunction("lower", NHibernateUtil.String, Projections.Property("Email")), user.Login.ToLower())))
-                {
-                    ModelState.AddModelError("Login", "O e-mail informado já existe.");
-                }
-
-                return ModelState.IsValid;
-            }
-
-            return false;
         }
     }
 }

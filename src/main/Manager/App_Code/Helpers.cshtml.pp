@@ -11,6 +11,13 @@
         <a href="@Href(backUrl)" title="Voltar" class="back">Voltar</a>
     </p>     
 }
+@helper ActionForSaveInModal(string button = "submit", string loading = "loading")
+{
+    <p class="actions">
+        <input type="button" value="Salvar" title="Salvar informações" class="button" id="@button" />
+        <span id="@loading" style="float: right; margin-right: 10px; margin-top: 8px;">Aguarde processando</span>
+    </p>     
+}
 @helper ActionForEdit(string url)
 {
     <a href="@Href(url)" title="Editar" class="edit">

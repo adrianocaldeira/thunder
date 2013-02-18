@@ -77,6 +77,7 @@ namespace $rootnamespace$.Controllers
                 {
                     Name = "Perfis de Usuário",
                     Parent = new Module { Id = 1 },
+                    Order = 0,
                     Functionalities = new List<Functionality>
                     {
                         new Functionality{Name = "Listar", Action = "Index", Controller = "UserProfiles", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
@@ -90,6 +91,7 @@ namespace $rootnamespace$.Controllers
                 {
                     Name = "Usuários",
                     Parent = new Module { Id = 1 },
+                    Order = 1,
                     Functionalities = new List<Functionality>
                     {
                         new Functionality{Name = "Listar", Action = "Index", Controller = "Users", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
@@ -97,6 +99,20 @@ namespace $rootnamespace$.Controllers
                         new Functionality{Name = "Editar", Action = "Edit", Controller = "Users", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Excluir", Action = "Delete", Controller = "Users", HttpMethod = HttpMethod.Delete.Method , Created = DateTime.Now, Updated = DateTime.Now},
                         new Functionality{Name = "Salvar", Action = "Save", Controller = "Users", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }
+                    }
+                });
+                Module.Create(new Module
+                {
+                    Name = "Notícias",
+                    Parent = new Module { Id = 1 },
+                    Order = 2,
+                    Functionalities = new List<Functionality>
+                    {
+                        new Functionality{Name = "Listar", Action = "Index", Controller = "News", HttpMethod = String.Join(",", WebRequestMethods.Http.Get, WebRequestMethods.Http.Post), Created = DateTime.Now, Updated = DateTime.Now, Default = true},
+                        new Functionality{Name = "Criar", Action = "New", Controller = "News", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Editar", Action = "Edit", Controller = "News", HttpMethod = WebRequestMethods.Http.Get , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Excluir", Action = "Delete", Controller = "News", HttpMethod = HttpMethod.Delete.Method , Created = DateTime.Now, Updated = DateTime.Now},
+                        new Functionality{Name = "Salvar", Action = "Save", Controller = "News", HttpMethod = WebRequestMethods.Http.Post, Created = DateTime.Now, Updated = DateTime.Now }
                     }
                 });
                 #endregion
@@ -117,7 +133,12 @@ namespace $rootnamespace$.Controllers
                                     new Functionality {Id = 7},
                                     new Functionality {Id = 8},
                                     new Functionality {Id = 9},
-                                    new Functionality {Id = 10}
+                                    new Functionality {Id = 10},
+                                    new Functionality {Id = 11},
+                                    new Functionality {Id = 12},
+                                    new Functionality {Id = 13},
+                                    new Functionality {Id = 14},
+                                    new Functionality {Id = 15}
                                 }
                     });
                 #endregion

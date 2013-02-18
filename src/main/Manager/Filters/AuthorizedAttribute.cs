@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Thunder.Web;
 using Manager.Library;
 using Manager.Models;
-using Thunder.Web;
 using JsonResult = Thunder.Web.Mvc.JsonResult;
 
 namespace Manager.Filters

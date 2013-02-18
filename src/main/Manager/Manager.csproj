@@ -137,6 +137,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Adapters\RangeAttributeAdapter.cs.pp" />
+    <Content Include="Adapters\StringLengthAttributeAdapter.cs.pp" />
     <None Include="Adapters\RequiredAttributeAdapter.cs.pp" />
     <Compile Include="Adapters\RangeAttributeAdapter.cs" />
     <Compile Include="Adapters\RequiredAttributeAdapter.cs" />
@@ -160,6 +162,9 @@
     <None Include="Controllers\MenuController.cs.pp" />
     <None Include="Controllers\UserProfilesController.cs.pp" />
     <None Include="Controllers\UsersController.cs.pp" />
+    <None Include="Controllers\FilesController.cs.pp" />
+    <None Include="Controllers\NewsController.cs.pp" />
+    <None Include="Controllers\StayController.cs.pp" />
     <Compile Include="Controllers\DbController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -252,6 +257,9 @@
     <EmbeddedResource Include="Models\Orm\News.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Models\Orm\News.hbm.xml.pp">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-ui-1.10.0.js" />
     <Content Include="Scripts\jquery-ui-1.10.0.min.js" />
     <Content Include="Scripts\jquery-ui-i18n.js" />
@@ -561,6 +569,7 @@
     </Compile>
     <None Include="Library\Settings.cs.pp" />
     <None Include="Library\ManagerController.cs.pp" />
+    <None Include="Library\StringExtensions.cs.pp" />
     <Compile Include="Library\ManagerController.cs" />
     <Compile Include="Library\Settings.cs" />
     <None Include="Models\Filter.cs.pp" />
@@ -571,6 +580,7 @@
     <None Include="Models\User.cs.pp" />
     <None Include="Models\UserProfile.cs.pp" />
     <Compile Include="Library\StringExtensions.cs" />
+    <None Include="Models\News.cs.pp" />
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Models\FilterOrder.cs" />
     <Compile Include="Models\Functionality.cs" />
@@ -579,6 +589,7 @@
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\User.cs" />
+    <None Include="Models\Views\Upload.cs.pp" />
     <Compile Include="Models\Views\Upload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Views\Web.config.transform" />

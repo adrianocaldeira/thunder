@@ -20,10 +20,12 @@
         <add namespace="Thunder.Data"/>
         <add namespace="Thunder.Collections"/>
         <add namespace="Thunder.Web"/>
+        <add namespace="Thunder.Web.Mvc.Html"/>
         <add namespace="Thunder.Web.Mvc.Html.Design"/>
         <add namespace="Thunder.Web.Mvc.Html.Design.SimplaAdmin"/>
         <add namespace="$rootnamespace$.Library"/>
         <add namespace="$rootnamespace$.Models"/>
+        <add namespace="$rootnamespace$.Models.Views"/>
       </namespaces>
     </pages>
   </system.web.webPages.razor>
