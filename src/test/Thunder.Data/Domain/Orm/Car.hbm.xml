@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Thunder.Data.Domain.Car, Thunder.Data.Test" table="thunder_car">
+    <id name="Id">
+      <generator class="identity" />
+    </id>
+
+    <many-to-one name="Tire" not-null="true" />
+    
+    <property name="Name" not-null="true" length="50" />
+    <property name="Door" not-null="true" />
+    <property name="Color" not-null="true" />
+
+    <joined-subclass table="thunder_car_uno" name="Thunder.Data.Domain.Uno, Thunder.Data.Test">
+      <key column="CarId" />
+    </joined-subclass>
+
+    <joined-subclass table="thunder_car_gol" name="Thunder.Data.Domain.Gol, Thunder.Data.Test">
+      <key column="CarId" />
+    </joined-subclass>    
+
+  </class>
+</hibernate-mapping>

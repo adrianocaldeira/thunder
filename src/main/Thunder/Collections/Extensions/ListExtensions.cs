@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Thunder.Data;
 
 namespace Thunder.Collections.Extensions
 {
@@ -153,6 +152,12 @@ namespace Thunder.Collections.Extensions
                 .Select(item => (T) item).ToList();
         }
 
+        /// <summary>
+        /// Organize elements index by property
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="expression"></param>
+        /// <typeparam name="T"></typeparam>
         public static void Reorganize<T>(this IList<T> source, Expression<Func<T, object>> expression)
         {
             var propertyName = Utility.GetPropertyName(expression);

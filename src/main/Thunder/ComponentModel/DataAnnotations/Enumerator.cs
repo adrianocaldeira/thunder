@@ -14,19 +14,4 @@
         /// </summary>
         Cpf
     }
-
-    /// <summary>
-    /// Required if operator
-    /// </summary>
-    public enum RequiredIfOperator
-    {
-        /// <summary>
-        /// Equal to
-        /// </summary>
-        EqualTo,
-        /// <summary>
-        /// Not equal to
-        /// </summary>
-        NotEqualTo
-    }
 }

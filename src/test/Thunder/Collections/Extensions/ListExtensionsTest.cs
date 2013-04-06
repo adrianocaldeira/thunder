@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Thunder.Data;
-using Thunder.Data.Domain;
+using Thunder.Resources;
 
 namespace Thunder.Collections.Extensions
 {

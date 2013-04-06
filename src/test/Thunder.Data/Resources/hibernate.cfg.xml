@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-configuration  xmlns="urn:nhibernate-configuration-2.2" >
+  <session-factory name="NHibernate.Test">
+    <property name="connection.driver_class">NHibernate.Driver.SQLite20Driver</property>
+    <property name="connection.connection_string">
+      Data Source=thunder.db;Version=3
+    </property>
+    <property name="dialect">NHibernate.Dialect.SQLiteDialect</property>
+    <property name="query.substitutions">true=1;false=0</property>
+    <property name="current_session_context_class">NHibernate.Context.ThreadStaticSessionContext, NHibernate</property>
+    <property name="hbm2ddl.auto">create</property>
+    <property name="show_sql">true</property>
+    <mapping assembly="Thunder.Data.Test"/>
+    <mapping assembly="Thunder"/>
+  </session-factory>
+</hibernate-configuration>
