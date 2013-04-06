@@ -106,7 +106,7 @@ namespace Thunder.Web.Mvc.Html.Design
             
             builder.MergeAttribute("type", "text", true);
             builder.MergeAttribute("name", name, true);
-            builder.MergeAttribute("maxlength", maxLength.ToString(), true);
+            builder.MergeAttribute("maxlength", maxLength.ToString(CultureInfo.InvariantCulture), true);
             builder.MergeAttribute("value", Convert.ToString(value, CultureInfo.CurrentCulture), true);
             builder.MergeAttribute("class", "text-input zip-code");
 

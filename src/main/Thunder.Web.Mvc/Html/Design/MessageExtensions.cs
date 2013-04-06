@@ -130,7 +130,7 @@ namespace Thunder.Web.Mvc.Html.Design
             else
             {
                 var ul = new TagBuilder("ul");
-                foreach (string message in messages)
+                foreach (var message in messages)
                 {
                     ul.InnerHtml += new TagBuilder("li") {InnerHtml = message}.ToString();
                 }

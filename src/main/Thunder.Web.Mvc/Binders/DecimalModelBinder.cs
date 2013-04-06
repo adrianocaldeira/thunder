@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Web.Mvc;
 
-namespace Thunder.Web.Mvc
+namespace Thunder.Web.Mvc.Binders
 {
     /// <summary>
     /// Decimal model binder

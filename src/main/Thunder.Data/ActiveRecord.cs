@@ -206,7 +206,7 @@ namespace Thunder.Data
                 }
 
                 var list = criteria.List<T>();
-
+                
                 transaction.Commit();
 
                 return list;
@@ -395,6 +395,5 @@ namespace Thunder.Data
                 return (29 * Id.GetHashCode());
             }
         }
-
     }
 }

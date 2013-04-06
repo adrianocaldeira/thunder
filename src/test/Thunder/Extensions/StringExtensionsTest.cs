@@ -90,13 +90,6 @@ namespace Thunder.Extensions
         }
 
         [Test]
-        public void UrlAvailable()
-        {
-            Assert.IsTrue("www.google.com.br".UrlAvailable());
-            Assert.IsTrue("http://www.google.com.br".UrlAvailable());
-        }
-
-        [Test]
         public void Reduce()
         {
             Assert.AreEqual("My...", "My test. My fast test.".Reduce(5, "..."));
@@ -157,6 +150,25 @@ namespace Thunder.Extensions
                 .Append("Test 2");
 
             Assert.AreEqual("Test 1<br />Test 2", builder.ToString().NlToBr());
+        }
+
+        [Test]
+        public void RemoveAccent()
+        {
+            Assert.AreEqual("aaaaaceeeeiiiiooooouuuuAAAAACEEEEIIIIOOOOOUUUU", "àáäâãçèéëêìíïîòóöôõùúüûÀÁÄÂÃÇÈÉËÊÌÍÏÎÒÓÖÔÕÙÚÜÛ".RemoveAccent());
+        }
+
+        [Test]
+        public void ToSeo()
+        {
+            Assert.AreEqual("cabeca-de-dinossauro-foi-achada-no-chao-de-um-parque-aquatico", "cabeça de    dinossauro & foi achada no chão de um parque aquático".ToSeo());
+            Assert.AreEqual("cabeca-de-dinossauro-foi-achada-no-chao", "cabeça de    dinossauro & foi achada no chão de um parque aquático".ToSeo(40));
+        }
+
+        [Test]
+        public void ToHash()
+        {
+            Assert.AreEqual(3406283506426094898, "cabeca-de-dinossauro-foi-achada-no-chao-de-um-parque-aquatico".ToHash());
         }
     }
 }

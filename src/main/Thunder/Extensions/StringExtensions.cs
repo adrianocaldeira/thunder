@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -278,31 +280,6 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Url available
-        /// </summary>
-        /// <param name="httpUrl">Http Url</param>
-        /// <returns></returns>
-        public static bool UrlAvailable(this string httpUrl)
-        {
-            if (!httpUrl.StartsWith("http://") && !httpUrl.StartsWith("https://"))
-                httpUrl = "http://" + httpUrl;
-            try
-            {
-                var request = (HttpWebRequest)WebRequest.Create(httpUrl);
-                
-                request.Method = "GET";
-                request.ContentType = "application/x-www-form-urlencoded";
-
-                var response = (HttpWebResponse) request.GetResponse();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Reduce
         /// </summary>
         /// <param name="s">String</param>
@@ -430,6 +407,47 @@ namespace Thunder.Extensions
         public static string NlToBr(this string s)
         {
             return s.Replace("\r\n", "<br />").Replace("\n", "<br />");
+        }
+
+        /// <summary>
+        /// Remove accent
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static string RemoveAccent(this string s)
+        {
+            var bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(s);
+            return System.Text.Encoding.ASCII.GetString(bytes);
+        }
+
+        /// <summary>
+        /// Transform string to SEO url
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="maxlenght">Maxlength</param>
+        /// <returns></returns>
+        public static string ToSeo(this string s, int maxlenght = 2000)
+        {
+            var str = s.RemoveAccent().ToLower();
+            
+            str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+            str = Regex.Replace(str, @"\s+", " ").Trim();
+            str = str.Substring(0, str.Length <= maxlenght ? str.Length : maxlenght).Trim();
+            str = Regex.Replace(str, @"\s", "-");
+
+            return str;             
+        }
+
+        /// <summary>
+        /// Transform string to hash
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static long ToHash(this string s)
+        {
+            var provider = new MD5CryptoServiceProvider();
+
+            return BitConverter.ToInt64(provider.ComputeHash(Encoding.Unicode.GetBytes(s)), 0);
         }
     }
 }

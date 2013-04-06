@@ -109,7 +109,7 @@ namespace Thunder.Web.Mvc
         private void Serialize(HttpContextBase context)
         {
             var json = string.Empty;
-            var isCallBack = string.IsNullOrEmpty(context.Request["callback"]) ? false : true;
+            var isCallBack = !string.IsNullOrEmpty(context.Request["callback"]);
 
             if (Data == null && Messages.Count == 0)
                 json = JsonConvert.SerializeObject(new { Status });

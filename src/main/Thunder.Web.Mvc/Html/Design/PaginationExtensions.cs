@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Globalization;
+using System.Web.Mvc;
 using Thunder.Collections;
 
 namespace Thunder.Web.Mvc.Html.Design
@@ -54,7 +55,7 @@ namespace Thunder.Web.Mvc.Html.Design
             {
                 var option = new TagBuilder("option");
 
-                option.MergeAttribute("value", i.ToString());
+                option.MergeAttribute("value", i.ToString(CultureInfo.InvariantCulture));
 
                 if (i == data.CurrentPage)
                 {
@@ -67,12 +68,12 @@ namespace Thunder.Web.Mvc.Html.Design
 
             if (data.HasPreviousPage)
             {
-                previous.MergeAttribute("data-page", (data.CurrentPage - 1).ToString());
+                previous.MergeAttribute("data-page", (data.CurrentPage - 1).ToString(CultureInfo.InvariantCulture));
             }
 
             if (data.HasNextPage)
             {
-                next.MergeAttribute("data-page", (data.CurrentPage + 1).ToString());
+                next.MergeAttribute("data-page", (data.CurrentPage + 1).ToString(CultureInfo.InvariantCulture));
             }
 
             paginationLoading.InnerHtml = loading.ToString();
