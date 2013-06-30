@@ -34,12 +34,12 @@ namespace Thunder.Collections
         {
             if (filter.CurrentPage < 0)
             {
-                throw new ArgumentOutOfRangeException("currentPage", "Value can not be below 0.");
+                throw new ArgumentOutOfRangeException("filter.CurrentPage", "Value can not be below 0.");
             }
 
             if (filter.PageSize < 1)
             {
-                throw new ArgumentOutOfRangeException("pageSize", "Value can not be less than 1.");
+                throw new ArgumentOutOfRangeException("filter.PageSize", "Value can not be less than 1.");
             }
 
             if (source == null)
@@ -50,7 +50,8 @@ namespace Thunder.Collections
             PageSize = filter.PageSize;
             CurrentPage = filter.CurrentPage;
             Records = records.HasValue ? records.Value : source.Count();
-
+            Filter = filter;
+            
             if (Records <= 0) return;
 
             SetSkip(source);
