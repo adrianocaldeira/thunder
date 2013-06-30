@@ -57,6 +57,7 @@
     <Compile Include="DataBase.cs" />
     <Compile Include="DbUtil.cs" />
     <Compile Include="Dialect\MySQL5InnoDBDialect.cs" />
+    <Compile Include="Extensions\FilterExtensions.cs" />
     <Compile Include="Extensions\PagingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ProxyExtensions.cs" />

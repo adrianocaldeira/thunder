@@ -6,7 +6,7 @@ namespace Thunder.Model
     /// <summary>
     /// Filter
     /// </summary>
-    public class Filter
+    public abstract class Filter
     {
         /// <summary>
         /// Initialize new instance of classe <see cref="Filter"/>.

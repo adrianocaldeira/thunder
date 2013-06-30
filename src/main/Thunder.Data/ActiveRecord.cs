@@ -329,7 +329,7 @@ namespace Thunder.Data
         /// <returns><see cref="IPagingFilter{T}"/></returns>
         public static IPagingFilter<T> Page(Filter filter, IList<ICriterion> criterions)
         {
-            return Page(filter, criterions, null);
+            return Page(filter, criterions, filter.Orders.CastForQuery());
         }
 
         /// <summary>
