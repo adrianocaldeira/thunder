@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -133,8 +132,8 @@ namespace Thunder.Extensions
             else
                 d2 = 11 - resto;
 
-            var calculado = d1 + d2.ToString();
-            var digitado = n[9] + n[10].ToString();
+            var calculado = d1 + d2.ToString(CultureInfo.InvariantCulture);
+            var digitado = n[9] + n[10].ToString(CultureInfo.InvariantCulture);
 
             return calculado == digitado;
         }
@@ -188,7 +187,7 @@ namespace Thunder.Extensions
             var soma = 0;
 
             for (var i = 0; i < 12; i++)
-                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
+                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture)) * multiplicador1[i];
 
             var resto = (soma % 11);
 
@@ -197,12 +196,12 @@ namespace Thunder.Extensions
             else
                 resto = 11 - resto;
 
-            var digito = resto.ToString();
+            var digito = resto.ToString(CultureInfo.InvariantCulture);
             tempCnpj = tempCnpj + digito;
             soma = 0;
 
             for (var i = 0; i < 13; i++)
-                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
+                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture)) * multiplicador2[i];
 
             resto = (soma % 11);
 
@@ -416,8 +415,8 @@ namespace Thunder.Extensions
         /// <returns></returns>
         public static string RemoveAccent(this string s)
         {
-            var bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(s);
-            return System.Text.Encoding.ASCII.GetString(bytes);
+            var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(s);
+            return Encoding.ASCII.GetString(bytes);
         }
 
         /// <summary>

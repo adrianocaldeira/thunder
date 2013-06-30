@@ -41,7 +41,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Extensions\PagingExtensions.cs" />
+    <Compile Include="Collections\IPagingFilter.cs" />
+    <Compile Include="Collections\PagingFilter.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
@@ -61,10 +63,13 @@
     <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
-    <Compile Include="Collections\ListPaging.cs" />
+    <Compile Include="Extensions\BooleanExtensions.cs" />
+    <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="IObjectState.cs" />
     <Compile Include="Collections\IPaging.cs" />
     <Compile Include="Collections\Extensions\ListExtensions.cs" />
+    <Compile Include="Model\Filter.cs" />
+    <Compile Include="Model\FilterOrder.cs" />
     <Compile Include="ObjectState.cs" />
     <Compile Include="Collections\Paging.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

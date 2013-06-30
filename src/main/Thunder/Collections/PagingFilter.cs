@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Thunder.Model;
 
 namespace Thunder.Collections
 {
-    ///<summary>
-    /// Paging
-    ///</summary>
-    ///<typeparam name="T">Type</typeparam>
-    public class Paging<T> : List<T>, IPaging<T>
+    /// <summary>
+    /// Paging with filter
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class PagingFilter<T> : List<T>, IPagingFilter<T>
     {
         #region Constructors
 
@@ -16,11 +17,10 @@ namespace Thunder.Collections
         /// Initialize new instance of <see cref="Paging{T}"/>.
         /// </summary>
         /// <param name="source">Source data</param>
-        /// <param name="currentPage">Current page</param>
-        /// <param name="pageSize">Page size</param>
+        /// <param name="filter">Filter</param>
         /// <param name="records">Total records</param>
-        public Paging(IEnumerable<T> source, int currentPage, int pageSize, long? records = null) :
-            this(source.AsQueryable(), currentPage, pageSize, records)
+        public PagingFilter(IEnumerable<T> source, Filter filter, long? records = null) :
+            this(source.AsQueryable(), filter, records)
         {
         }
 
@@ -28,17 +28,16 @@ namespace Thunder.Collections
         /// Initialize new instance of <see cref="Paging{T}"/>.
         /// </summary>
         /// <param name="source">Source data</param>
-        /// <param name="currentPage">Current page</param>
-        /// <param name="pageSize">Page size</param>
+        /// <param name="filter">Filter</param>
         /// <param name="records">Total records</param>
-        public Paging(IQueryable<T> source, int currentPage, int pageSize, long? records = null)
+        public PagingFilter(IQueryable<T> source, Filter filter, long? records = null)
         {
-            if (currentPage < 0)
+            if (filter.CurrentPage < 0)
             {
                 throw new ArgumentOutOfRangeException("currentPage", "Value can not be below 0.");
             }
 
-            if (pageSize < 1)
+            if (filter.PageSize < 1)
             {
                 throw new ArgumentOutOfRangeException("pageSize", "Value can not be less than 1.");
             }
@@ -48,8 +47,8 @@ namespace Thunder.Collections
                 source = new List<T>().AsQueryable();
             }
 
-            PageSize = pageSize;
-            CurrentPage = currentPage;
+            PageSize = filter.PageSize;
+            CurrentPage = filter.CurrentPage;
             Records = records.HasValue ? records.Value : source.Count();
 
             if (Records <= 0) return;
@@ -123,6 +122,10 @@ namespace Thunder.Collections
         /// </summary>
         public int Skip { get; private set; }
 
+        /// <summary>
+        /// Get or set filter
+        /// </summary>
+        public Filter Filter { get; set; }
         #endregion
 
         #region Private methods
@@ -141,7 +144,6 @@ namespace Thunder.Collections
             else
                 Skip = (CurrentPage*PageSize);
         }
-
         #endregion
     }
 }

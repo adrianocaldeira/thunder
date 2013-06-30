@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using Thunder.Collections;
 
-namespace Thunder.Web.Mvc.Html.Design
+namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
 {
     /// <summary>
     /// Pagination extensions

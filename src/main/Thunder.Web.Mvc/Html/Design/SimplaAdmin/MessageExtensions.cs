@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Thunder.Web.Mvc.Html.Design
+namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
 {
     /// <summary>
     /// Message extensions

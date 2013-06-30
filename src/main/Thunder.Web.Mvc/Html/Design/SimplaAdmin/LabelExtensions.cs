@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Thunder.Web.Mvc.Html.Design
+namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
 {
     /// <summary>
     /// Label extensions

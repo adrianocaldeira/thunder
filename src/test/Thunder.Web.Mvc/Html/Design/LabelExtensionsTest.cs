@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using NUnit.Framework;
 using Thunder.Mock;
+using Thunder.Web.Mvc.Html.Design.SimplaAdmin;
 
 namespace Thunder.Web.Mvc.Html.Design
 {

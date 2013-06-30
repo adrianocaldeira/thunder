@@ -8,6 +8,7 @@ using NHibernate.Transform;
 using Thunder.Collections;
 using Thunder.Collections.Extensions;
 using Thunder.Data.Extensions;
+using Thunder.Model;
 
 namespace Thunder.Data
 {
@@ -265,48 +266,80 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Page
+        /// Paged data
         /// </summary>
         /// <param name="currentPage">Current page</param>
         /// <param name="pageSize">Page size</param>
-        /// <returns><see cref="T:Thunder.Collections.IPaging`1"/></returns>
+        /// <returns><see cref="IPaging{T}"/></returns>
         public static IPaging<T> Page(int currentPage, int pageSize)
         {
             return Page(currentPage, pageSize, null, null);
         }
 
         /// <summary>
-        /// Page
+        /// Paged data with filter
+        /// </summary>
+        /// <param name="filter"><see cref="Filter"/></param>
+        /// <returns><see cref="IPagingFilter{T}"/></returns>
+        public static IPagingFilter<T> Page(Filter filter)
+        {
+            return Page(filter, null, null);
+        }
+
+        /// <summary>
+        /// Paged data
         /// </summary>
         /// <param name="currentPage">Current page</param>
         /// <param name="pageSize">Page size</param>
-        /// <param name="orders">Orders</param>
-        /// <returns><see cref="T:Thunder.Collections.IPaging`1"/></returns>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
         public static IPaging<T> Page(int currentPage, int pageSize, IList<Order> orders)
         {
             return Page(currentPage, pageSize, null, orders);
         }
 
         /// <summary>
-        /// Page
+        /// Paged data with filter
+        /// </summary>
+        /// <param name="filter"><see cref="Filter"/></param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPagingFilter{T}"/></returns>
+        public static IPagingFilter<T> Page(Filter filter, IList<Order> orders)
+        {
+            return Page(filter, null, orders);
+        }
+
+        /// <summary>
+        /// Paged data
         /// </summary>
         /// <param name="currentPage">Current page</param>
         /// <param name="pageSize">Page size</param>
-        /// <param name="criterions">Criterions</param>
-        /// <returns><see cref="T:Thunder.Collections.IPaging`1"/></returns>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
         public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions)
         {
             return Page(currentPage, pageSize, criterions, null);
         }
 
         /// <summary>
-        /// Page
+        /// Paged data with filter
+        /// </summary>
+        /// <param name="filter"><see cref="Filter"/></param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPagingFilter{T}"/></returns>
+        public static IPagingFilter<T> Page(Filter filter, IList<ICriterion> criterions)
+        {
+            return Page(filter, criterions, null);
+        }
+
+        /// <summary>
+        /// Paged data
         /// </summary>
         /// <param name="currentPage">Current page</param>
         /// <param name="pageSize">Page size</param>
-        /// <param name="criterions">Criterions</param>
-        /// <param name="orders">Orders</param>
-        /// <returns><see cref="T:Thunder.Collections.IPaging`1"/></returns>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
         public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, IList<Order> orders)
         {
             using (var transaction = Session.BeginTransaction())
@@ -335,6 +368,48 @@ namespace Thunder.Data
                 }
                 
                 var list = query.Paging<T>(currentPage, pageSize, count.UniqueResult<int>());
+
+                transaction.Commit();
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// Paged data with filter
+        /// </summary>
+        /// <param name="filter"><see cref="Filter"/></param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPagingFilter{T}"/></returns>
+        public static IPagingFilter<T> Page(Filter filter, IList<ICriterion> criterions, IList<Order> orders)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var query = Session.CreateCriteria(typeof(T))
+                    .SetResultTransformer(new DistinctRootEntityResultTransformer());
+
+                var count = Session.CreateCriteria(typeof(T))
+                    .SetProjection(Projections.CountDistinct("Id"));
+
+                if (orders != null && orders.Any())
+                {
+                    foreach (var order in orders)
+                    {
+                        query.AddOrder(order);
+                    }
+                }
+
+                if (criterions != null && criterions.Any())
+                {
+                    foreach (var criterion in criterions)
+                    {
+                        query.Add(criterion);
+                        count.Add(criterion);
+                    }
+                }
+
+                var list = query.Paging<T>(filter, count.UniqueResult<int>());
 
                 transaction.Commit();
 
