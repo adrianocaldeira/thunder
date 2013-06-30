@@ -87,7 +87,10 @@
     <Compile Include="Filter\ClearCacheAttribute.cs" />
     <Compile Include="Filter\CompressAttribute.cs" />
     <Compile Include="Filter\LayoutInjectAttribute.cs" />
+    <Compile Include="Html\Design\AdminPlus\MessageExtensions.cs" />
+    <Compile Include="Html\Design\AdminPlus\MessageType.cs" />
     <Compile Include="Html\Design\AdminPlus\PaginationExtensions.cs" />
+    <Compile Include="Html\Design\GridSortExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\ButtonExtensions.cs" />
     <Compile Include="Html\Design\CnpjExtensions.cs" />
     <Compile Include="Html\Design\CpfExtensions.cs" />
