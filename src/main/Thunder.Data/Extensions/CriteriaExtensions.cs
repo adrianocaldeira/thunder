@@ -6,12 +6,10 @@ using Thunder.Model;
 namespace Thunder.Data.Extensions
 {
     /// <summary>
-    /// Page extensions
+    /// Criteria extensions
     /// </summary>
-    public static class PagingExtensions
+    public static class CriteriaExtensions
     {
-        
-
         /// <summary>
         /// Paging extensions of <see cref="ICriteria"/>
         /// </summary>
