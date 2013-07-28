@@ -1,4 +1,7 @@
-﻿using NHibernate;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NHibernate;
+using NHibernate.Criterion;
 using Thunder.Collections;
 using Thunder.Collections.Extensions;
 using Thunder.Model;
@@ -70,6 +73,42 @@ namespace Thunder.Data.Extensions
             return records.HasValue
                        ? criteria.List<T>().Paging(filter, records.Value)
                        : criteria.List<T>().Paging(filter);
+        }
+
+        /// <summary>
+        /// Add orders with list
+        /// </summary>
+        /// <param name="source"><see cref="ICriteria"/></param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="ICriteria"/></returns>
+        public static ICriteria AddOrder(this ICriteria source, IList<Order> orders)
+        {
+            if (orders != null && orders.Any())
+            {
+                foreach (var order in orders)
+                {
+                    source.AddOrder(order);
+                }
+            }
+            return source;
+        }
+
+        /// <summary>
+        /// Add criterions with list
+        /// </summary>
+        /// <param name="source"><see cref="ICriteria"/></param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <returns><see cref="ICriteria"/></returns>
+        public static ICriteria Add(this ICriteria source, IList<ICriterion> criterions)
+        {
+            if (criterions != null && criterions.Any())
+            {
+                foreach (var criterion in criterions)
+                {
+                    source.Add(criterion);
+                }
+            }
+            return source;
         }
     }
 }
