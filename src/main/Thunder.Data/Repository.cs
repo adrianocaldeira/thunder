@@ -135,7 +135,8 @@ namespace Thunder.Data
         {
             using (var transaction = Session.BeginTransaction())
             {
-                Session.Update(entity);
+                Session.Evict(entity);
+                Session.SaveOrUpdate(entity);
 
                 transaction.Commit();
             }
@@ -215,7 +216,7 @@ namespace Thunder.Data
         /// <summary>
         /// Find single entity from expression
         /// </summary>
-        /// <param name="expression"><see cref="Expression{TDelegate}"/></param>
+        /// <param name="expression">Expression</param>
         /// <returns>Entity</returns>
         public T Single(Expression<Func<T, bool>> expression)
         {
@@ -225,7 +226,7 @@ namespace Thunder.Data
         /// <summary>
         /// Find entities 
         /// </summary>
-        /// <param name="expression"><see cref="Expression{TDelegate}"/></param>
+        /// <param name="expression">Expression</param>
         /// <returns><see cref="IQueryable{T}"/></returns>
         public IQueryable<T> Find(Expression<Func<T, bool>> expression)
         {

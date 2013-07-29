@@ -35,6 +35,10 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\log4net.1.2.11\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\..\..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
@@ -57,32 +61,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CfgSerializationTest.cs" />
-    <Compile Include="DbUtilTest.cs" />
-    <Compile Include="Domain\Car.cs" />
-    <Compile Include="Domain\Company.cs" />
-    <Compile Include="Domain\Gol.cs" />
-    <Compile Include="Domain\Person.cs" />
-    <Compile Include="Domain\Tire.cs" />
-    <Compile Include="Domain\TireItem.cs" />
-    <Compile Include="Domain\TireTest.cs" />
-    <Compile Include="Domain\Uno.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="PagingExtensionsTest.cs" />
     <Compile Include="PagingTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\UserRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\Orm\Car.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\Orm\Person.hbm.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Domain\Orm\Tire.hbm.xml" />
+    <EmbeddedResource Include="Domain\Orm\User.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\hibernate.cfg.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
