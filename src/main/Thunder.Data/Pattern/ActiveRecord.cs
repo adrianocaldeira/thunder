@@ -4,13 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using NHibernate.Transform;
 using Thunder.Collections;
 using Thunder.Collections.Extensions;
 using Thunder.Data.Extensions;
-using Thunder.Model;
 
-namespace Thunder.Data
+namespace Thunder.Data.Pattern
 {
     /// <summary>
     /// Active record
@@ -49,7 +49,7 @@ namespace Thunder.Data
         /// </summary>
         public virtual void NotifyUpdated()
         {
-            ActiveRecordProperty<ActiveRecord<T, TKey>>.SetValue(this, "Updated", DateTime.Now);
+            Updated = DateTime.Now;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Thunder.Data
         /// </summary>
         public virtual void NotifyCreated()
         {
-            ActiveRecordProperty<ActiveRecord<T, TKey>>.SetValue(this, "Created", DateTime.Now);
+            Created = DateTime.Now;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Thunder.Data
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Object</returns>
-        public static T FindById(TKey id)
+        public static T Find(TKey id)
         {
             using (var transaction = Session.BeginTransaction())
             {
@@ -130,7 +130,7 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// CreateSchema object
+        /// Create object
         /// </summary>
         /// <param name="object">Object</param>
         /// <returns></returns>
@@ -138,8 +138,11 @@ namespace Thunder.Data
         {
             using (var transaction = Session.BeginTransaction())
             {
-                ActiveRecordProperty<T>.SetValue(@object, "Created", DateTime.Now);
-                ActiveRecordProperty<T>.SetValue(@object, "Updated", DateTime.Now);
+                @object.GetType().GetProperty("Updated").SetValue(@object,
+                    Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
+
+                @object.GetType().GetProperty("Created").SetValue(@object,
+                    Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
                 
                 Session.Save(@object);
                 
@@ -158,7 +161,8 @@ namespace Thunder.Data
         {
             using (var transaction = Session.BeginTransaction())
             {
-                ActiveRecordProperty<T>.SetValue(@object, "Updated", DateTime.Now);
+                @object.GetType().GetProperty("Updated").SetValue(@object,
+                    Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
 
                 Session.SaveOrUpdate(@object);
                 
@@ -187,7 +191,7 @@ namespace Thunder.Data
         /// <param name="id">Id</param>
         public static void Delete(TKey id)
         {
-            Delete(FindById(id));
+            Delete(Find(id));
         }
         
         /// <summary>
@@ -239,6 +243,23 @@ namespace Thunder.Data
         }
 
         /// <summary>
+        /// Where
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public static IList<T> Where(Expression<Func<T, bool>> expression)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var list = Session.Query<T>().Where(expression).ToList();
+
+                transaction.Commit();
+
+                return list;
+            }
+        }
+
+        /// <summary>
         /// Exist 
         /// </summary>
         /// <param name="id">Id</param>
@@ -277,16 +298,6 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Paged data with filter
-        /// </summary>
-        /// <param name="filter"><see cref="Filter"/></param>
-        /// <returns><see cref="IPagingFilter{T}"/></returns>
-        public static IPagingFilter<T> Page(Filter filter)
-        {
-            return Page(filter, null, null);
-        }
-
-        /// <summary>
         /// Paged data
         /// </summary>
         /// <param name="currentPage">Current page</param>
@@ -299,17 +310,6 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Paged data with filter
-        /// </summary>
-        /// <param name="filter"><see cref="Filter"/></param>
-        /// <param name="orders"><see cref="IList{T}"/></param>
-        /// <returns><see cref="IPagingFilter{T}"/></returns>
-        public static IPagingFilter<T> Page(Filter filter, IList<Order> orders)
-        {
-            return Page(filter, null, orders);
-        }
-
-        /// <summary>
         /// Paged data
         /// </summary>
         /// <param name="currentPage">Current page</param>
@@ -319,17 +319,6 @@ namespace Thunder.Data
         public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions)
         {
             return Page(currentPage, pageSize, criterions, null);
-        }
-
-        /// <summary>
-        /// Paged data with filter
-        /// </summary>
-        /// <param name="filter"><see cref="Filter"/></param>
-        /// <param name="criterions"><see cref="IList{T}"/></param>
-        /// <returns><see cref="IPagingFilter{T}"/></returns>
-        public static IPagingFilter<T> Page(Filter filter, IList<ICriterion> criterions)
-        {
-            return Page(filter, criterions, filter.Orders.CastForQuery());
         }
 
         /// <summary>
@@ -376,53 +365,11 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Paged data with filter
-        /// </summary>
-        /// <param name="filter"><see cref="Filter"/></param>
-        /// <param name="criterions"><see cref="IList{T}"/></param>
-        /// <param name="orders"><see cref="IList{T}"/></param>
-        /// <returns><see cref="IPagingFilter{T}"/></returns>
-        public static IPagingFilter<T> Page(Filter filter, IList<ICriterion> criterions, IList<Order> orders)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var query = Session.CreateCriteria(typeof(T))
-                    .SetResultTransformer(new DistinctRootEntityResultTransformer());
-
-                var count = Session.CreateCriteria(typeof(T))
-                    .SetProjection(Projections.CountDistinct("Id"));
-
-                if (orders != null && orders.Any())
-                {
-                    foreach (var order in orders)
-                    {
-                        query.AddOrder(order);
-                    }
-                }
-
-                if (criterions != null && criterions.Any())
-                {
-                    foreach (var criterion in criterions)
-                    {
-                        query.Add(criterion);
-                        count.Add(criterion);
-                    }
-                }
-
-                var list = query.Paging<T>(filter, count.UniqueResult<int>());
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
-
-        /// <summary>
         /// Update properties
         /// </summary>
         /// <param name="id">Id</param>
         /// <param name="properties">Property</param>
-        public static void UpdateProperties(TKey id, params ActiveRecordProperty<T>[] properties)
+        public static void UpdateProperties(TKey id, IList<Property<object>> properties)
         {
             using (var transaction = Session.BeginTransaction())
             {
@@ -430,11 +377,46 @@ namespace Thunder.Data
 
                 foreach (var property in properties)
                 {
-                    ActiveRecordProperty<T>.SetValue(entity, property);    
+                    entity.GetType().GetProperty(property.Name).SetValue(entity, property.Value, null);
                 }
 
-                ActiveRecordProperty<T>.SetValue(entity, "Updated", DateTime.Now);
+                entity.GetType().GetProperty("Updated").SetValue(entity,
+                    Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
                 
+                Session.Update(entity);
+
+                transaction.Commit();
+            }
+        }
+
+        /// <summary>
+        /// Update property
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <param name="name">Name</param>
+        /// <param name="value">Value</param>
+        /// <typeparam name="TProperty"></typeparam>
+        public static void UpdateProperty<TProperty>(TKey id, string name, TProperty value)
+        {
+            UpdateProperty(id, Property<TProperty>.Create(name, value));
+        }
+
+        /// <summary>
+        /// Update property
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <param name="property">Name</param>
+        public static void UpdateProperty<TProperty>(TKey id, Property<TProperty> property)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var entity = Session.Get<T>(id);
+
+                entity.GetType().GetProperty(property.Name).SetValue(entity, property.Value, null);
+                
+                entity.GetType().GetProperty("Updated").SetValue(entity,
+                    Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
+
                 Session.Update(entity);
 
                 transaction.Commit();

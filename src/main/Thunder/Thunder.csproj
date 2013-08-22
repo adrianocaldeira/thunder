@@ -55,8 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Extensions\PagingExtensions.cs" />
-    <Compile Include="Collections\IPagingFilter.cs" />
-    <Compile Include="Collections\PagingFilter.cs" />
     <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EmailAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />

@@ -1,7 +1,6 @@
 ﻿using NHibernate;
 using Thunder.Collections;
 using Thunder.Collections.Extensions;
-using Thunder.Model;
 
 namespace Thunder.Data.Extensions
 {
@@ -24,18 +23,6 @@ namespace Thunder.Data.Extensions
         }
 
         /// <summary>
-        /// Paging extensions of <see cref="IQuery"/> width <see cref="Filter"/>
-        /// </summary>
-        /// <param name="query"><see cref="IQuery"/></param>
-        /// <param name="filter"><see cref="Filter"/></param>
-        /// <typeparam name="T">{T}</typeparam>
-        /// <returns><see cref="IPagingFilter{T}"/></returns>
-        public static IPagingFilter<T> Paging<T>(this IQuery query, Filter filter)
-        {
-            return query.Paging<T>(filter, null);
-        }
-
-        /// <summary>
         /// Paging extensions of <see cref="IQuery"/>
         /// </summary>
         /// <typeparam name="T">{T}</typeparam>
@@ -52,24 +39,6 @@ namespace Thunder.Data.Extensions
             return records.HasValue
                        ? query.List<T>().Paging(currentPage, pageSize, records.Value)
                        : query.List<T>().Paging(currentPage, pageSize);
-        }
-
-        /// <summary>
-        /// Paging extensions of <see cref="IQuery"/> with <see cref="Filter"/>
-        /// </summary>
-        /// <param name="query"><see cref="IQuery"/></param>
-        /// <param name="filter"><see cref="Filter"/></param>
-        /// <param name="records">Recrods</param>
-        /// <typeparam name="T">{T}</typeparam>
-        /// <returns><see cref="IPagingFilter{T}"/></returns>
-        public static IPagingFilter<T> Paging<T>(this IQuery query, Filter filter, long? records)
-        {
-            query.SetFirstResult(filter.CurrentPage * filter.PageSize);
-            query.SetMaxResults(filter.PageSize);
-
-            return records.HasValue
-                       ? query.List<T>().Paging(filter, records.Value)
-                       : query.List<T>().Paging(filter);
         }
     }
 }

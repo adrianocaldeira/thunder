@@ -49,8 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActiveRecord.cs" />
-    <Compile Include="ActiveRecordProperty.cs" />
+    <Compile Include="Pattern\ActiveRecord.cs" />
     <Compile Include="CfgSerialization.cs" />
     <Compile Include="ConnectionBuilder.cs" />
     <Compile Include="ConnectionFactory.cs" />
@@ -60,11 +59,12 @@
     <Compile Include="Extensions\CriteriaExtensions.cs" />
     <Compile Include="Extensions\FilterExtensions.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
-    <Compile Include="IRepository.cs" />
-    <Compile Include="Persist.cs" />
+    <Compile Include="Pattern\IRepository.cs" />
+    <Compile Include="Pattern\Persist.cs" />
+    <Compile Include="Pattern\Property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ProxyExtensions.cs" />
-    <Compile Include="Repository.cs" />
+    <Compile Include="Pattern\Repository.cs" />
     <Compile Include="SessionManager.cs" />
   </ItemGroup>
   <ItemGroup>

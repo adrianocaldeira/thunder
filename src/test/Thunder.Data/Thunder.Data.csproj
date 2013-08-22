@@ -61,16 +61,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CfgSerializationTest.cs" />
-    <Compile Include="Domain\User.cs" />
+    <Compile Include="Pattern\Repository\Domain\Status.cs" />
+    <Compile Include="Pattern\Repository\Domain\User.cs" />
     <Compile Include="PagingExtensionsTest.cs" />
     <Compile Include="PagingTest.cs" />
+    <Compile Include="Pattern\Repository\IUserRepository.cs" />
+    <Compile Include="Pattern\Repository\UserRepository.cs" />
+    <Compile Include="Pattern\Repository\UserRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\IUserRepository.cs" />
-    <Compile Include="Repository\UserRepository.cs" />
-    <Compile Include="Repository\UserRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Domain\Orm\User.hbm.xml" />
+    <EmbeddedResource Include="Pattern\Repository\Domain\Orm\User.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\hibernate.cfg.xml" />
@@ -90,6 +91,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Pattern\Repository\Domain\Orm\Status.hbm.xml" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
