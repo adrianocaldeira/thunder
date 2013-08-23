@@ -187,31 +187,21 @@ namespace Thunder.Data.Pattern.Repository
                     new User { Name = "Yasmin", Age = 2, Status = new Status { Id = 1 } }
                 });
 
-            var paging1 = Repository.Page(1, 2);
-            var paging2 = Repository.Page(0, 2, new List<ICriterion> { Restrictions.On<User>(x => x.Name).IsInsensitiveLike("adr", MatchMode.Anywhere) });
-            var paging3 = Repository.Page(0, 2, new List<Expression<Func<User, bool>>> {x => (x.Status == new Status {Id = 1})}, new List<Order>{Order.Asc("Name"), Order.Desc("Age")});
-            var paging4 = Repository.Page(0, 2, Restrictions.On<User>(x => x.Name).IsInsensitiveLike("adr", MatchMode.Anywhere));
-            var paging5 = Repository.Page(0, 2, x => (x.Status == new Status {Id = 1}), Order.Asc("Name"));
             
-            Assert.AreEqual(2, paging1.PageCount);
-            Assert.AreEqual(2, paging1.PageSize);
-            Assert.AreEqual(3, paging1.Records);
-
-            Assert.AreEqual(1, paging2.PageCount);
-            Assert.AreEqual(2, paging2.PageSize);
-            Assert.AreEqual(1, paging2.Records);
-            
-            Assert.AreEqual(2, paging3.PageCount);
-            Assert.AreEqual(2, paging3.PageSize);
-            Assert.AreEqual(3, paging3.Records);
-
-            Assert.AreEqual(1, paging4.PageCount);
-            Assert.AreEqual(2, paging4.PageSize);
-            Assert.AreEqual(1, paging4.Records);
-
-            Assert.AreEqual(2, paging5.PageCount);
-            Assert.AreEqual(2, paging5.PageSize);
-            Assert.AreEqual(3, paging5.Records);
+            Assert.AreEqual(3, Repository.Page(0, 2).Records);
+            Assert.AreEqual("Yasmin", Repository.Page(0, 2, Order.Desc("Name"))[0].Name);
+            Assert.AreEqual("Yasmin", Repository.Page(0, 2, new List<Order> { Order.Asc("Age"), Order.Asc("Name") })[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, x => x.Age == 30 )[0].Name);
+            Assert.AreEqual("Lucas", Repository.Page(0, 2, x => x.Age < 30, Order.Desc("Age"))[0].Name);
+            Assert.AreEqual("Yasmin", Repository.Page(0, 2, new List<Expression<Func<User, bool>>>{x=> x.Age == 2 && x.Name == "Yasmin"})[0].Name);
+            Assert.AreEqual("Lucas", Repository.Page(0, 2, new List<Expression<Func<User, bool>>> { x => x.Age < 30 }, Order.Asc("Name"))[0].Name);
+            Assert.AreEqual("Yasmin", Repository.Page(0, 2, new List<Expression<Func<User, bool>>> { x => x.Age < 30 }, new List<Order> { Order.Asc("Age") })[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, Restrictions.Eq("Age", 30))[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, Restrictions.Eq("Age", 30), Order.Asc("Name"))[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, Restrictions.Eq("Age", 30), new List<Order> { Order.Asc("Name") })[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, new List<ICriterion> { Restrictions.Eq("Age", 30), Restrictions.Eq("Name", "Adriano") })[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, new List<ICriterion> { Restrictions.Eq("Age", 30), Restrictions.Eq("Name", "Adriano") }, Order.Asc("Name"))[0].Name);
+            Assert.AreEqual("Adriano", Repository.Page(0, 2, new List<ICriterion> { Restrictions.Eq("Age", 30), Restrictions.Eq("Name", "Adriano") }, new List<Order> { Order.Asc("Name") })[0].Name);
         }
     }
 }
