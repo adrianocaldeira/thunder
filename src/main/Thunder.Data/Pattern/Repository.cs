@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Transform;
+using Thunder.Collections;
+using Thunder.Data.Extensions;
 
 namespace Thunder.Data.Pattern
 {
@@ -148,8 +151,7 @@ namespace Thunder.Data.Pattern
                 return entity;
             }
         }
-
-
+        
         /// <summary>
         /// Delete entity
         /// </summary>
@@ -326,6 +328,238 @@ namespace Thunder.Data.Pattern
             }
         }
 
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize)
+        {
+            return Page(currentPage, pageSize, Order.Asc("Id"));
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IList{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, Order order)
+        {
+            return Page(currentPage, pageSize, new List<Order> {order});
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<Order> orders)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var queryResult = Session.QueryOver<T>()
+                    .TransformUsing(new DistinctRootEntityResultTransformer())
+                    .UnderlyingCriteria.AddOrder(orders);
+
+                var queryCount = Session.QueryOver<T>()
+                    .Select(Projections.CountDistinct("Id"));
+
+                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
+
+                transaction.Commit();
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion">Criterion Expression</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion)
+        {
+            return Page(currentPage, pageSize, criterion, Order.Asc("Id"));
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion">Criterion Expression</param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, Order order)
+        {
+            return Page(currentPage, pageSize, criterion, new List<Order>{order});
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion">Criterion Expression</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, IList<Order> orders)
+        {
+            return Page(currentPage, pageSize, new List<Expression<Func<T, bool>>> {criterion}, orders);
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions">Criterions Expression</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions)
+        {
+            return Page(currentPage, pageSize, criterions, Order.Asc("Id"));
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions">Criterions Expression</param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, Order order)
+        {
+            return Page(currentPage, pageSize, criterions, new List<Order> {order});
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions">Criterions Expression</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, IList<Order> orders)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var queryResult = Session.QueryOver<T>()
+                    .TransformUsing(new DistinctRootEntityResultTransformer())
+                    .And(criterions)
+                    .UnderlyingCriteria.AddOrder(orders);
+
+                var queryCount = Session.QueryOver<T>()
+                    .And(criterions)
+                    .Select(Projections.CountDistinct("Id"));
+
+                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
+
+                transaction.Commit();
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion)
+        {
+            return Page(currentPage, pageSize, criterion, Order.Asc("Id"));
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, Order order)
+        {
+            return Page(currentPage, pageSize, criterion, new List<Order> {order});
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, IList<Order> orders)
+        {
+            return Page(currentPage, pageSize, new List<ICriterion> {criterion}, orders);
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions)
+        {
+            return Page(currentPage, pageSize, criterions, Order.Asc("Id"));
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, Order order)
+        {
+            return Page(currentPage, pageSize, criterions, new List<Order> {order});
+        }
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="orders"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, IList<Order> orders)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var queryResult = Session.QueryOver<T>()
+                    .TransformUsing(new DistinctRootEntityResultTransformer())
+                    .And(criterions)
+                    .UnderlyingCriteria.AddOrder(orders);
+
+                var queryCount = Session.QueryOver<T>()
+                    .Select(Projections.CountDistinct("Id"))
+                    .And(criterions);
+
+                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
+
+                transaction.Commit();
+
+                return list;
+            }
+        }
         #endregion
     }
 }

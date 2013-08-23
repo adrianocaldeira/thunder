@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using NHibernate.Criterion;
 using NUnit.Framework;
+using Thunder.Collections;
 using Thunder.Data.Pattern.Repository.Domain;
 
 namespace Thunder.Data.Pattern.Repository
@@ -173,6 +176,42 @@ namespace Thunder.Data.Pattern.Repository
             Assert.AreEqual(false, Repository.Exist(1, Restrictions.On<User>(x => x.Name).IsInsensitiveLike("adr", MatchMode.Anywhere)));
             Assert.AreEqual(true, Repository.Exist(0, x => x.Age >= 30));
             Assert.AreEqual(true, Repository.Exist(0, Restrictions.On<User>(x => x.Name).IsInsensitiveLike("adr", MatchMode.Anywhere)));
+        }
+
+        [Test]
+        public void Page()
+        {
+            Repository.Create(new List<User>
+                {
+                    new User { Name = "Lucas", Age = 7, Status = new Status { Id = 1 } },
+                    new User { Name = "Yasmin", Age = 2, Status = new Status { Id = 1 } }
+                });
+
+            var paging1 = Repository.Page(1, 2);
+            var paging2 = Repository.Page(0, 2, new List<ICriterion> { Restrictions.On<User>(x => x.Name).IsInsensitiveLike("adr", MatchMode.Anywhere) });
+            var paging3 = Repository.Page(0, 2, new List<Expression<Func<User, bool>>> {x => (x.Status == new Status {Id = 1})}, new List<Order>{Order.Asc("Name"), Order.Desc("Age")});
+            var paging4 = Repository.Page(0, 2, Restrictions.On<User>(x => x.Name).IsInsensitiveLike("adr", MatchMode.Anywhere));
+            var paging5 = Repository.Page(0, 2, x => (x.Status == new Status {Id = 1}), Order.Asc("Name"));
+            
+            Assert.AreEqual(2, paging1.PageCount);
+            Assert.AreEqual(2, paging1.PageSize);
+            Assert.AreEqual(3, paging1.Records);
+
+            Assert.AreEqual(1, paging2.PageCount);
+            Assert.AreEqual(2, paging2.PageSize);
+            Assert.AreEqual(1, paging2.Records);
+            
+            Assert.AreEqual(2, paging3.PageCount);
+            Assert.AreEqual(2, paging3.PageSize);
+            Assert.AreEqual(3, paging3.Records);
+
+            Assert.AreEqual(1, paging4.PageCount);
+            Assert.AreEqual(2, paging4.PageSize);
+            Assert.AreEqual(1, paging4.Records);
+
+            Assert.AreEqual(2, paging5.PageCount);
+            Assert.AreEqual(2, paging5.PageSize);
+            Assert.AreEqual(3, paging5.Records);
         }
     }
 }

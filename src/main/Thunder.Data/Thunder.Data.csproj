@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\QueryOverExtensions.cs" />
     <Compile Include="Pattern\ActiveRecord.cs" />
     <Compile Include="CfgSerialization.cs" />
     <Compile Include="ConnectionBuilder.cs" />

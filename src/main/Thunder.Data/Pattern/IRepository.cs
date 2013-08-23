@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Criterion;
+using Thunder.Collections;
 
 namespace Thunder.Data.Pattern
 {
@@ -49,6 +49,7 @@ namespace Thunder.Data.Pattern
         /// <param name="value">Property Value</param>
         /// <returns>Entity</returns>
         T UpdateProperty<TProperty>(TKey id, string name, TProperty value);
+
         /// <summary>
         /// Update property
         /// </summary>
@@ -57,6 +58,7 @@ namespace Thunder.Data.Pattern
         /// <param name="property">Property</param>
         /// <returns>Entity</returns>
         T UpdateProperty<TProperty>(TKey id, Property<TProperty> property);
+
         /// <summary>
         /// Update properties
         /// </summary>
@@ -129,8 +131,150 @@ namespace Thunder.Data.Pattern
         /// Exist entity
         /// </summary>
         /// <param name="id">Id</param>
-        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <param name="criterions"><see cref="ICriterion"/></param>
         /// <returns>Exist</returns>
-        bool Exist(TKey id, params ICriterion[] criterion);
+        bool Exist(TKey id, params ICriterion[] criterions);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IList{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, Order order);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<Order> orders);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion">Criterion Expression</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion">Criterion Expression</param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, Order order);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion">Criterion Expression</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, IList<Order> orders);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions">Criterions Expression</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions">Criterions Expression</param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, Order order);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions">Criterions Expression</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, IList<Order> orders);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, Order order);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterion"><see cref="ICriterion"/></param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, IList<Order> orders);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="order"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, Order order);
+
+        /// <summary>
+        /// Page entity
+        /// </summary>
+        /// <param name="currentPage">Current Page</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="orders"><see cref="Order"/></param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, IList<Order> orders);
     }
 }
