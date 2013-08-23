@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Thunder.Data.Pattern.ActiveRecord.Domain.Car, Thunder.Data.Test" table="active_car">
+    <id name="Id">
+      <generator class="identity" />
+    </id>
+    
+    <many-to-one name="Tire" column="TireId" not-null="true" />
+
+    <property name="Name" not-null="true" length="50" />
+    <property name="Year" not-null="true" />
+
+  </class>
+</hibernate-mapping>

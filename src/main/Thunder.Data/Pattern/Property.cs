@@ -15,6 +15,31 @@
         {
             return Property<object>.Create(name, value);
         }
+
+        /// <summary>
+        /// Set property value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity">Entity</param>
+        /// <param name="name">Name</param>
+        /// <param name="value">Value</param>
+        public static void SetValue<T, TProperty>(T entity, string name, TProperty value)
+        {
+            SetValue(entity, Property<TProperty>.Create(name, value));
+        }
+
+        /// <summary>
+        /// Set property value
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity">Entity</param>
+        /// <param name="property"><see cref="Property{T}"/></param>
+        public static void SetValue<T, TProperty>(T entity, Property<TProperty> property)
+        {
+            entity.GetType().GetProperty(property.Name).SetValue(entity, property.Value, null);
+        }
     }
 
     /// <summary>

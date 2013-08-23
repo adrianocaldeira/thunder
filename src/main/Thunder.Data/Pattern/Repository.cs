@@ -114,7 +114,7 @@ namespace Thunder.Data.Pattern
             {
                 var entity = Session.Get<T>(id);
 
-                entity.GetType().GetProperty(property.Name).SetValue(entity, property.Value, null);
+                Property.SetValue(entity, property);
                 entity.NotifyUpdated();
 
                 Session.SaveOrUpdate(entity);
@@ -139,7 +139,7 @@ namespace Thunder.Data.Pattern
 
                 foreach (var property in properties)
                 {
-                    entity.GetType().GetProperty(property.Name).SetValue(entity, property.Value, null);
+                    Property.SetValue(entity, property);
                 }
 
                 entity.NotifyUpdated();

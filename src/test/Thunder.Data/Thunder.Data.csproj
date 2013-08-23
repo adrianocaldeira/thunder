@@ -61,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CfgSerializationTest.cs" />
+    <Compile Include="Pattern\ActiveRecord\Domain\Tire.cs" />
+    <Compile Include="Pattern\ActiveRecord\Domain\Car.cs" />
+    <Compile Include="Pattern\ActiveRecord\CarTest.cs" />
     <Compile Include="Pattern\Repository\Domain\Status.cs" />
     <Compile Include="Pattern\Repository\Domain\User.cs" />
     <Compile Include="PagingExtensionsTest.cs" />
@@ -92,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pattern\Repository\Domain\Orm\Status.hbm.xml" />
+    <EmbeddedResource Include="Pattern\ActiveRecord\Domain\Orm\Tire.hbm.xml" />
+    <EmbeddedResource Include="Pattern\ActiveRecord\Domain\Orm\Car.hbm.xml" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
