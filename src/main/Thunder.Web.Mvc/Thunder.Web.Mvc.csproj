@@ -119,6 +119,7 @@
     <Compile Include="Html\StyleSheetExtensions.cs" />
     <Compile Include="JsonResult.cs" />
     <Compile Include="MessageResult.cs" />
+    <Compile Include="NotifyResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionPerRequestAttribute.cs" />
     <Compile Include="ThunderHelper.cs" />

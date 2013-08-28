@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Thunder.Web
 {
     /// <summary>
     /// Model data
     /// </summary>
+    [Obsolete("No use this property, it will be removed in future")]
     public class Model : IModel
     {
         #region IModel Members

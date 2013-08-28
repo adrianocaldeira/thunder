@@ -70,6 +70,7 @@
     <Compile Include="Collections\Extensions\ListExtensions.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\FilterOrder.cs" />
+    <Compile Include="Notify.cs" />
     <Compile Include="ObjectState.cs" />
     <Compile Include="Collections\Paging.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Web\IModel.cs" />
     <Compile Include="Web\JsonExtensions.cs" />
     <Compile Include="Web\Model.cs" />
+    <Compile Include="Web\NotifyType.cs" />
     <Compile Include="Web\ResultStatus.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@ namespace Thunder
     /// <summary>
     /// Message
     /// </summary>
+    [Obsolete("No use this class, it will be removed in future")]
     public class Message
     {
         #region Constructors

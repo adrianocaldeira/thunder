@@ -9,6 +9,7 @@ namespace Thunder.Web.Mvc
     /// <summary>
     /// Message result
     /// </summary>
+    [Obsolete("No use this class, it will be removed in future")]
     public class MessageResult : ActionResult
     {
         /// <summary>
