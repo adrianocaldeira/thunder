@@ -16,4 +16,9 @@ namespace Thunder.Demo.Models
 
         public DateTime Date { get; set; }
     }
+
+    public class UserFilter : Thunder.Model.Filter
+    {
+        
+    }
 }

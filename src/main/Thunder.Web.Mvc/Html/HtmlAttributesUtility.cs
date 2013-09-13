@@ -54,5 +54,25 @@ namespace Thunder.Web.Mvc.Html
                 attributes.Add("class", cssClass);
             }
         }
+
+        public static void MergeAttribute(this IDictionary<string, object> attributes, string key, object value)
+        {
+            attributes.MergeAttribute(key, value, false);
+        }
+
+        public static void MergeAttribute(this IDictionary<string, object> attributes, string key, object value, bool overrideValue)
+        {
+            if (attributes.ContainsKey(key))
+            {
+                if (overrideValue)
+                {
+                    attributes[key] = value;                    
+                }
+            }
+            else
+            {
+                attributes.Add(key, value);
+            }
+        }
     }
 }

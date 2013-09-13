@@ -149,6 +149,10 @@
       <Project>{56615f19-d609-46a3-8100-fb9fe29158fa}</Project>
       <Name>Thunder.Web.Mvc %28main\framework\Thunder.Web.Mvc%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Thunder\Thunder.csproj">
+      <Project>{85e79781-5311-482c-bc8b-3f7781061ed5}</Project>
+      <Name>Thunder %28main\framework\Thunder%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

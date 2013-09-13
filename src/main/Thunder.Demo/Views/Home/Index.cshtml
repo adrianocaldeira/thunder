@@ -1,5 +1,7 @@
-﻿@using Thunder.Web.Mvc.Html
-@model Thunder.Demo.Models.User
+﻿@using Thunder
+@using Thunder.Demo.Models
+@using Thunder.Web.Mvc.Html
+@model User
 @{
     Layout = null;
 }
@@ -13,3 +15,17 @@
 @Html.Thunder().PhoneFor(x => x.Document)<br />
 @Html.Thunder().NumericFor(x => x.Document, new { maxlength = 10 })<br />
 @Html.Thunder().ZipCodeFor(x => x.Document)<br />
+@using (Html.Thunder().Grid("url", 20, new { @class = "teste" }))
+{
+    <span>Grid</span>
+}
+@Html.Thunder().GridSort("Grid Sort", "column-one", new UserFilter())
+@Html.Thunder().Notify()
+@Html.Thunder().Notify(true)
+@Html.Thunder().Notify(true, new { id = "teste" })
+@Html.Thunder().Notify(NotifyType.Information, "Mensagem única tipo Information botão oculto")
+@Html.Thunder().Notify(NotifyType.Information, "Mensagem única tipo Information botão visível", true)
+@Html.Thunder().Notify(NotifyType.Information, "Mensagem única tipo Information botão visível com id", true, new { id = "teste" })
+@Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão oculto", "Mensagem 2 tipo Success botão oculto" })
+@Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão visível", "Mensagem 2 tipo Success botão visível" }, true)
+@Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão visível com id", "Mensagem 2 tipo Success botão visível com id" }, true, new { id = "teste" })

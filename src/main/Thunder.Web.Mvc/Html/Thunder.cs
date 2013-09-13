@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using Thunder.Web.Mvc.Html.Cnpj;
 using Thunder.Web.Mvc.Html.Cpf;
 using Thunder.Web.Mvc.Html.Currency;
 using Thunder.Web.Mvc.Html.Date;
+using Thunder.Web.Mvc.Html.Grid;
+using Thunder.Web.Mvc.Html.Notify;
 using Thunder.Web.Mvc.Html.Numeric;
 using Thunder.Web.Mvc.Html.Password;
 using Thunder.Web.Mvc.Html.Phone;
@@ -130,6 +133,92 @@ namespace Thunder.Web.Mvc.Html
         public MvcHtmlString ZipCodeFor<TProperty>(Expression<Func<TModel, TProperty>> expression, object htmlAttributes)
         {
             return new ZipCodeBuilder<TModel>(_helper).Builder(expression, htmlAttributes);
+        }
+        #endregion
+
+        #region Grid
+        public MvcGrid Grid(string url)
+        {
+            return Grid(url, 15);
+        }
+        public MvcGrid Grid(string url, int pageSize)
+        {
+            return Grid(url, pageSize, null);
+        }
+
+        public MvcGrid Grid(string url, int pageSize, object htmlAttributes)
+        {
+            return new GridBuilder<TModel>(_helper).Builder(url, pageSize, htmlAttributes);
+        }
+        #endregion
+
+        #region GridSort
+        public MvcHtmlString GridSort(string text, string column, Thunder.Model.Filter filter)
+        {
+            return GridSort(text, column, filter, null);
+        }
+
+        public MvcHtmlString GridSort(string text, string column, Thunder.Model.Filter filter, object htmlAttributes)
+        {
+            return new GridSortBuilder().Builder(text, column, filter, htmlAttributes);
+        }
+        #endregion
+
+        #region Notify
+        public MvcHtmlString Notify()
+        {
+            return Notify(false);
+        }
+        
+        public MvcHtmlString Notify(bool showCloseButton)
+        {
+            return Notify(showCloseButton, null);
+        }
+
+        public MvcHtmlString Notify(bool showCloseButton, object htmlAttributes)
+        {
+            return Notify(_helper.ViewData[Constants.ViewData.Notify] as Thunder.Notify ?? new Thunder.Notify(), 
+                showCloseButton, htmlAttributes);
+        }
+
+        public MvcHtmlString Notify(NotifyType notifyType, string message)
+        {
+            return Notify(notifyType, message, false);
+        }
+
+        public MvcHtmlString Notify(NotifyType notifyType, string message, bool showCloseButton)
+        {
+            return Notify(notifyType, message, showCloseButton, null);
+        }
+
+        public MvcHtmlString Notify(NotifyType notifyType, string message, bool showCloseButton, object htmlAttributes)
+        {
+            return Notify(notifyType, new List<string>{message}, showCloseButton, htmlAttributes);
+        }
+
+        public MvcHtmlString Notify(NotifyType notifyType, IList<string> messages)
+        {
+            return Notify(notifyType, messages, false);
+        }
+
+        public MvcHtmlString Notify(NotifyType notifyType, IList<string> messages, bool showCloseButton)
+        {
+            return Notify(notifyType, messages, showCloseButton, null);
+        }
+
+        public MvcHtmlString Notify(NotifyType notifyType, IList<string> messages, bool showCloseButton, object htmlAttributes)
+        {
+            return Notify(new Thunder.Notify(notifyType, messages), showCloseButton, htmlAttributes);
+        }
+        
+        public MvcHtmlString Notify(Thunder.Notify notify, bool showCloseButton)
+        {
+            return Notify(notify, showCloseButton, null);
+        }
+
+        public MvcHtmlString Notify(Thunder.Notify notify, bool showCloseButton, object htmlAttributes)
+        {
+            return new NotifyBuilder().Builder(notify, showCloseButton, htmlAttributes);
         }
         #endregion
     }

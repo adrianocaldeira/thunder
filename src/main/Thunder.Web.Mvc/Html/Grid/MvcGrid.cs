@@ -2,7 +2,7 @@
 using System.IO;
 using System.Web.Mvc;
 
-namespace Thunder.Web.Mvc.Html.Design
+namespace Thunder.Web.Mvc.Html.Grid
 {
     /// <summary>
     /// Mvc Grid

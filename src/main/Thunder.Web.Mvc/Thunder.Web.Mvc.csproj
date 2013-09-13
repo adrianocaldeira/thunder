@@ -95,13 +95,12 @@
     <Compile Include="Html\Design\AdminPlus\MessageExtensions.cs" />
     <Compile Include="Html\Design\AdminPlus\MessageType.cs" />
     <Compile Include="Html\Design\AdminPlus\PaginationExtensions.cs" />
-    <Compile Include="Html\Design\GridSortExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\ButtonExtensions.cs" />
-    <Compile Include="Html\Design\GridExtensions.cs" />
     <Compile Include="Html\Design\ImageExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\LabelExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\MessageExtensions.cs" />
-    <Compile Include="Html\Design\MvcGrid.cs" />
+    <Compile Include="Html\Grid\GridSortBuilder.cs" />
+    <Compile Include="Html\Grid\MvcGrid.cs" />
     <Compile Include="Html\Design\SimplaAdmin\PaginationExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\ContentBoxExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeader.cs" />
@@ -109,8 +108,10 @@
     <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeaderLoading.cs" />
     <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeaderTab.cs" />
     <Compile Include="Html\Design\SimplaAdmin\MvcContentBox.cs" />
+    <Compile Include="Html\Grid\GridBuilder.cs" />
     <Compile Include="Html\HtmlAttributesUtility.cs" />
     <Compile Include="Html\JavaScriptExtensions.cs" />
+    <Compile Include="Html\Notify\NotifyBuilder.cs" />
     <Compile Include="Html\Numeric\NumericBuilder.cs" />
     <Compile Include="Html\Password\PasswordBuilder.cs" />
     <Compile Include="Html\Phone\PhoneBuilder.cs" />
