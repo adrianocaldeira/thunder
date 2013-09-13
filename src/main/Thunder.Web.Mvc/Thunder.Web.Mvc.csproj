@@ -92,7 +92,6 @@
     <Compile Include="Html\Cpf\CpfBuilder.cs" />
     <Compile Include="Html\Currency\CurrencyBuilder.cs" />
     <Compile Include="Html\Date\DateBuilder.cs" />
-    <Compile Include="Html\Design\AdminPlus\PaginationExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\ButtonExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\LabelExtensions.cs" />
     <Compile Include="Html\Design\SimplaAdmin\MessageExtensions.cs" />
