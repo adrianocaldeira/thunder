@@ -26,6 +26,7 @@ namespace Thunder.Web.Mvc.Html.Design
 
             _writer = viewContext.Writer;
         }
+
         #region Implementation of IDisposable
 
         /// <summary>

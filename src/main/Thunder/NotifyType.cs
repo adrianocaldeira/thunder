@@ -1,4 +1,4 @@
-namespace Thunder.Web
+namespace Thunder
 {
     /// <summary>
     /// Notify type

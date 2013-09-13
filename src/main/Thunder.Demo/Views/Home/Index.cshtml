@@ -1,0 +1,15 @@
+﻿@using Thunder.Web.Mvc.Html
+@model Thunder.Demo.Models.User
+@{
+    Layout = null;
+}
+@Html.Thunder().TextBoxFor(x => x.Name)<br />
+@Html.Thunder().PasswordFor(x => x.Password, new { maxlength = 20 })<br />
+@Html.Thunder().CnpjFor(x => x.Document, new { @class = "teste" })<br />
+@Html.Thunder().CpfFor(x => x.Document, new { @class = "teste", maxlength = 100 })<br />
+@Html.Thunder().TextAreaFor(x => x.Name, new { @class = "teste", maxlength = 5000 })<br />
+@Html.Thunder().CurrencyFor(x => x.Currency, new { @Value = Model.Currency.ToString("C2") })<br />
+@Html.Thunder().DateFor(x => x.Date, new { @Value = Model.Date.ToString("dd/MM/yyyy") })<br />
+@Html.Thunder().PhoneFor(x => x.Document)<br />
+@Html.Thunder().NumericFor(x => x.Document, new { maxlength = 10 })<br />
+@Html.Thunder().ZipCodeFor(x => x.Document)<br />

@@ -54,12 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Html\Design\ButtonExtensionsTest.cs" />
-    <Compile Include="Html\Design\CnpjExtensionsTest.cs" />
-    <Compile Include="Html\Design\CpfExtensionsTest.cs" />
-    <Compile Include="Html\Design\CurrencyExtensionsTest.cs" />
-    <Compile Include="Html\Design\DateExtensionsTest.cs" />
     <Compile Include="Html\Design\LabelExtensionsTest.cs" />
-    <Compile Include="Html\Design\NumericExtensionsTest.cs" />
     <Compile Include="Html\ImageExtensionsTest.cs" />
     <Compile Include="Html\JavaScriptExtensionsTest.cs" />
     <Compile Include="Html\SelectListExtensionsTest.cs" />
