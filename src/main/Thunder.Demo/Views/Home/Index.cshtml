@@ -1,4 +1,5 @@
 ﻿@using Thunder
+@using Thunder.Collections
 @using Thunder.Demo.Models
 @using Thunder.Web.Mvc.Html
 @model User
@@ -29,3 +30,33 @@
 @Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão oculto", "Mensagem 2 tipo Success botão oculto" })
 @Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão visível", "Mensagem 2 tipo Success botão visível" }, true)
 @Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão visível com id", "Mensagem 2 tipo Success botão visível com id" }, true, new { id = "teste" })
+<h2>Imagem</h2>
+<p>
+    <strong>Relativa</strong><br />
+    @Html.Thunder().Image("~/content/thunder.png")<br />
+    <br />
+    <strong>Absoluta</strong><br />
+    @Html.Thunder().Image(Url.Content("~/content/thunder.png"))
+    <br />
+    <strong>Externa</strong><br />
+    @Html.Thunder().Image("https://raw.github.com/integgro/thunder/master/thunder.png")
+</p>
+<h2>StyleSheet</h2>
+<p>
+
+    @Html.Thunder().StyleSheet("~/content/StyleSheet.css").ToHtmlString()
+</p>
+
+<h2>JavaScript</h2>
+<p>
+    @Html.Thunder().JavaScript("~/scripts/javascript.js").ToHtmlString()
+</p>
+
+<h2>Pagination</h2>
+<p>
+    @Html.Thunder().Pagination((IPaging<User>)ViewData["Users"])
+</p>
+
+<p>
+    @Html.Thunder().Pagination((IPaging<User>)ViewData["Users"], 2, new { id = "paged", @class = "teste-paged" })
+</p>

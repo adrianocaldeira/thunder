@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using Thunder.Collections;
 using Thunder.Web.Mvc.Html.Cnpj;
 using Thunder.Web.Mvc.Html.Cpf;
 using Thunder.Web.Mvc.Html.Currency;
 using Thunder.Web.Mvc.Html.Date;
 using Thunder.Web.Mvc.Html.Grid;
+using Thunder.Web.Mvc.Html.Image;
+using Thunder.Web.Mvc.Html.JavaScript;
 using Thunder.Web.Mvc.Html.Notify;
 using Thunder.Web.Mvc.Html.Numeric;
+using Thunder.Web.Mvc.Html.Pagination;
 using Thunder.Web.Mvc.Html.Password;
 using Thunder.Web.Mvc.Html.Phone;
+using Thunder.Web.Mvc.Html.StyleSheet;
 using Thunder.Web.Mvc.Html.TextArea;
 using Thunder.Web.Mvc.Html.TextBox;
 using Thunder.Web.Mvc.Html.ZipCode;
@@ -219,6 +224,54 @@ namespace Thunder.Web.Mvc.Html
         public MvcHtmlString Notify(Thunder.Notify notify, bool showCloseButton, object htmlAttributes)
         {
             return new NotifyBuilder().Builder(notify, showCloseButton, htmlAttributes);
+        }
+        #endregion
+
+        #region Image
+        public MvcHtmlString Image(string url)
+        {
+            return Image(url, null);
+        }
+        public MvcHtmlString Image(string url, object htmlAttributes)
+        {
+            return new ImageBuilder<TModel>(_helper).Builder(url, htmlAttributes);
+        }
+        #endregion
+
+        #region StyleSheet
+        public MvcHtmlString StyleSheet(string url)
+        {
+            return StyleSheet(url, null);
+        }
+        public MvcHtmlString StyleSheet(string url, object htmlAttributes)
+        {
+            return new StyleSheetBuilder<TModel>(_helper).Builder(url, htmlAttributes);
+        }
+        #endregion
+
+        #region JavaScript
+        public MvcHtmlString JavaScript(string url)
+        {
+            return JavaScript(url, null);
+        }
+        public MvcHtmlString JavaScript(string url, object htmlAttributes)
+        {
+            return new JavaScriptBuilder<TModel>(_helper).Builder(url, htmlAttributes);
+        }
+        #endregion
+
+        #region JavaScript
+        public MvcHtmlString Pagination<T>(IPaging<T> source)
+        {
+            return Pagination(source, 5);
+        }
+        public MvcHtmlString Pagination<T>(IPaging<T> source, int size)
+        {
+            return Pagination(source, size, null);
+        }
+        public MvcHtmlString Pagination<T>(IPaging<T> source, int size, object htmlAttributes)
+        {
+            return new PaginationBuilder().Builder(source, size, htmlAttributes);
         }
         #endregion
     }

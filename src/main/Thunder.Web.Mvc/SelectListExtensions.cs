@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Thunder.Web.Mvc.Html
+namespace Thunder.Web.Mvc
 {
     ///<summary>
     /// SelectList extension

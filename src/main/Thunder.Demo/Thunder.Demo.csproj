@@ -125,7 +125,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\StyleSheet.css" />
+    <Content Include="Content\thunder.png" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\JavaScript.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
