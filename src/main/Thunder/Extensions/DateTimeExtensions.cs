@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Thunder.Extensions
 {
@@ -354,9 +355,27 @@ namespace Thunder.Extensions
         /// <returns>Days between dates</returns>
         public static int DaysBetween(this DateTime one, DateTime two, bool includeLastDay)
         {
-            int days = one.DaysBetween(two);
+            var days = one.DaysBetween(two);
             if (!includeLastDay) return days;
             return days + 1;
         }
+
+        /// <summary>
+        /// Get years between dates
+        /// </summary>
+        /// <param name="startDate">Start date</param>
+        /// <param name="endDate">End date</param>
+        /// <returns>Years</returns>
+        public static IList<int> Years(this DateTime startDate, DateTime endDate)
+        {
+            var years = new List<int>();
+
+            for (var i = startDate.Year; i <= endDate.Year; i++)
+            {
+                years.Add(i);
+            }
+
+            return years;
+        } 
     }
 }

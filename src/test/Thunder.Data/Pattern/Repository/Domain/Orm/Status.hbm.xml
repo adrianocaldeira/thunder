@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class name="Thunder.Data.Pattern.Repository.Domain.Status, Thunder.Data.Test" table="repository_status">
+    <id name="Id">
+      <generator class="identity" />
+    </id>
+    
+    <property name="Name" not-null="true" length="50" />
+  </class>
+</hibernate-mapping>

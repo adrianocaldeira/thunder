@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -10,11 +11,20 @@ namespace Thunder.Web.Mvc
     /// </summary>
     public class Controller : System.Web.Mvc.Controller
     {
+        /// <summary>
+        /// Get messages
+        /// </summary>
+        [Obsolete("No use this property, it will be removed in future")]
+        public IList<Message> Messages
+        {
+            get { return Session[Constants.ThunderSessionMessage] as IList<Message> ?? new List<Message>(); }
+        }
 
         /// <summary>
         /// Add message
         /// </summary>
         /// <param name="message">Message</param>
+        [Obsolete("No use this method, it will be removed in future")]
         public void AddMessage(string message)
         {
             AddMessage(new Message(message));
@@ -24,6 +34,7 @@ namespace Thunder.Web.Mvc
         /// Add message
         /// </summary>
         /// <param name="message"></param>
+        [Obsolete("No use this method, it will be removed in future")]
         public void AddMessage(Message message)
         {
 
@@ -40,6 +51,7 @@ namespace Thunder.Web.Mvc
         /// </summary>
         /// <param name="status">Status</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status)
         {
             return View(status, false);
@@ -51,6 +63,7 @@ namespace Thunder.Web.Mvc
         /// <param name="status">Status</param>
         /// <param name="showCloseButton">Show close button</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status, bool showCloseButton)
         {
             return new MessageResult { Status = status, ShowCloseButton = showCloseButton };
@@ -62,6 +75,7 @@ namespace Thunder.Web.Mvc
         /// <param name="status">Result status</param>
         /// <param name="message">Message</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status, Message message)
         {
             return View(status, message, false);
@@ -74,6 +88,7 @@ namespace Thunder.Web.Mvc
         /// <param name="message">Message</param>
         /// <param name="showCloseButton">Show close button</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status, Message message, bool showCloseButton)
         {
             return new MessageResult(status, message) { ShowCloseButton = showCloseButton };
@@ -85,6 +100,7 @@ namespace Thunder.Web.Mvc
         /// <param name="status">Result status</param>
         /// <param name="message">Message</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status, string message)
         {
             return View(status, message, false);
@@ -97,6 +113,7 @@ namespace Thunder.Web.Mvc
         /// <param name="message">Message</param>
         /// <param name="showCloseButton">Show close button</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status, string message, bool showCloseButton)
         {
             return new MessageResult(status, message) { ShowCloseButton = showCloseButton };
@@ -120,17 +137,10 @@ namespace Thunder.Web.Mvc
         /// <param name="messages">Messages</param>
         /// <param name="showCloseButton">Show close button</param>
         /// <returns>Message result</returns>
+        [Obsolete("No use this method, it will be removed in future")]
         public MessageResult View(ResultStatus status, IList<Message> messages, bool showCloseButton)
         {
             return new MessageResult { Status = status, Messages = messages, ShowCloseButton = showCloseButton};
-        }
-
-        /// <summary>
-        /// Get messages
-        /// </summary>
-        public IList<Message> Messages
-        {
-            get { return Session[Constants.ThunderSessionMessage] as IList<Message> ?? new List<Message>(); }
         }
 
         /// <summary>
@@ -146,7 +156,85 @@ namespace Thunder.Web.Mvc
                 Messages.Clear();
             }
 
+            ViewData[Constants.ViewData.Notify] = Session[Constants.ViewData.Notify] as Notify ?? new Notify();
+            
             base.OnActionExecuting(filterContext);
+        }
+
+        /// <summary>
+        /// Set notify
+        /// </summary>
+        /// <param name="notify"><see>
+        ///                        <cref>Notify</cref>
+        ///                      </see> </param>
+        public void SetNotify(Notify notify)
+        {
+            Session[Constants.ViewData.Notify] = notify ?? new Notify();
+        }
+
+        /// <summary>
+        /// Notify result
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <returns><see cref="NotifyResult"/></returns>
+        public NotifyResult Notify(string message)
+        {
+            return Notify(new List<string> {message});
+        }
+
+        /// <summary>
+        /// Notify result
+        /// </summary>
+        /// <param name="messages">Message</param>
+        /// <returns><see cref="NotifyResult"/></returns>
+        public NotifyResult Notify(IList<string> messages)
+        {
+            return Notify(NotifyType.Success, messages);
+        }
+
+        /// <summary>
+        /// Notify result
+        /// </summary>
+        /// <param name="notifyType"><see cref="NotifyType"/></param>
+        /// <param name="message">Message</param>
+        /// <returns><see cref="NotifyResult"/></returns>
+        public NotifyResult Notify(NotifyType notifyType, string message)
+        {
+            return Notify(notifyType, new List<string> {message});
+        }
+
+        /// <summary>
+        /// Notify result
+        /// </summary>
+        /// <param name="notifyType"><see cref="NotifyType"/></param>
+        /// <param name="messages">Messages</param>
+        /// <returns><see cref="NotifyResult"/></returns>
+        public NotifyResult Notify(NotifyType notifyType, IList<string> messages)
+        {
+            return new NotifyResult(notifyType, messages);
+        }
+
+        /// <summary>
+        /// Notify result
+        /// </summary>
+        /// <param name="notifyType"><see cref="NotifyType"/></param>
+        /// <param name="modelStates"><see cref="IDictionary{TKey,TValue}"/></param>
+        /// <returns><see cref="NotifyResult"/></returns>
+        public NotifyResult Notify(NotifyType notifyType, IDictionary<string, ModelState> modelStates)
+        {
+            return new NotifyResult(notifyType, modelStates);
+        }
+
+        /// <summary>
+        /// Notify result
+        /// </summary>
+        /// <param name="notify"><see>
+        ///                        <cref>Notify</cref>
+        ///                      </see> </param>
+        /// <returns><see cref="NotifyResult"/></returns>
+        public NotifyResult Notify(Notify notify)
+        {
+            return new NotifyResult(notify);
         }
 
         /// <summary>
@@ -176,7 +264,9 @@ namespace Thunder.Web.Mvc
             {
                 var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
                 var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                
                 viewResult.View.Render(viewContext, sw);
+                
                 return sw.GetStringBuilder().ToString();
             }
         }

@@ -1,0 +1,62 @@
+﻿@using Thunder
+@using Thunder.Collections
+@using Thunder.Demo.Models
+@using Thunder.Web.Mvc.Html
+@model User
+@{
+    Layout = null;
+}
+@Html.Thunder().TextBoxFor(x => x.Name)<br />
+@Html.Thunder().PasswordFor(x => x.Password, new { maxlength = 20 })<br />
+@Html.Thunder().CnpjFor(x => x.Document, new { @class = "teste" })<br />
+@Html.Thunder().CpfFor(x => x.Document, new { @class = "teste", maxlength = 100 })<br />
+@Html.Thunder().TextAreaFor(x => x.Name, new { @class = "teste", maxlength = 5000 })<br />
+@Html.Thunder().CurrencyFor(x => x.Currency, new { @Value = Model.Currency.ToString("C2") })<br />
+@Html.Thunder().DateFor(x => x.Date, new { @Value = Model.Date.ToString("dd/MM/yyyy") })<br />
+@Html.Thunder().PhoneFor(x => x.Document)<br />
+@Html.Thunder().NumericFor(x => x.Document, new { maxlength = 10 })<br />
+@Html.Thunder().ZipCodeFor(x => x.Document)<br />
+@using (Html.Thunder().Grid("url", 20, new { @class = "teste" }))
+{
+    <span>Grid</span>
+}
+@Html.Thunder().GridSort("Grid Sort", "column-one", new UserFilter())
+@Html.Thunder().Notify()
+@Html.Thunder().Notify(true)
+@Html.Thunder().Notify(true, new { id = "teste" })
+@Html.Thunder().Notify(NotifyType.Information, "Mensagem única tipo Information botão oculto")
+@Html.Thunder().Notify(NotifyType.Information, "Mensagem única tipo Information botão visível", true)
+@Html.Thunder().Notify(NotifyType.Information, "Mensagem única tipo Information botão visível com id", true, new { id = "teste" })
+@Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão oculto", "Mensagem 2 tipo Success botão oculto" })
+@Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão visível", "Mensagem 2 tipo Success botão visível" }, true)
+@Html.Thunder().Notify(NotifyType.Success, new List<string> { "Mensagem 1 tipo Success botão visível com id", "Mensagem 2 tipo Success botão visível com id" }, true, new { id = "teste" })
+<h2>Imagem</h2>
+<p>
+    <strong>Relativa</strong><br />
+    @Html.Thunder().Image("~/content/thunder.png")<br />
+    <br />
+    <strong>Absoluta</strong><br />
+    @Html.Thunder().Image(Url.Content("~/content/thunder.png"))
+    <br />
+    <strong>Externa</strong><br />
+    @Html.Thunder().Image("https://raw.github.com/integgro/thunder/master/thunder.png")
+</p>
+<h2>StyleSheet</h2>
+<p>
+
+    @Html.Thunder().StyleSheet("~/content/StyleSheet.css").ToHtmlString()
+</p>
+
+<h2>JavaScript</h2>
+<p>
+    @Html.Thunder().JavaScript("~/scripts/javascript.js").ToHtmlString()
+</p>
+
+<h2>Pagination</h2>
+<p>
+    @Html.Thunder().Pagination((IPaging<User>)ViewData["Users"])
+</p>
+
+<p>
+    @Html.Thunder().Pagination((IPaging<User>)ViewData["Users"], 2, new { id = "paged", @class = "teste-paged" })
+</p>

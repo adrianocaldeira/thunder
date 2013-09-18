@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Thunder.Web
 {
     /// <summary>
     /// Interface of view model
     /// </summary>
+    [Obsolete("No use this property, it will be removed in future")]
     public interface IModel
     {
         /// <summary>

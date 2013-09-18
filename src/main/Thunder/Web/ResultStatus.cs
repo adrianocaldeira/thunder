@@ -1,8 +1,11 @@
-﻿namespace Thunder.Web
+﻿using System;
+
+namespace Thunder.Web
 {
     /// <summary>
     /// Result status
     /// </summary>
+    [Obsolete("No use this enum, it will be removed in future")]
     public enum ResultStatus
     {
         /// <summary>

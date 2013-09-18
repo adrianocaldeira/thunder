@@ -6,7 +6,7 @@ using NHibernate.Context;
 namespace Thunder.Data
 {
     /// <summary>
-    /// Hibernate session manager
+    /// NHibernate Session Manager
     /// </summary>
     public sealed class SessionManager
     {
@@ -57,7 +57,7 @@ namespace Thunder.Data
         /// </summary>
         public static ISession CurrentSession
         {
-            get { return SessionManager.SessionFactory.GetCurrentSession(); }
+            get { return SessionFactory.GetCurrentSession(); }
         }
 
         /// <summary>
