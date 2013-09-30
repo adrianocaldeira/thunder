@@ -61,6 +61,8 @@
     <Compile Include="Extensions\CriteriaExtensions.cs" />
     <Compile Include="Extensions\FilterExtensions.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
+    <Compile Include="Pattern\CreatedAndUpdatedPropertyEventListener.cs" />
+    <Compile Include="Pattern\ICreatedAndUpdatedProperty.cs" />
     <Compile Include="Pattern\IRepository.cs" />
     <Compile Include="Pattern\Persist.cs" />
     <Compile Include="Pattern\Property.cs" />

@@ -16,7 +16,7 @@ namespace Thunder.Data.Pattern
     /// </summary>
     /// <typeparam name="T">Class type</typeparam>
     /// <typeparam name="TKey">Key type</typeparam>
-    public class ActiveRecord<T, TKey> where T : class
+    public class ActiveRecord<T, TKey> : ICreatedAndUpdatedProperty where T : class
     {
         /// <summary>
         /// Get or set id
@@ -44,22 +44,6 @@ namespace Thunder.Data.Pattern
         }
 
         /// <summary>
-        /// Notify updated object
-        /// </summary>
-        public virtual void NotifyUpdated()
-        {
-            Updated = DateTime.Now;
-        }
-
-        /// <summary>
-        /// Notify created object
-        /// </summary>
-        public virtual void NotifyCreated()
-        {
-            Created = DateTime.Now;
-        }
-
-        /// <summary>
         /// Merge list type of <see cref="IObjectState"/>
         /// </summary>
         /// <param name="current">Current list</param>
@@ -74,12 +58,6 @@ namespace Thunder.Data.Pattern
 
                 if (state.Equals(ObjectState.Added))
                 {
-                    item.GetType().GetProperty("Updated").SetValue(item, 
-                        Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
-
-                    item.GetType().GetProperty("Created").SetValue(item, 
-                        Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
-
                     current.Add(item);
                 }
                 else if (state.Equals(ObjectState.Deleted))
@@ -98,8 +76,6 @@ namespace Thunder.Data.Pattern
                         
                         propertyInfoCurrentItem.SetValue(currentItem, Convert.ChangeType(propertyInfoItem.GetValue(item, null), 
                             propertyInfoCurrentItem.PropertyType), null);
-
-                        currentItem.GetType().GetProperty("Updated").SetValue(currentItem, Convert.ChangeType(DateTime.Now, TypeCode.DateTime), null);
                     }
                 }
             }
@@ -122,9 +98,6 @@ namespace Thunder.Data.Pattern
         {
             using (var transaction = Session.BeginTransaction())
             {
-                Property.SetValue(entity, "Updated", DateTime.Now);
-                Property.SetValue(entity, "Created", DateTime.Now);
-
                 Session.Save(entity);
 
                 transaction.Commit();
@@ -145,9 +118,6 @@ namespace Thunder.Data.Pattern
             {
                 foreach (var entity in entities)
                 {
-                    Property.SetValue(entity, "Updated", DateTime.Now);
-                    Property.SetValue(entity, "Created", DateTime.Now);
-
                     Session.Save(entity);
                 }
 
@@ -166,8 +136,6 @@ namespace Thunder.Data.Pattern
         {
             using (var transaction = Session.BeginTransaction())
             {
-                Property.SetValue(entity, "Updated", DateTime.Now);
-
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();
@@ -202,7 +170,6 @@ namespace Thunder.Data.Pattern
                 var entity = Session.Get<T>(id);
 
                 Property.SetValue(entity, property);
-                Property.SetValue(entity, "Updated", DateTime.Now);
                 
                 Session.SaveOrUpdate(entity);
 
@@ -229,8 +196,6 @@ namespace Thunder.Data.Pattern
                     Property.SetValue(entity, property);
                 }
                 
-                Property.SetValue(entity, "Updated", DateTime.Now);
-
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();

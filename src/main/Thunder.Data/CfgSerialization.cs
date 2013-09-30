@@ -3,6 +3,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using NHibernate.Cfg;
+using NHibernate.Event;
+using Thunder.Data.Pattern;
 
 namespace Thunder.Data
 {
@@ -81,6 +83,10 @@ namespace Thunder.Data
             using (var file = File.Open(GetPath(), FileMode.Create))
             {
                 var bf = new BinaryFormatter();
+                
+                configuration.AppendListeners(ListenerType.PreUpdate, new IPreUpdateEventListener[] { new CreatedAndUpdatedPropertyEventListener() });
+                configuration.AppendListeners(ListenerType.PreInsert, new IPreInsertEventListener[] { new CreatedAndUpdatedPropertyEventListener() });
+
                 bf.Serialize(file, configuration);
             }
         }

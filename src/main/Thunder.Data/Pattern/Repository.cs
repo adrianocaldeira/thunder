@@ -36,9 +36,6 @@ namespace Thunder.Data.Pattern
         {
             using (var transaction = Session.BeginTransaction())
             {
-                entity.NotifyCreated();
-                entity.NotifyUpdated();
-
                 Session.Save(entity);
 
                 transaction.Commit();
@@ -58,9 +55,6 @@ namespace Thunder.Data.Pattern
             {
                 foreach (var entity in entities)
                 {
-                    entity.NotifyUpdated();
-                    entity.NotifyCreated();
-
                     Session.Save(entity);
                 }
 
@@ -79,8 +73,6 @@ namespace Thunder.Data.Pattern
         {
             using (var transaction = Session.BeginTransaction())
             {
-                entity.NotifyUpdated();
-
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();
@@ -115,8 +107,7 @@ namespace Thunder.Data.Pattern
                 var entity = Session.Get<T>(id);
 
                 Property.SetValue(entity, property);
-                entity.NotifyUpdated();
-
+                
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();
@@ -141,8 +132,6 @@ namespace Thunder.Data.Pattern
                 {
                     Property.SetValue(entity, property);
                 }
-
-                entity.NotifyUpdated();
 
                 Session.SaveOrUpdate(entity);
 

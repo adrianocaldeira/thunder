@@ -7,7 +7,7 @@ namespace Thunder.Data.Pattern
     /// </summary>
     /// <typeparam name="T">Type class</typeparam>
     /// <typeparam name="TKey">Type key</typeparam>
-    public class Persist<T, TKey> where T : class
+    public class Persist<T, TKey> : ICreatedAndUpdatedProperty where T : class
     {
         /// <summary>
         /// Get or set id
@@ -32,22 +32,6 @@ namespace Thunder.Data.Pattern
         {
             var id = Convert.ChangeType(Id, TypeCode.Int64);
             return id == null || (Int64)id <= 0;
-        }
-
-        /// <summary>
-        /// Notify updated object
-        /// </summary>
-        public virtual void NotifyUpdated()
-        {
-            Updated = DateTime.Now;
-        }
-
-        /// <summary>
-        /// Notify created object
-        /// </summary>
-        public virtual void NotifyCreated()
-        {
-            Created = DateTime.Now;
         }
 
         /// <summary>

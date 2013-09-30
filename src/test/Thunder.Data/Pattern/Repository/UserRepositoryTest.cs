@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using NHibernate.Criterion;
 using NUnit.Framework;
-using Thunder.Collections;
 using Thunder.Data.Pattern.Repository.Domain;
 
 namespace Thunder.Data.Pattern.Repository
@@ -22,19 +21,12 @@ namespace Thunder.Data.Pattern.Repository
             using (var session = SessionManager.SessionFactory.OpenSession())
             {
                 var active = new Status {Name = "Ativo"};
-                active.NotifyCreated();
-                active.NotifyUpdated();
                 session.Save(active);
 
                 var inactive = new Status { Name = "Inativo" };
-                inactive.NotifyCreated();
-                inactive.NotifyUpdated();
                 session.Save(inactive);
 
                 var user = new User {Name = "Adriano", Age = 30, Status = active};
-                user.NotifyCreated();
-                user.NotifyUpdated();
-
                 session.Save(user);
             }
 

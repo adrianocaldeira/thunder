@@ -20,20 +20,13 @@ namespace Thunder.Data.Pattern.ActiveRecord
             using (var session = SessionManager.SessionFactory.OpenSession())
             {
                 var active = new Tire {Name = "Pirelli"};
-                active.NotifyCreated();
-                active.NotifyUpdated();
                 session.Save(active);
 
                 var inactive = new Tire { Name = "Goodyear" };
-                inactive.NotifyCreated();
-                inactive.NotifyUpdated();
                 session.Save(inactive);
 
-                var user = new Car {Name = "Gol", Year = 30, Tire = active};
-                user.NotifyCreated();
-                user.NotifyUpdated();
-
-                session.Save(user);
+                var car = new Car {Name = "Gol", Year = 30, Tire = active};
+                session.Save(car);
             }
         }
 
