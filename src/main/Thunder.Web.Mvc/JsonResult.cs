@@ -10,6 +10,7 @@ namespace Thunder.Web.Mvc
     /// <summary>
     /// Json result
     /// </summary>
+    [Obsolete("No use this class, it will be removed in future")]
     public class JsonResult : ActionResult
     {
         /// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Thunder.Extensions;
 
 namespace Thunder.Web.Mvc
@@ -144,7 +145,12 @@ namespace Thunder.Web.Mvc
             }
 
             var response = context.HttpContext.Response;
-            var json = JsonConvert.SerializeObject(new {Type, Messages});
+            var json = JsonConvert.SerializeObject(new { Type, Messages },
+                Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
 
             response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/json";
 
