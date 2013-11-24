@@ -20,7 +20,7 @@ namespace Thunder.Web.Mvc
         public NotifyResult()
         {
             Type = NotifyType.Success;
-            Messages = new List<string>();
+            Messages = new List<KeyValuePair<string, IList<string>>>();
             JsonRequestBehavior = JsonRequestBehavior.DenyGet;
         }
 
@@ -49,7 +49,7 @@ namespace Thunder.Web.Mvc
         /// Initialize new instance of class <see cref="NotifyResult"/>.
         /// </summary>
         /// <param name="messages">Messages</param>
-        public NotifyResult(IList<string> messages)
+        public NotifyResult(IEnumerable<string> messages)
             : this(NotifyType.Success, messages)
         {
 
@@ -60,10 +60,10 @@ namespace Thunder.Web.Mvc
         /// </summary>
         /// <param name="type"><see cref="NotifyType"/></param>
         /// <param name="messages">Messages</param>
-        public NotifyResult(NotifyType type, IList<string> messages) : this()
+        public NotifyResult(NotifyType type, IEnumerable<string> messages) : this()
         {
             Type = type;
-            Messages = messages;
+            Messages = messages.Select(message => new KeyValuePair<string, IList<string>>(Guid.NewGuid().ToString(), new List<string> { message })).ToList();
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Thunder.Web.Mvc
         public NotifyResult(Notify notify)
         {
             Type = notify.Type;
-            Messages = notify.Messages;
+            Messages = notify.Messages.Select(message => new KeyValuePair<string, IList<string>>(Guid.NewGuid().ToString(), new List<string> { message })).ToList(); 
         }
 
         /// <summary>
@@ -85,9 +85,10 @@ namespace Thunder.Web.Mvc
             : this()
         {
             Type = type;
-            Messages = (from key in modelState.Keys
-                        from error in modelState[key].Errors
-                        select error.ErrorMessage).ToList();
+
+            Messages = (from key in modelState.Keys where modelState[key].Errors.Any() 
+                        select new KeyValuePair<string, IList<string>>(key, modelState[key].Errors.Select(error => error.ErrorMessage).ToList())
+            ).ToList(); 
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace Thunder.Web.Mvc
         /// <summary>
         /// Get or set messages
         /// </summary>
-        public IList<string> Messages { get; private set; }
+        public IList<KeyValuePair<string, IList<string>>> Messages { get; private set; }
 
         /// <summary>
         /// Get or set content encoding
