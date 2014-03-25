@@ -4,8 +4,18 @@ using Thunder.Extensions;
 
 namespace Thunder.Web.Mvc.Html.Notify
 {
+    /// <summary>
+    /// Notify html builder
+    /// </summary>
     public class NotifyBuilder
     {
+        /// <summary>
+        /// Builder
+        /// </summary>
+        /// <param name="notify"></param>
+        /// <param name="showCloseButton"></param>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
         public MvcHtmlString Builder(Thunder.Notify notify, bool showCloseButton, object htmlAttributes)
         {
             var tagBuilder = new TagBuilder("div");
@@ -51,7 +61,7 @@ namespace Thunder.Web.Mvc.Html.Notify
             return MvcHtmlString.Create(tagBuilder.ToString());
         }
 
-        private string CssClass(NotifyType type)
+        private static string CssClass(NotifyType type)
         {
             var cssClass = string.Empty;
 

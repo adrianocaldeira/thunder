@@ -35,13 +35,20 @@
     <DocumentationFile>bin\Release\Thunder.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\log4net.1.2.11\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -61,6 +68,25 @@
     <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
+    <Compile Include="Data\CfgSerialization.cs" />
+    <Compile Include="Data\ConnectionBuilder.cs" />
+    <Compile Include="Data\ConnectionFactory.cs" />
+    <Compile Include="Data\DataBase.cs" />
+    <Compile Include="Data\DbUtil.cs" />
+    <Compile Include="Data\Dialect\MySQL5InnoDBDialect.cs" />
+    <Compile Include="Data\Extensions\CriteriaExtensions.cs" />
+    <Compile Include="Data\Extensions\FilterExtensions.cs" />
+    <Compile Include="Data\Extensions\ProxyExtensions.cs" />
+    <Compile Include="Data\Extensions\QueryExtensions.cs" />
+    <Compile Include="Data\Extensions\QueryOverExtensions.cs" />
+    <Compile Include="Data\Pattern\ActiveRecord.cs" />
+    <Compile Include="Data\Pattern\CreatedAndUpdatedPropertyEventListener.cs" />
+    <Compile Include="Data\Pattern\ICreatedAndUpdatedProperty.cs" />
+    <Compile Include="Data\Pattern\IRepository.cs" />
+    <Compile Include="Data\Pattern\Persist.cs" />
+    <Compile Include="Data\Pattern\Property.cs" />
+    <Compile Include="Data\Pattern\Repository.cs" />
+    <Compile Include="Data\SessionManager.cs" />
     <Compile Include="Extensions\BooleanExtensions.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -74,7 +100,6 @@
     <Compile Include="Collections\Paging.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Logging.cs" />
-    <Compile Include="Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Cryptography.cs" />
     <Compile Include="Security\CryptographyHelper.cs" />
@@ -85,11 +110,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Web\ContentType.cs" />
-    <Compile Include="Web\IModel.cs" />
     <Compile Include="Web\JsonExtensions.cs" />
-    <Compile Include="Web\Model.cs" />
     <Compile Include="NotifyType.cs" />
-    <Compile Include="Web\ResultStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

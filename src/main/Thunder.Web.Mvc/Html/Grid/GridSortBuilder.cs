@@ -3,8 +3,19 @@ using System.Web.Mvc;
 
 namespace Thunder.Web.Mvc.Html.Grid
 {
+    /// <summary>
+    /// Grid sort html builder
+    /// </summary>
     public class GridSortBuilder
     {
+        /// <summary>
+        /// Builder
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="column"></param>
+        /// <param name="filter"></param>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
         public MvcHtmlString Builder(string text, string column, Thunder.Model.Filter filter, object htmlAttributes)
         {
             var tagBuilder = new TagBuilder("a") { InnerHtml = text };

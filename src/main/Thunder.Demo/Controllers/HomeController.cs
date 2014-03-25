@@ -12,9 +12,9 @@ namespace Thunder.Demo.Controllers
         {
             SetNotify(new Notify(NotifyType.Danger, "Notificação por ViewData do tipo Danger"));
 
-            ViewData["Users"] = new Paging<User>(new List<User> { new User(), new User(), new User(), new User() 
+            ViewData["Users"] = new List<User> { new User(), new User(), new User(), new User() 
             , new User() , new User() , new User() , new User() , new User() , new User() , new User() 
-            , new User() , new User() , new User() , new User() , new User() , new User() }, 0, 2);
+            , new User() , new User() , new User() , new User() , new User() , new User() };
 
             return View(new User{Currency = 12233.12m, Date = DateTime.Now});
         }

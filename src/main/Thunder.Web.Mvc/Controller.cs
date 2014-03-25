@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace Thunder.Web.Mvc
@@ -12,150 +10,11 @@ namespace Thunder.Web.Mvc
     public class Controller : System.Web.Mvc.Controller
     {
         /// <summary>
-        /// Get messages
-        /// </summary>
-        [Obsolete("No use this property, it will be removed in future")]
-        public IList<Message> Messages
-        {
-            get { return Session[Constants.ThunderSessionMessage] as IList<Message> ?? new List<Message>(); }
-        }
-
-        /// <summary>
-        /// Add message
-        /// </summary>
-        /// <param name="message">Message</param>
-        [Obsolete("No use this method, it will be removed in future")]
-        public void AddMessage(string message)
-        {
-            AddMessage(new Message(message));
-        }
-
-        /// <summary>
-        /// Add message
-        /// </summary>
-        /// <param name="message"></param>
-        [Obsolete("No use this method, it will be removed in future")]
-        public void AddMessage(Message message)
-        {
-
-            if (Session[Constants.ThunderSessionMessage] == null)
-                Session[Constants.ThunderSessionMessage] = new List<Message>();
-
-            var messages = (IList<Message>)Session[Constants.ThunderSessionMessage];
-
-            messages.Add(message);
-        }
-
-        /// <summary>
-        ///  Create view result 
-        /// </summary>
-        /// <param name="status">Status</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status)
-        {
-            return View(status, false);
-        }
-
-        /// <summary>
-        /// Create view result 
-        /// </summary>
-        /// <param name="status">Status</param>
-        /// <param name="showCloseButton">Show close button</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status, bool showCloseButton)
-        {
-            return new MessageResult { Status = status, ShowCloseButton = showCloseButton };
-        }
-
-        /// <summary>
-        /// Create view result 
-        /// </summary>
-        /// <param name="status">Result status</param>
-        /// <param name="message">Message</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status, Message message)
-        {
-            return View(status, message, false);
-        }
-
-        /// <summary>
-        /// Create view result 
-        /// </summary>
-        /// <param name="status">Result status</param>
-        /// <param name="message">Message</param>
-        /// <param name="showCloseButton">Show close button</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status, Message message, bool showCloseButton)
-        {
-            return new MessageResult(status, message) { ShowCloseButton = showCloseButton };
-        }
-
-        /// <summary>
-        /// Create view result
-        /// </summary>
-        /// <param name="status">Result status</param>
-        /// <param name="message">Message</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status, string message)
-        {
-            return View(status, message, false);
-        }
-
-        /// <summary>
-        /// Create view result
-        /// </summary>
-        /// <param name="status">Result status</param>
-        /// <param name="message">Message</param>
-        /// <param name="showCloseButton">Show close button</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status, string message, bool showCloseButton)
-        {
-            return new MessageResult(status, message) { ShowCloseButton = showCloseButton };
-        }
-
-        /// <summary>
-        /// Create view result
-        /// </summary>
-        /// <param name="status">Status</param>
-        /// <param name="messages">Messages</param>
-        /// <returns>Message result</returns>
-        public MessageResult View(ResultStatus status, IList<Message> messages)
-        {
-            return View(status, messages, false);
-        }
-
-        /// <summary>
-        /// Create view result
-        /// </summary>
-        /// <param name="status">Status</param>
-        /// <param name="messages">Messages</param>
-        /// <param name="showCloseButton">Show close button</param>
-        /// <returns>Message result</returns>
-        [Obsolete("No use this method, it will be removed in future")]
-        public MessageResult View(ResultStatus status, IList<Message> messages, bool showCloseButton)
-        {
-            return new MessageResult { Status = status, Messages = messages, ShowCloseButton = showCloseButton};
-        }
-
-        /// <summary>
         /// Called before the action method is invoked
         /// </summary>
         /// <param name="filterContext">Filter context</param>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (Messages.Count > 0)
-            {
-                ViewBag.ShowClose = true;
-                ViewBag.Messages = new Model { Messages = Messages.ToList(), Status = ResultStatus.Success };
-                Messages.Clear();
-            }
-
             ViewData[Constants.ViewData.Notify] = Session[Constants.ViewData.Notify] as Notify ?? new Notify();
             
             base.OnActionExecuting(filterContext);
@@ -302,7 +161,7 @@ namespace Thunder.Web.Mvc
         /// <summary>
         /// Get visitor IP address
         /// </summary>
-        public string Visitor
+        public string Ip
         {
             get
             {

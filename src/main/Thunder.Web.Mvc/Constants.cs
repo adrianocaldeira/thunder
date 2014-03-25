@@ -15,6 +15,9 @@
         /// </summary>
         public class ViewData
         {
+            /// <summary>
+            /// Notify constant
+            /// </summary>
             public const string Notify = "Thunder.ViewData.Notify";
         }
     }

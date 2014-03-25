@@ -54,9 +54,15 @@
 
 <h2>Pagination</h2>
 <p>
-    @Html.Thunder().Pagination((IPaging<User>)ViewData["Users"])
+    
+    @{
+        var source = (List<User>) ViewData["Users"];
+        var list1 = new Paging<User>(source, 7, 2, source.Count);
+        
+    }
+    @Html.Thunder().Pagination(list1, x=>Url.Action("Index", new {p = x}))
 </p>
 
 <p>
-    @Html.Thunder().Pagination((IPaging<User>)ViewData["Users"], 2, new { id = "paged", @class = "teste-paged" })
+    @Html.Thunder().Pagination(list1, 2, new { id = "paged", @class = "teste-paged" })
 </p>

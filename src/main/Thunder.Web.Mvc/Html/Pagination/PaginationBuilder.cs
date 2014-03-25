@@ -1,79 +1,110 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Web.Mvc;
 using Thunder.Collections;
-using Thunder.Extensions;
 
 namespace Thunder.Web.Mvc.Html.Pagination
 {
+    /// <summary>
+    /// Pagination html builder
+    /// </summary>
     public class PaginationBuilder
     {
-        public MvcHtmlString Builder<T>(IPaging<T> source, int size, object htmlAttributes)
+        /// <summary>
+        /// Builder
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="url"></param>
+        /// <param name="size"></param>
+        /// <param name="htmlAttributes"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public MvcHtmlString Builder<T>(IPaging<T> source, Func<int, string> url,  int size, object htmlAttributes)
         {
             var attributes = HtmlAttributesUtility.ObjectToHtmlAttributesDictionary(htmlAttributes);
-            var pagination = new TagBuilder("div");
-            var container = new TagBuilder("div");
-            var clear = new TagBuilder("div");
             var ul = new TagBuilder("ul");
-            var skip = Skip(size, source);
 
-            if (source.HasPreviousPage)
-            {
-                ul.InnerHtml += "<li><a href=\"#\" class=\"thunder-grid-paged\" data-page=\"" + (source.CurrentPage - 1) + "\">«</a></li>";
-            }
-            else
-            {
-                ul.InnerHtml += "<li class=\"disabled\"><a href=\"#\" class=\"thunder-grid-paged disabled\">«</a></li>";
-            }
+            attributes.AddCssClass("pagination");
 
-            foreach (var page in source.PageCount.Times().Skip(skip).Take(size))
+            ul.MergeAttributes(attributes);
+            ul.InnerHtml += Item(url, source.HasPreviousPage ? (source.CurrentPage - 1) : -1, "&laquo;", false, !source.HasPreviousPage);
+
+            foreach (var page in Pages(source, size))
             {
-                if (page == source.CurrentPage)
-                {
-                    ul.InnerHtml += "<li class=\"active\"><a href=\"#\" class=\"thunder-grid-paged disabled\">" +
-                                    (page + 1) + "</a></li>";
-                }
-                else
-                {
-                    ul.InnerHtml += "<li><a href=\"#\" class=\"thunder-grid-paged\" data-page=\"" + page + "\">" + (page + 1) + "</a></li>";
-                }
+                ul.InnerHtml += Item(url, page, (page + 1).ToString(CultureInfo.InvariantCulture), page == source.CurrentPage);    
             }
 
-            if (source.HasNextPage)
-            {
-                ul.InnerHtml += "<li><a href=\"#\" class=\"thunder-grid-paged\" data-page=\"" + (source.CurrentPage + 1) + "\">»</a></li>";
-            }
-            else
-            {
-                ul.InnerHtml += "<li class=\"disabled\"><a href=\"#\" class=\"thunder-grid-paged disabled\">»</a></li>";
-            }
-            
-            clear.AddCssClass("clearfix");
+            ul.InnerHtml += Item(url, source.HasNextPage ? (source.CurrentPage + 1) : -1, "&raquo;", false, !source.HasNextPage);
 
-            container.AddCssClass("pagination pull-right");
-            container.Attributes.Add("style", "margin: 0;");
-            container.InnerHtml += ul.ToString();
-
-            pagination.MergeAttributes(attributes);
-            pagination.AddCssClass("separator top form-inline small");
-            pagination.InnerHtml += container.ToString();
-            pagination.InnerHtml += clear.ToString();
-            
-            return MvcHtmlString.Create(pagination.ToString());
+            return MvcHtmlString.Create(ul.ToString());
         }
 
-        private int Skip<T>(int size, IPaging<T> source)
+        private static string Item(Func<int, string> url, int page, string label, bool active = false, bool disabled = false)
         {
-            var currentPage = (source.CurrentPage / size);
-            var pageCount = (int)Math.Ceiling(source.PageCount / (double)size);
-            var skip = (currentPage * size);
+            var li = new TagBuilder("li");
+            var link = new TagBuilder("a");
 
-            if (pageCount <= currentPage)
+            if (active)
             {
-                skip = ((pageCount - 1) * size);
+                li.AddCssClass("active");
             }
 
-            return skip;
+            if (disabled)
+            {
+                li.AddCssClass("disabled");
+            }
+
+            link.Attributes.Add("data-page", page.ToString(CultureInfo.InvariantCulture));
+            link.Attributes.Add("href", (url == null || page < 0 ? "#" : url(page)));
+            
+            link.InnerHtml = label;
+
+            li.InnerHtml = link.ToString();
+
+            return li.ToString();
+        }
+
+        private static IEnumerable<int> Pages<T>(IPaging<T> source, int size)
+        {
+            var pages = new List<int>();
+            var start = 0;
+            var end = source.PageCount;
+
+            size--;
+
+            if (source.PageCount >= size)
+            {
+                start = 0;
+                end = size;
+
+                if (source.CurrentPage > Convert.ToInt32(size / 2))
+                {
+                    if (source.CurrentPage > (source.PageCount - Convert.ToInt32(size / 2)))
+                    {
+                        start = source.PageCount - size;
+                        end = source.PageCount;
+                    }
+                    else
+                    {
+                        start = source.CurrentPage - Convert.ToInt32(size / 2);
+                        end = source.CurrentPage + Convert.ToInt32(size / 2);
+                    }
+                }
+            }
+
+            if (end == source.PageCount)
+            {
+                start--;
+                end--;
+            }
+
+            for (var i = start; i <= end; i++)
+            {
+                pages.Add(i);
+            }
+
+            return pages;
         }
     }
 }

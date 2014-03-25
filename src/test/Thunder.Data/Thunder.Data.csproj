@@ -84,10 +84,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\main\Thunder.Data\Thunder.Data.csproj">
-      <Project>{b97e7bed-bedb-4ac2-9b8f-baa2f9ae0faf}</Project>
-      <Name>Thunder.Data %28main\framework\Thunder.Data%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\main\Thunder\Thunder.csproj">
       <Project>{85e79781-5311-482c-bc8b-3f7781061ed5}</Project>
       <Name>Thunder %28main\framework\Thunder%29</Name>

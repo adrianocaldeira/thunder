@@ -60,7 +60,6 @@
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Resources\TireItem.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttributeTest.cs" />
-    <Compile Include="MessageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>

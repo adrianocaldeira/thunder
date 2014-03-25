@@ -2,15 +2,29 @@
 
 namespace Thunder.Web.Mvc.Html.StyleSheet
 {
+    /// <summary>
+    /// StyleSheet html builder
+    /// </summary>
+    /// <typeparam name="TModel"></typeparam>
     public class StyleSheetBuilder<TModel>
     {
         private readonly HtmlHelper<TModel> _helper;
 
+        /// <summary>
+        /// Initialize new instance of <see cref="StyleSheetBuilder{TModel}"/>
+        /// </summary>
+        /// <param name="helper"></param>
         public StyleSheetBuilder(HtmlHelper<TModel> helper)
         {
             _helper = helper;
         }
 
+        /// <summary>
+        /// Builder
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="htmlAttributes"></param>
+        /// <returns></returns>
         public MvcHtmlString Builder(string url, object htmlAttributes)
         {
             var tagBuilder = new TagBuilder("link");
