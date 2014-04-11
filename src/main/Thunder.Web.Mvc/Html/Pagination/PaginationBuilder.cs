@@ -99,6 +99,16 @@ namespace Thunder.Web.Mvc.Html.Pagination
                 end--;
             }
 
+            if (start < 0)
+            {
+                start = 0;
+            }
+
+            if (end < 0)
+            {
+                end = 0;
+            }
+
             for (var i = start; i <= end; i++)
             {
                 pages.Add(i);
