@@ -129,6 +129,7 @@
     <Compile Include="Html\Pagination\PaginationBuilder.cs" />
     <Compile Include="Html\Password\PasswordBuilder.cs" />
     <Compile Include="Html\Phone\PhoneBuilder.cs" />
+    <Compile Include="JsonResult.cs" />
     <Compile Include="SelectListExtensions.cs" />
     <Compile Include="Html\StyleSheet\StyleSheetBuilder.cs" />
     <Compile Include="Html\TextArea\TextAreaBuilder.cs" />

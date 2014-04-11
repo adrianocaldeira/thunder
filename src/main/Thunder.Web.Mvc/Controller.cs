@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Thunder.Web.Mvc
 {
@@ -94,6 +96,55 @@ namespace Thunder.Web.Mvc
         public NotifyResult Notify(Notify notify)
         {
             return new NotifyResult(notify);
+        }
+
+        /// <summary>
+        /// Success json result
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult Success()
+        {
+            return Success(null, "application/json");
+        }
+
+        /// <summary>
+        /// Success json result
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        public JsonResult Success(object data, string contentType)
+        {
+            return Success(data, "application/json", JsonRequestBehavior.DenyGet);
+        }
+
+        /// <summary>
+        /// Success json result
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="jsonRequestBehavior"></param>
+        /// <returns></returns>
+        public JsonResult Success(object data, JsonRequestBehavior jsonRequestBehavior)
+        {
+            return Success(data, "application/json", jsonRequestBehavior);
+        }
+
+        /// <summary>
+        /// Success json result
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="contentType"></param>
+        /// <param name="jsonRequestBehavior"></param>
+        /// <returns></returns>
+        public JsonResult Success(object data, string contentType, JsonRequestBehavior jsonRequestBehavior)
+        {
+            return new JsonResult
+            {
+                Type = JsonResultType.Success, 
+                Data = data,
+                JsonRequestBehavior = jsonRequestBehavior,
+                ContentType = contentType
+            };
         }
 
         /// <summary>

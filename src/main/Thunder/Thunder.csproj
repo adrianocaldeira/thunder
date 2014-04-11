@@ -93,6 +93,7 @@
     <Compile Include="IObjectState.cs" />
     <Compile Include="Collections\IPaging.cs" />
     <Compile Include="Collections\Extensions\ListExtensions.cs" />
+    <Compile Include="JsonResultType.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\FilterOrder.cs" />
     <Compile Include="Notify.cs" />

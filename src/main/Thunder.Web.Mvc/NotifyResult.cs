@@ -117,6 +117,11 @@ namespace Thunder.Web.Mvc
         public JsonRequestBehavior JsonRequestBehavior { get; set; }
 
         /// <summary>
+        /// Get or set data result
+        /// </summary>
+        public object Data { get; set; }
+
+        /// <summary>
         /// Execute result
         /// </summary>
         /// <param name="context"></param>
