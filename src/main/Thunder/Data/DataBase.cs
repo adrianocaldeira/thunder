@@ -42,46 +42,30 @@ namespace Thunder.Data
         /// <returns><see cref="DataBase"/></returns>
         public DataBase Create()
         {
-            var connectionBuilder = new ConnectionBuilder(Dialect, Connection);
+            var database = Connection.Database;
+
+            Connection.ConnectionString = GetConnectionString();
 
             if (Dialect is MySQLDialect)
             {
-                Connection.ConnectionString = connectionBuilder
-                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
-                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
-                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
-                    .Builder()
-                    .ConnectionString;
-
-                ExecuteCommand(string.Format("CREATE DATABASE IF NOT EXISTS {0};", Connection.Database), Connection);
+                ExecuteCommand(string.Format("CREATE DATABASE IF NOT EXISTS {0};", database), Connection);
             }
             else if (Dialect is MsSql2000Dialect)
             {
-                Connection.ConnectionString = connectionBuilder
-                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
-                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
-                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
-                    .Builder()
-                    .ConnectionString;
-
-                ExecuteCommand(string.Format("IF NOT(EXISTS(SELECT * FROM sys.sysdatabases where name='{0}')) BEGIN CREATE DATABASE {0}; END", Connection.Database), Connection);
+                ExecuteCommand(string.Format("IF NOT(EXISTS(SELECT * FROM sys.sysdatabases where name='{0}')) BEGIN CREATE DATABASE {0}; END", database), Connection);
             }
             else if (Dialect is PostgreSQLDialect)
             {
-                Connection.ConnectionString = connectionBuilder
-                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
-                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
-                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
-                    .With("Port", connectionBuilder.GetValueOfPart("Port"))
-                    .Builder()
-                    .ConnectionString;
+                Connection.ChangeDatabase("postgres");
 
-                ExecuteCommand(string.Format("CREATE DATABASE {0};", Connection.Database), Connection);
+                ExecuteCommand(string.Format("CREATE DATABASE {0};", database), Connection);
             }
 
             Connection = ConnectionFactory.Factory(Configuration, Dialect);
 
-            new SchemaExport(SessionManager.Configuration).Create(false, true);
+            var schemaExport = new SchemaExport(SessionManager.Configuration);
+
+            schemaExport.Create(false, true);
 
             return this;
         }
@@ -103,30 +87,23 @@ namespace Thunder.Data
         /// <returns><see cref="DataBase"/></returns>
         public DataBase Drop()
         {
-            var connectionBuilder = new ConnectionBuilder(Dialect, Connection);
+            var database = Connection.Database;
 
+            Connection.ConnectionString = GetConnectionString();
+            
             if (Dialect is MySQLDialect)
             {
-                Connection.ConnectionString = connectionBuilder
-                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
-                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
-                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
-                    .Builder()
-                    .ConnectionString;
-
-                ExecuteCommand(string.Format("DROP DATABASE IF EXISTS {0};", Connection.Database), Connection);
+                ExecuteCommand(string.Format("DROP DATABASE IF EXISTS {0};", database), Connection);
+            }
+            else if (Dialect is MsSql2000Dialect)
+            {
+                ExecuteCommand(string.Format("IF (EXISTS(SELECT * FROM sys.sysdatabases where name='{0}')) BEGIN DROP DATABASE {0}; END", database), Connection);
             }
             else if (Dialect is PostgreSQLDialect)
             {
-                Connection.ConnectionString = connectionBuilder
-                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
-                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
-                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
-                    .With("Port", connectionBuilder.GetValueOfPart("Port"))
-                    .Builder()
-                    .ConnectionString;
+                Connection.ChangeDatabase("postgres");
 
-                ExecuteCommand(string.Format("DROP DATABASE {0};", Connection.Database), Connection);
+                ExecuteCommand(string.Format("DROP DATABASE IF EXISTS {0};", database), Connection);
             }
 
             Connection = ConnectionFactory.Factory(Configuration, Dialect);
@@ -143,14 +120,55 @@ namespace Thunder.Data
         {
             using (var connection = dbConnection)
             {
-                connection.Open();
+                if (connection.State == ConnectionState.Closed)
+                {
+                    connection.Open();                    
+                }
 
-                IDbCommand command = connection.CreateCommand();
+                var command = connection.CreateCommand();
                 command.CommandType = CommandType.Text;
                 command.CommandText = commandText;
                 command.ExecuteNonQuery();
             }
         }
-       
+
+        private string GetConnectionString()
+        {
+            var connectionBuilder = new ConnectionBuilder(Dialect, Connection);
+
+            if (Dialect is MySQLDialect)
+            {
+                return connectionBuilder
+                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
+                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
+                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
+                    .Builder()
+                    .ConnectionString;
+            }
+
+            if (Dialect is MsSql2000Dialect)
+            {
+                return connectionBuilder
+                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
+                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
+                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
+                    .Builder()
+                    .ConnectionString;
+            }
+            
+            if (Dialect is PostgreSQLDialect)
+            {
+                return connectionBuilder
+                    .With("Host", connectionBuilder.GetValueOfPart("Host"))
+                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
+                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
+                    .With("Port", connectionBuilder.GetValueOfPart("Port"))
+                    .With("DataBase", connectionBuilder.GetValueOfPart("DataBase"))
+                    .Builder()
+                    .ConnectionString;
+            }
+
+            return string.Empty;
+        }
     }
 }
