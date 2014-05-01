@@ -66,6 +66,18 @@ namespace Thunder.Data
 
                 ExecuteCommand(string.Format("IF NOT(EXISTS(SELECT * FROM sys.sysdatabases where name='{0}')) BEGIN CREATE DATABASE {0}; END", Connection.Database), Connection);
             }
+            else if (Dialect is PostgreSQLDialect)
+            {
+                Connection.ConnectionString = connectionBuilder
+                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
+                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
+                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
+                    .With("Port", connectionBuilder.GetValueOfPart("Port"))
+                    .Builder()
+                    .ConnectionString;
+
+                ExecuteCommand(string.Format("CREATE DATABASE {0};", Connection.Database), Connection);
+            }
 
             Connection = ConnectionFactory.Factory(Configuration, Dialect);
 
@@ -103,6 +115,18 @@ namespace Thunder.Data
                     .ConnectionString;
 
                 ExecuteCommand(string.Format("DROP DATABASE IF EXISTS {0};", Connection.Database), Connection);
+            }
+            else if (Dialect is PostgreSQLDialect)
+            {
+                Connection.ConnectionString = connectionBuilder
+                    .With("Server", connectionBuilder.GetValueOfPart("Server"))
+                    .With("User Id", connectionBuilder.GetValueOfPart("User Id"))
+                    .With("Password", connectionBuilder.GetValueOfPart("Password"))
+                    .With("Port", connectionBuilder.GetValueOfPart("Port"))
+                    .Builder()
+                    .ConnectionString;
+
+                ExecuteCommand(string.Format("DROP DATABASE {0};", Connection.Database), Connection);
             }
 
             Connection = ConnectionFactory.Factory(Configuration, Dialect);

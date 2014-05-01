@@ -94,11 +94,11 @@ namespace Thunder.Data
         {
             get
             {
-                if (Dialect is MySQLDialect)
+                if (Dialect is MySQLDialect || Dialect is PostgreSQLDialect)
                 {
                     return ';';
                 }
-
+              
                 return ' ';
             }
         }
