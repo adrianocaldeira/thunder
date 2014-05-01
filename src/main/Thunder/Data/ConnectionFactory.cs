@@ -39,6 +39,10 @@ namespace Thunder.Data
             {
                 connection = CreateObject<IDbConnection>("FirebirdSql.Data.FirebirdClient", "FirebirdSql.Data.FirebirdClient.FbConnection");
             }
+            else if (dialect is PostgreSQLDialect)
+            {
+                connection = CreateObject<IDbConnection>("Npgsql", "Npgsql.NpgsqlConnection");
+            }
 
             if (connection != null)
             {
