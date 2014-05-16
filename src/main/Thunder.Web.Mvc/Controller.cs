@@ -104,7 +104,17 @@ namespace Thunder.Web.Mvc
         /// <returns></returns>
         public JsonResult Success()
         {
-            return Success(null, "application/json");
+            return Success(null);
+        }
+
+        /// <summary>
+        /// Success json result
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public JsonResult Success(object data)
+        {
+            return Success(data, "application/json");
         }
 
         /// <summary>

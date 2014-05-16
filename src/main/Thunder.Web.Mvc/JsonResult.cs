@@ -11,6 +11,11 @@ namespace Thunder.Web.Mvc
     public class JsonResult : System.Web.Mvc.JsonResult
     {
         /// <summary>
+        /// Get or set data object
+        /// </summary>
+        public new object Data { get; set; }
+
+        /// <summary>
         /// Get or set type json result
         /// </summary>
         public JsonResultType Type { get; set; }
