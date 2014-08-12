@@ -46,10 +46,7 @@ namespace Thunder.Web.Mvc
 
             response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/json";
 
-            if (ContentEncoding != null)
-            {
-                response.ContentEncoding = ContentEncoding;
-            }
+            if (ContentEncoding != null) response.ContentEncoding = ContentEncoding;
 
             if (!string.IsNullOrEmpty(context.HttpContext.Request["callback"]))
             {

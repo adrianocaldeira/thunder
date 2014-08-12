@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -199,12 +200,9 @@ namespace Thunder.Web.Mvc
         {
             if (ModelState.IsValid) return;
 
-            foreach (var property in properties)
+            foreach (var property in properties.Where(property => ModelState.ContainsKey(property)))
             {
-                if(ModelState.ContainsKey(property))
-                {
-                    ModelState.Remove(property);                    
-                }
+                ModelState.Remove(property);
             }
         }
 
