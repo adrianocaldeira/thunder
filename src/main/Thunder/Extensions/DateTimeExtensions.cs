@@ -376,6 +376,132 @@ namespace Thunder.Extensions
             }
 
             return years;
-        } 
+        }
+
+        /// <summary>
+        /// Returns first next occurence of specified DayOfTheWeek
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <param name="day">A DayOfWeek to find the next occurence of</param>
+        /// <returns>A DateTime whose value is the sum of the date and time represented by this instance and the enum value represented by the day.</returns>
+        public static DateTime Next(this DateTime obj, DayOfWeek day)
+        {
+            return obj.AddDays(Sub(obj.DayOfWeek, day) * -1);
+        }
+
+        /// <summary>
+        /// Returns next "first" occurence of specified DayOfTheWeek
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <param name="day">A DayOfWeek to find the previous occurence of</param>
+        /// <returns>A DateTime whose value is the sum of the date and time represented by this instance and the enum value represented by the day.</returns>
+        public static DateTime Previous(this DateTime obj, DayOfWeek day)
+        {
+            return obj.AddDays(Sub(day, obj.DayOfWeek));
+        }
+
+
+        /// <summary>
+        /// Returns the original DateTime with Hour part changed to supplied hour parameter
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <param name="hour">A number of whole and fractional hours. The value parameter can be negative or positive.</param>
+        /// <returns>A DateTime whose value is the sum of the date and time represented by this instance and the numbers represented by the parameters.</returns>
+        public static DateTime SetTime(this DateTime obj, int hour)
+        {
+            return SetDateWithChecks(obj, 0, 0, 0, hour, null, null, null);
+        }
+
+        /// <summary>
+        /// Returns the original DateTime with Hour and Minute parts changed to supplied hour and minute parameters
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <param name="hour">A number of whole and fractional hours. The value parameter can be negative or positive.</param>
+        /// <param name="minute">A number of whole and fractional minutes. The value parameter can be negative or positive.</param>
+        /// <returns>A DateTime whose value is the sum of the date and time represented by this instance and the numbers represented by the parameters.</returns>
+        public static DateTime SetTime(this DateTime obj, int hour, int minute)
+        {
+            return SetDateWithChecks(obj, 0, 0, 0, hour, minute, null, null);
+        }
+
+        /// <summary>
+        /// Returns the original DateTime with Hour, Minute and Second parts changed to supplied hour, minute and second parameters
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <param name="hour">A number of whole and fractional hours. The value parameter can be negative or positive.</param>
+        /// <param name="minute">A number of whole and fractional minutes. The value parameter can be negative or positive.</param>
+        /// <param name="second">A number of whole and fractional seconds. The value parameter can be negative or positive.</param>
+        /// <returns>A DateTime whose value is the sum of the date and time represented by this instance and the numbers represented by the parameters.</returns>
+        public static DateTime SetTime(this DateTime obj, int hour, int minute, int second)
+        {
+            return SetDateWithChecks(obj, 0, 0, 0, hour, minute, second, null);
+        }
+
+        /// <summary>
+        /// Returns the original DateTime with Hour, Minute, Second and Millisecond parts changed to supplied hour, minute, second and millisecond parameters
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <param name="hour">A number of whole and fractional hours. The value parameter can be negative or positive.</param>
+        /// <param name="minute">A number of whole and fractional minutes. The value parameter can be negative or positive.</param>
+        /// <param name="second">A number of whole and fractional seconds. The value parameter can be negative or positive.</param>
+        /// <param name="millisecond">A number of whole and fractional milliseconds. The value parameter can be negative or positive.</param>
+        /// <returns>A DateTime whose value is the sum of the date and time represented by this instance and the numbers represented by the parameters.</returns>
+        public static DateTime SetTime(this DateTime obj, int hour, int minute, int second, int millisecond)
+        {
+            return SetDateWithChecks(obj, 0, 0, 0, hour, minute, second, millisecond);
+        }
+
+        /// <summary>
+        /// Returns true if the day is Saturday or Sunday
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <returns>boolean value indicating if the date is a weekend</returns>
+        public static bool IsWeekend(this DateTime obj)
+        {
+            return (obj.DayOfWeek == DayOfWeek.Saturday || obj.DayOfWeek == DayOfWeek.Sunday);
+        }
+
+        /// <summary>
+        /// Get the quarter that the datetime is in.
+        /// </summary>
+        /// <param name="obj">DateTime Base, from where the calculation will be preformed.</param>
+        /// <returns>Returns 1 to 4 that represenst the quarter that the datetime is in.</returns>
+        public static int Quarter(this DateTime obj)
+        {
+            return ((obj.Month - 1) / 3) + 1;
+        }
+
+        private static int Sub(DayOfWeek s, DayOfWeek e)
+        {
+            if ((s - e) > 0) return (s - e) - 7;
+            if ((s - e) == 0) return -7;
+            return (s - e);
+        }
+
+        private static DateTime SetDateWithChecks(DateTime obj, int year, int month, int day, int? hour, int? minute, int? second, int? millisecond)
+        {
+            DateTime startDate;
+
+            if (year == 0)
+                startDate = new DateTime(obj.Year, 1, 1, 0, 0, 0, 0);
+            else
+            {
+                if (DateTime.MaxValue.Year < year)
+                    startDate = new DateTime(DateTime.MinValue.Year, 1, 1, 0, 0, 0, 0);
+                else if (DateTime.MinValue.Year > year)
+                    startDate = new DateTime(DateTime.MaxValue.Year, 1, 1, 0, 0, 0, 0);
+                else
+                    startDate = new DateTime(year, 1, 1, 0, 0, 0, 0);
+            }
+
+            startDate = month == 0 ? startDate.AddMonths(obj.Month - 1) : startDate.AddMonths(month - 1);
+            startDate = day == 0 ? startDate.AddDays(obj.Day - 1) : startDate.AddDays(day - 1);
+            startDate = startDate.AddHours(!hour.HasValue ? obj.Hour : hour.Value);
+            startDate = startDate.AddMinutes(!minute.HasValue ? obj.Minute : minute.Value);
+            startDate = startDate.AddSeconds(!second.HasValue ? obj.Second : second.Value);
+            startDate = startDate.AddMilliseconds(!millisecond.HasValue ? obj.Millisecond : millisecond.Value);
+
+            return startDate;
+        }
     }
 }
