@@ -7,6 +7,7 @@ using NHibernate.Criterion;
 using NHibernate.Transform;
 using Thunder.Collections;
 using Thunder.Data.Extensions;
+using Thunder.Extensions;
 
 namespace Thunder.Data.Pattern
 {
@@ -36,6 +37,7 @@ namespace Thunder.Data.Pattern
         {
             using (var transaction = Session.BeginTransaction())
             {
+                entity.Trim();
                 Session.Save(entity);
 
                 transaction.Commit();
@@ -55,6 +57,7 @@ namespace Thunder.Data.Pattern
             {
                 foreach (var entity in entities)
                 {
+                    entity.Trim();
                     Session.Save(entity);
                 }
 
@@ -73,6 +76,7 @@ namespace Thunder.Data.Pattern
         {
             using (var transaction = Session.BeginTransaction())
             {
+                entity.Trim();
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();
@@ -108,6 +112,7 @@ namespace Thunder.Data.Pattern
 
                 Property.SetValue(entity, property);
                 
+                entity.Trim();
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();
@@ -133,6 +138,7 @@ namespace Thunder.Data.Pattern
                     Property.SetValue(entity, property);
                 }
 
+                entity.Trim();
                 Session.SaveOrUpdate(entity);
 
                 transaction.Commit();

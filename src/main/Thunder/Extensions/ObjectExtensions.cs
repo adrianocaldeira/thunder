@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Thunder.Extensions
 {
@@ -35,6 +36,21 @@ namespace Thunder.Extensions
             catch
             {
                 return default(T);
+            }
+        }
+
+        /// <summary>
+        /// Call Trim function all string properties of object
+        /// </summary>
+        /// <param name="source"></param>
+        public static void Trim<T>(this T source) where T : class 
+        {
+            var properties = source.GetType().GetProperties().Where(p => p.PropertyType == typeof(string));
+
+            foreach (var property in properties)
+            {
+                var currentValue = (string)property.GetValue(source, null);
+                property.SetValue(source, currentValue == null ? null : currentValue.Trim(), null);
             }
         }
     }
