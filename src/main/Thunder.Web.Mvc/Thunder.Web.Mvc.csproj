@@ -99,6 +99,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Binders\DecimalModelBinder.cs" />
+    <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filter\ClearCacheAttribute.cs" />
     <Compile Include="Filter\CompressAttribute.cs" />

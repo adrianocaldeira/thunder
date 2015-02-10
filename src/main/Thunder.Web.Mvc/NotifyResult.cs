@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Thunder.Extensions;
+using Thunder.Web.Mvc.Extensions;
 
 namespace Thunder.Web.Mvc
 {
@@ -85,10 +86,7 @@ namespace Thunder.Web.Mvc
             : this()
         {
             Type = type;
-
-            Messages = (from key in modelState.Keys where modelState[key].Errors.Any() 
-                        select new KeyValuePair<string, IList<string>>(key, modelState[key].Errors.Select(error => error.ErrorMessage).ToList())
-            ).ToList(); 
+            Messages = modelState.ToKeyAndValues().ToList(); 
         }
 
         /// <summary>
