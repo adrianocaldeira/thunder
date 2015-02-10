@@ -448,6 +448,11 @@ namespace Thunder.Web.Mvc.Html
         /// <returns></returns>
         public MvcHtmlString Notify(Thunder.Notify notify, bool showCloseButton, object htmlAttributes)
         {
+            if (_helper.ViewContext.HttpContext.Session != null && _helper.ViewContext.HttpContext.Session[Constants.ViewData.Notify] != null)
+            {
+                _helper.ViewContext.HttpContext.Session.Remove(Constants.ViewData.Notify);
+            }
+            
             return new NotifyBuilder().Builder(notify, showCloseButton, htmlAttributes);
         }
         #endregion
