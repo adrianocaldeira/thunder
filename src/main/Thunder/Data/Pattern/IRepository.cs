@@ -18,7 +18,7 @@ namespace Thunder.Data.Pattern
         /// <summary>
         /// Get session
         /// </summary>
-        ISession Session { get; }
+        ISession Session { get; set; }
 
         /// <summary>
         /// Create entity

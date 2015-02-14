@@ -18,6 +18,8 @@ namespace Thunder.Data.Pattern
     /// <typeparam name="TKey">Type key</typeparam>
     public class Repository<T, TKey> : IRepository<T, TKey> where T : Persist<T, TKey>
     {
+        private ISession _session;
+
         #region Implementation of IRepository<T,in TKey>
 
         /// <summary>
@@ -25,7 +27,8 @@ namespace Thunder.Data.Pattern
         /// </summary>
         public ISession Session
         {
-            get { return SessionManager.CurrentSession; }
+            get { return _session ?? (_session = SessionManager.CurrentSession); }
+            set { _session = value; }
         }
 
         /// <summary>

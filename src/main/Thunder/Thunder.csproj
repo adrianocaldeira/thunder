@@ -87,6 +87,7 @@
     <Compile Include="Data\Pattern\Repository.cs" />
     <Compile Include="Data\SessionManager.cs" />
     <Compile Include="Extensions\BooleanExtensions.cs" />
+    <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="IObjectState.cs" />

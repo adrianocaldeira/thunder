@@ -2,8 +2,6 @@
 using System.Configuration;
 using NHibernate;
 using NHibernate.Context;
-using NHibernate.Event;
-using Thunder.Data.Pattern;
 using Configuration = NHibernate.Cfg.Configuration;
 
 namespace Thunder.Data
@@ -69,17 +67,9 @@ namespace Thunder.Data
             {
                 if (_configuration != null) return _configuration;
 
-                if (SerializeConfiguration)
-                {
-                    _configuration = new CfgSerialization("cfg.thunder").Load();
-                }
-                else
-                {
-                    _configuration = new Configuration().Configure();
-
-                    _configuration.AppendListeners(ListenerType.PreUpdate, new IPreUpdateEventListener[] { new CreatedAndUpdatedPropertyEventListener() });
-                    _configuration.AppendListeners(ListenerType.PreInsert, new IPreInsertEventListener[] { new CreatedAndUpdatedPropertyEventListener() });
-                }
+                _configuration = SerializeConfiguration ? 
+                    new CfgSerialization("cfg.thunder").Load() : 
+                    new Configuration().Configure();
 
                 if (_configuration == null)
                     throw new InvalidOperationException("NHibernate configuration is null.");

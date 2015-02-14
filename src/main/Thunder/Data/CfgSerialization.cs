@@ -84,9 +84,6 @@ namespace Thunder.Data
             {
                 var bf = new BinaryFormatter();
                 
-                configuration.AppendListeners(ListenerType.PreUpdate, new IPreUpdateEventListener[] { new CreatedAndUpdatedPropertyEventListener() });
-                configuration.AppendListeners(ListenerType.PreInsert, new IPreInsertEventListener[] { new CreatedAndUpdatedPropertyEventListener() });
-
                 bf.Serialize(file, configuration);
             }
         }
