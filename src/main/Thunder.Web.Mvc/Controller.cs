@@ -26,7 +26,10 @@ namespace Thunder.Web.Mvc
         /// <param name="filterContext">Filter context</param>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            ViewData[Constants.ViewData.Notify] = Session[Constants.ViewData.Notify] as Notify ?? new Notify();
+            if (Session != null)
+            {
+                ViewData[Constants.ViewData.Notify] = Session[Constants.ViewData.Notify] as Notify ?? new Notify();    
+            }
 
             base.OnActionExecuting(filterContext);
         }
