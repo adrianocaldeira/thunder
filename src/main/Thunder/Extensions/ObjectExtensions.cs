@@ -45,7 +45,7 @@ namespace Thunder.Extensions
         /// <param name="source"></param>
         public static void Trim<T>(this T source) where T : class 
         {
-            var properties = source.GetType().GetProperties().Where(p => p.PropertyType == typeof(string));
+            var properties = source.GetType().GetProperties().Where(p => p.PropertyType == typeof(string) && p.CanWrite);
 
             foreach (var property in properties)
             {
