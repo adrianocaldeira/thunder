@@ -67,5 +67,15 @@ namespace Thunder.Web.Mvc.Extensions
         {
             source.AddModelError(key, string.Format(errorMessage, args));
         }
+
+        /// <summary>
+        /// Cast for list of string
+        /// </summary>
+        /// <param name="source"><see cref="ModelStateDictionary"/></param>
+        /// <returns>List of string</returns>
+        public static IList<string> ToListOfString(this ModelStateDictionary source)
+        {
+            return (from key in source.Keys where source[key].Errors.Any() from error in source[key].Errors select error.ErrorMessage).ToList();
+        }
     }
 }
