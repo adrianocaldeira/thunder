@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -35,6 +36,24 @@ namespace Thunder.Web.Mvc.Extensions
                     select
                         new KeyValuePair<string, IList<string>>(key, source[key].Errors.Select(error => error.ErrorMessage)
                             .ToList()));
+        }
+
+        /// <summary>
+        /// Exclude properties with key part in validation of model state
+        /// </summary>
+        /// <param name="source"><see cref="ModelStateDictionary"/></param>
+        /// <param name="keyPart">Key part in validation of model state</param>
+        /// <param name="ignoreKeys">Ignore keys</param>
+        public static void ExcludePropertiesWithKeyPart(this ModelStateDictionary source, string keyPart, string[] ignoreKeys)
+        {
+            if (source.IsValid) return;
+
+            foreach (var item in source.ToList().Where(item => 
+                item.Key.ToLower().IndexOf(keyPart.ToLower(), StringComparison.InvariantCulture) != -1
+                && (ignoreKeys != null && !ignoreKeys.Contains(item.Key))))
+            {
+                source.Remove(item);
+            }
         }
     }
 }

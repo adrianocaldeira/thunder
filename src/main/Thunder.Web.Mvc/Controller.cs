@@ -255,15 +255,11 @@ namespace Thunder.Web.Mvc
         /// <summary>
         /// Exclude properties with key part in validation of model state
         /// </summary>
-        /// <param name="keyPart">Key part</param>
-        public void ExcludePropertiesWithKeyPart(string keyPart)
+        /// <param name="keyPart">Key part in validation of model state</param>
+        /// <param name="ignoreKeys">Ignore keys</param>
+        public void ExcludePropertiesWithKeyPart(string keyPart, params string[] ignoreKeys)
         {
-            if (ModelState.IsValid) return;
-
-            foreach (var item in ModelState.ToList().Where(item => item.Key.ToLower().IndexOf(keyPart.ToLower(), StringComparison.InvariantCulture) != -1))
-            {
-                ModelState.Remove(item);
-            }
+            ModelState.ExcludePropertiesWithKeyPart(keyPart, ignoreKeys);
         }
 
         /// <summary>
