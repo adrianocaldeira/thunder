@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Thunder.Web
 {
@@ -10,11 +11,26 @@ namespace Thunder.Web
         /// <summary>
         /// Convert an object to a JSON string
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">Object</param>
+        /// <returns>JSON string</returns>
         public static string Json(this object obj)
         {
-            return JsonConvert.SerializeObject(obj);
+            return Json(obj, Formatting.Indented);
+        }
+
+        /// <summary>
+        /// Convert an object to a JSON string
+        /// </summary>
+        /// <param name="obj">Object</param>
+        /// <param name="formatting"><see cref="Formatting"/></param>
+        /// <returns>JSON string</returns>
+        public static string Json(this object obj, Formatting formatting)
+        {
+            return JsonConvert.SerializeObject(obj, formatting,
+                new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                });
         }
 
         /// <summary>
