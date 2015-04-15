@@ -260,7 +260,7 @@ namespace Thunder.Web.Mvc
         {
             if (ModelState.IsValid) return;
 
-            foreach (var item in ModelState.Where(item => item.Key.ToLower().IndexOf(keyPart.ToLower(), StringComparison.InvariantCulture) != -1))
+            foreach (var item in ModelState.ToList().Where(item => item.Key.ToLower().IndexOf(keyPart.ToLower(), StringComparison.InvariantCulture) != -1))
             {
                 ModelState.Remove(item);
             }
