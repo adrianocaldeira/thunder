@@ -18,6 +18,8 @@ namespace Thunder.Web.Mvc.Html.Notify
         /// <returns></returns>
         public MvcHtmlString Builder(Thunder.Notify notify, bool showCloseButton, object htmlAttributes)
         {
+            if (!notify.Messages.Any()) return MvcHtmlString.Empty;
+
             var tagBuilder = new TagBuilder("div");
             var attributes = HtmlAttributesUtility.ObjectToHtmlAttributesDictionary(htmlAttributes);
             var content = string.Empty;
