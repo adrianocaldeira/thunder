@@ -55,5 +55,17 @@ namespace Thunder.Web.Mvc.Extensions
                 source.Remove(item);
             }
         }
+
+        /// <summary>
+        /// Add model error with format
+        /// </summary>
+        /// <param name="source"><see cref="ModelStateDictionary"/></param>
+        /// <param name="key">Key</param>
+        /// <param name="errorMessage">Error message</param>
+        /// <param name="args">Replace de format parameters</param>
+        public static void AddModelErrorFormat(this ModelStateDictionary source, string key, string errorMessage, params object[] args)
+        {
+            source.AddModelError(key, string.Format(errorMessage, args));
+        }
     }
 }
