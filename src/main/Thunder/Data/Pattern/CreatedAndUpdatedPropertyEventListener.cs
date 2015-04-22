@@ -28,6 +28,8 @@ namespace Thunder.Data.Pattern
             Set(@event.Persister, @event.State, "Updated", time);
 
             entity.Updated = time;
+
+            if (entity.Created == DateTime.MinValue) entity.Created = time;
             
             return false;
         }
