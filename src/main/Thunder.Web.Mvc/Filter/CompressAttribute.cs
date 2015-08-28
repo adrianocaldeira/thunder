@@ -24,6 +24,8 @@ namespace Thunder.Web.Mvc.Filter
             var request = filterContext.HttpContext.Request;
             var response = filterContext.HttpContext.Response;
 
+            if (response.Filter == null) return;
+
             if(IsGZipSupported(filterContext))
             {
                 var acceptEncoding = request.Headers["Accept-Encoding"].ToLower();
