@@ -50,11 +50,11 @@ namespace Thunder.Collections
 
             PageSize = pageSize;
             CurrentPage = currentPage;
-            Records = records.HasValue ? records.Value : source.Count();
+            Records = records ?? source.Count();
 
             if (Records <= 0) return;
 
-            SetSkip(source);
+            SetSkip(Records);
 
             AddRange(source.Skip(Skip).Take(PageSize));
         }
@@ -130,10 +130,9 @@ namespace Thunder.Collections
         /// <summary>
         /// Set skip records
         /// </summary>
-        /// <param name="source">Source</param>
-        private void SetSkip(IQueryable<T> source)
+        /// <param name="records"></param>
+        private void SetSkip(long records)
         {
-            var records = source.Count();
             var pageCount = (int) Math.Ceiling(records/(double) PageSize);
 
             if (records < Records && pageCount <= CurrentPage)
