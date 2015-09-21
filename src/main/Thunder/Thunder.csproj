@@ -92,6 +92,7 @@
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="FormatType.cs" />
     <Compile Include="IObjectState.cs" />
     <Compile Include="Collections\IPaging.cs" />
     <Compile Include="Collections\Extensions\ListExtensions.cs" />

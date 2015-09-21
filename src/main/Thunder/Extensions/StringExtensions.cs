@@ -10,12 +10,12 @@ using System.Threading;
 namespace Thunder.Extensions
 {
     /// <summary>
-    /// String extensions
+    ///     String extensions
     /// </summary>
     public static class StringExtensions
     {
         /// <summary>
-        /// Remove last <paramref name="caracter"/> from <paramref name="string"/>.
+        ///     Remove last <paramref name="caracter" /> from <paramref name="string" />.
         /// </summary>
         /// <param name="string">String</param>
         /// <param name="caracter">Caracter</param>
@@ -23,12 +23,12 @@ namespace Thunder.Extensions
         public static string RemoveLastCaracter(this string @string, string caracter)
         {
             return @string.LastIndexOf(caracter, StringComparison.Ordinal) == -1
-                       ? @string
-                       : @string.Substring(0, @string.LastIndexOf(caracter, StringComparison.Ordinal));
+                ? @string
+                : @string.Substring(0, @string.LastIndexOf(caracter, StringComparison.Ordinal));
         }
 
         /// <summary>
-        /// Define text if <paramref name="string"/> is null or empty
+        ///     Define text if <paramref name="string" /> is null or empty
         /// </summary>
         /// <param name="string">String</param>
         /// <param name="text">Text</param>
@@ -39,7 +39,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check cpf is valid
+        ///     Check cpf is valid
         /// </summary>
         /// <param name="cpf">Cpf</param>
         /// <returns>String is cpf</returns>
@@ -56,8 +56,8 @@ namespace Thunder.Extensions
             int d2;
             var soma = 0;
 
-            var peso1 = new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            var peso2 = new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            var peso1 = new[] {10, 9, 8, 7, 6, 5, 4, 3, 2};
+            var peso2 = new[] {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
 
             //Digitos
             var n = new int[11];
@@ -110,10 +110,10 @@ namespace Thunder.Extensions
                 return false;
             }
 
-            for (int i = 0; i <= peso1.GetUpperBound(0); i++)
-                soma += (peso1[i] * Convert.ToInt32(n[i]));
+            for (var i = 0; i <= peso1.GetUpperBound(0); i++)
+                soma += (peso1[i]*Convert.ToInt32(n[i]));
 
-            int resto = soma % 11;
+            var resto = soma%11;
 
             if (resto == 1 || resto == 0)
                 d1 = 0;
@@ -123,9 +123,9 @@ namespace Thunder.Extensions
             soma = 0;
 
             for (var i = 0; i <= peso2.GetUpperBound(0); i++)
-                soma += (peso2[i] * Convert.ToInt32(n[i]));
+                soma += (peso2[i]*Convert.ToInt32(n[i]));
 
-            resto = soma % 11;
+            resto = soma%11;
 
             if (resto == 1 || resto == 0)
                 d2 = 0;
@@ -139,7 +139,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check cnpj is valid
+        ///     Check cnpj is valid
         /// </summary>
         /// <param name="cnpj">Cnpj</param>
         /// <returns>String is cnpj</returns>
@@ -179,17 +179,17 @@ namespace Thunder.Extensions
                     return false;
             }
 
-            var multiplicador1 = new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            var multiplicador2 = new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            var multiplicador1 = new[] {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
+            var multiplicador2 = new[] {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
 
             var tempCnpj = cnpj.Substring(0, 12);
             var soma = 0;
 
             for (var i = 0; i < 12; i++)
-                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture)) * multiplicador1[i];
+                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture))*multiplicador1[i];
 
-            var resto = (soma % 11);
+            var resto = (soma%11);
 
             if (resto < 2)
                 resto = 0;
@@ -201,9 +201,9 @@ namespace Thunder.Extensions
             soma = 0;
 
             for (var i = 0; i < 13; i++)
-                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture)) * multiplicador2[i];
+                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture))*multiplicador2[i];
 
-            resto = (soma % 11);
+            resto = (soma%11);
 
             if (resto < 2)
                 resto = 0;
@@ -216,17 +216,19 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check e-mail is valid
+        ///     Check e-mail is valid
         /// </summary>
         /// <param name="email">E-mail</param>
         /// <returns>String is e-mail</returns>
         public static bool IsEmail(this string email)
         {
-            return Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            return Regex.IsMatch(email,
+                @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
+                RegexOptions.IgnoreCase);
         }
 
         /// <summary>
-        /// Check date is valid
+        ///     Check date is valid
         /// </summary>
         /// <param name="date">date</param>
         /// <returns>String is date</returns>
@@ -235,8 +237,9 @@ namespace Thunder.Extensions
             DateTime dt;
             return DateTime.TryParse(date, out dt);
         }
+
         /// <summary>
-        /// Check hour is valid
+        ///     Check hour is valid
         /// </summary>
         /// <param name="hour">Hour</param>
         /// <returns>String is hour</returns>
@@ -261,25 +264,27 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check url is valid
+        ///     Check url is valid
         /// </summary>
         /// <param name="url">Url</param>
         /// <param name="requireProtocol">Require protocol</param>
         /// <returns>Valid</returns>
         public static bool IsUrl(this string url, bool requireProtocol = true)
         {
-            var regex = @"^(https?|ftp):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$";
+            var regex =
+                @"^(https?|ftp):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$";
 
             if (!requireProtocol)
             {
-                regex = @"^((https?|ftp):\/\/)?(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$";
+                regex =
+                    @"^((https?|ftp):\/\/)?(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-fA-F]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$";
             }
 
             return url != null && new Regex(regex, RegexOptions.IgnoreCase).Match(url).Length > 0;
         }
 
         /// <summary>
-        /// Reduce
+        ///     Reduce
         /// </summary>
         /// <param name="s">String</param>
         /// <param name="count">Count</param>
@@ -289,15 +294,15 @@ namespace Thunder.Extensions
         {
             if (count < endings.Length)
                 throw new Exception("Failed to reduce to less then endings length.");
-            
+
             var sLength = s.Length;
             var len = sLength;
 
             len += endings.Length;
-            
+
             if (count > sLength)
                 return s;
-            
+
             s = s.Substring(0, sLength - len + count);
             s += endings;
 
@@ -305,7 +310,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Remove spaces
+        ///     Remove spaces
         /// </summary>
         /// <param name="s">String</param>
         /// <returns>String</returns>
@@ -315,7 +320,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Truncate string
+        ///     Truncate string
         /// </summary>
         /// <param name="s">String</param>
         /// <param name="length">Length</param>
@@ -326,7 +331,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check of string is null or empty
+        ///     Check of string is null or empty
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -336,7 +341,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Format string with arguments
+        ///     Format string with arguments
         /// </summary>
         /// <param name="format">Format</param>
         /// <param name="args">Argument</param>
@@ -347,7 +352,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Join array with separator
+        ///     Join array with separator
         /// </summary>
         /// <param name="array">Array</param>
         /// <param name="separator">Separator</param>
@@ -358,7 +363,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Join array with separator
+        ///     Join array with separator
         /// </summary>
         /// <param name="array">Array</param>
         /// <param name="separator">Separator</param>
@@ -369,7 +374,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check if the string contains only digits or float-point
+        ///     Check if the string contains only digits or float-point
         /// </summary>
         /// <param name="s">String</param>
         /// <param name="floatpoint">Considered float-point</param>
@@ -382,7 +387,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Check if the string can be parse as Double respective Int32
+        ///     Check if the string can be parse as Double respective Int32
         /// </summary>
         /// <param name="s">String</param>
         /// <param name="floatpoint">Double is considered, otherwhise Int32 is considered</param>
@@ -393,13 +398,13 @@ namespace Thunder.Extensions
             double d;
             var withoutWhiteSpace = s.RemoveSpaces();
 
-            return floatpoint ? 
-                double.TryParse(withoutWhiteSpace, NumberStyles.Any, Thread.CurrentThread.CurrentUICulture, out d) : 
-                int.TryParse(withoutWhiteSpace, out i);
+            return floatpoint
+                ? double.TryParse(withoutWhiteSpace, NumberStyles.Any, Thread.CurrentThread.CurrentUICulture, out d)
+                : int.TryParse(withoutWhiteSpace, out i);
         }
 
         /// <summary>
-        /// Replace \r\n or \n by <br /> in string
+        ///     Replace \r\n or \n by <br /> in string
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -409,7 +414,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Remove accent
+        ///     Remove accent
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -420,7 +425,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Transform string to SEO url
+        ///     Transform string to SEO url
         /// </summary>
         /// <param name="s"></param>
         /// <param name="maxlenght">Maxlength</param>
@@ -428,17 +433,17 @@ namespace Thunder.Extensions
         public static string ToSeo(this string s, int maxlenght = 2000)
         {
             var str = s.RemoveAccent().ToLower();
-            
+
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
             str = Regex.Replace(str, @"\s+", " ").Trim();
             str = str.Substring(0, str.Length <= maxlenght ? str.Length : maxlenght).Trim();
             str = Regex.Replace(str, @"\s", "-");
 
-            return str;             
+            return str;
         }
 
         /// <summary>
-        /// Transform string to hash
+        ///     Transform string to hash
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -450,7 +455,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        ///  Checks if url is valid
+        ///     Checks if url is valid
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
@@ -468,6 +473,46 @@ namespace Thunder.Extensions
                                  + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
 
             return new Regex(regex).IsMatch(url);
+        }
+
+        /// <summary>
+        /// Only numbers
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string OnlyNumbers(this string source)
+        {
+            return new string(source.Where(char.IsDigit).ToArray());
+        }
+
+        /// <summary>
+        /// Format
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="formatType"><see cref="FormatType"/></param>
+        /// <returns></returns>
+        public static string Format(this string source, FormatType formatType)
+        {
+            if (string.IsNullOrWhiteSpace(source)) return string.Empty;
+
+            var format = "";
+            var text = source.OnlyNumbers();
+
+            if (formatType == FormatType.Cnpj)
+                format = @"{0:00\.000\.000\/0000\-00}";
+
+            if (formatType == FormatType.Cpf)
+                format = @"{0:000\.000\.000\-00}";
+
+            if (formatType == FormatType.ZipCode)
+                format = @"{0:00000\-000}";
+
+            if (formatType == FormatType.Phone)
+            {
+                format = text.Length == 11 ? @"{0:(00) 00000\-0000}" : @"{0:(00) 0000\-0000}";
+            }
+
+            return !string.IsNullOrWhiteSpace(format) ? string.Format(format, Convert.ToDouble(text)) : source;
         }
     }
 }

@@ -170,5 +170,15 @@ namespace Thunder.Extensions
         {
             Assert.AreEqual(3406283506426094898, "cabeca-de-dinossauro-foi-achada-no-chao-de-um-parque-aquatico".ToHash());
         }
+
+        [Test]
+        public void Format()
+        {
+            Assert.AreEqual("537.783.216-76", "53778321676".Format(FormatType.Cpf));
+            Assert.AreEqual("53.823.456/0001-18", "53823456000118".Format(FormatType.Cnpj));
+            Assert.AreEqual("03068-090", "03068090".Format(FormatType.ZipCode));
+            Assert.AreEqual("(11) 97587-5558", "11975875558".Format(FormatType.Phone));
+            Assert.AreEqual("(11) 7587-5558", "1175875558".Format(FormatType.Phone));
+        }
     }
 }
