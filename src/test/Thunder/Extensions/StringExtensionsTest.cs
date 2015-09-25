@@ -180,5 +180,32 @@ namespace Thunder.Extensions
             Assert.AreEqual("(11) 97587-5558", "11975875558".Format(FormatType.Phone));
             Assert.AreEqual("(11) 7587-5558", "1175875558".Format(FormatType.Phone));
         }
+
+        [Test]
+        public void IsPhone()
+        {
+            Assert.IsFalse("(11)1111-1111".IsPhone());
+            Assert.IsFalse("(11)11111-1111".IsPhone());
+            Assert.IsFalse("(11)0111-1111".IsPhone());
+            Assert.IsFalse("(11)01111-1111".IsPhone());
+            Assert.IsFalse("(00)11111-1111".IsPhone());
+            Assert.IsFalse("(01)11111-1111".IsPhone());
+            Assert.IsFalse("(20) 3111-1112".IsPhone());
+            Assert.IsFalse("(30) 3111-1112".IsPhone());
+            Assert.IsFalse("(40) 3111-1112".IsPhone());
+            Assert.IsFalse("(50) 3111-1112".IsPhone());
+            Assert.IsFalse("(60) 3111-1112".IsPhone());
+            Assert.IsFalse("(70) 3111-1112".IsPhone());
+            Assert.IsFalse("(80) 3111-1112".IsPhone());
+            Assert.IsFalse("(90) 3111-1112".IsPhone());
+            Assert.IsFalse("(11) 31-1112".IsPhone());
+
+            Assert.IsTrue("(10) 3111-1112".IsPhone());
+            Assert.IsTrue("(11) 3111-1112".IsPhone());
+            Assert.IsTrue("(11) 92111-1112".IsPhone());
+            Assert.IsTrue("(32) 79111-1112".IsPhone());
+            Assert.IsTrue("(99) 2111-1112".IsPhone());
+            Assert.IsTrue("(11) 2222-2222".IsPhone());
+        }
     }
 }

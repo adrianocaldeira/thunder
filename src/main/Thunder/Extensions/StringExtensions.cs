@@ -476,7 +476,7 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Only numbers
+        ///     Only numbers
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -486,10 +486,12 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Format
+        ///     Format
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="formatType"><see cref="FormatType"/></param>
+        /// <param name="formatType">
+        ///     <see cref="FormatType" />
+        /// </param>
         /// <returns></returns>
         public static string Format(this string source, FormatType formatType)
         {
@@ -513,6 +515,18 @@ namespace Thunder.Extensions
             }
 
             return !string.IsNullOrWhiteSpace(format) ? string.Format(format, Convert.ToDouble(text)) : source;
+        }
+
+        /// <summary>
+        ///     Validate phone number
+        /// </summary>
+        /// <param name="souce"></param>
+        /// <returns>Valid</returns>
+        public static bool IsPhone(this string souce)
+        {
+            var phone = souce.Format(FormatType.Phone);
+
+            return new Regex(@"^\((10)|[1-9]{2}\)\s[2-9][0-9]{3,4}\-[0-9]{4}$").IsMatch(phone);
         }
     }
 }
