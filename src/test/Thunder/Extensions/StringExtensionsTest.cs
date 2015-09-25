@@ -207,5 +207,21 @@ namespace Thunder.Extensions
             Assert.IsTrue("(99) 2111-1112".IsPhone());
             Assert.IsTrue("(11) 2222-2222".IsPhone());
         }
+
+        [Test]
+        public void IsZipCode()
+        {
+            Assert.IsFalse("00000-000".IsZipCode());
+            Assert.IsFalse("11111-111".IsZipCode());
+            Assert.IsFalse("22222-222".IsZipCode());
+            Assert.IsFalse("33333-333".IsZipCode());
+            Assert.IsFalse("44444-444".IsZipCode());
+            Assert.IsFalse("55555-555".IsZipCode());
+            Assert.IsFalse("66666-666".IsZipCode());
+            Assert.IsFalse("77777-777".IsZipCode());
+            Assert.IsFalse("88888-888".IsZipCode());
+            Assert.IsFalse("99999-999".IsZipCode());
+            Assert.IsTrue("03067-000".IsZipCode());
+        }
     }
 }
