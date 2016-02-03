@@ -23,8 +23,9 @@ namespace Thunder.Data.Pattern
             if (entity == null)
                 return false;
 
-            var time = DateTime.Now;
-
+            var time = (entity.Updated == DateTime.MinValue ? 
+                DateTime.Now : entity.Updated);
+            
             Set(@event.Persister, @event.State, "Updated", time);
 
             entity.Updated = time;
@@ -49,7 +50,8 @@ namespace Thunder.Data.Pattern
             if (entity == null)
                 return false;
 
-            var time = DateTime.Now;
+            var time = (entity.Created == DateTime.MinValue ?
+                DateTime.Now : entity.Created);
 
             Set(@event.Persister, @event.State, "Updated", time);
             Set(@event.Persister, @event.State, "Created", time);
