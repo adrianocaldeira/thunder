@@ -23,8 +23,7 @@ namespace Thunder.Data.Pattern
             if (entity == null)
                 return false;
 
-            var time = (entity.Updated == DateTime.MinValue ? 
-                DateTime.Now : entity.Updated);
+            var time = DateTime.Now;
             
             Set(@event.Persister, @event.State, "Updated", time);
 
