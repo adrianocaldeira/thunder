@@ -48,6 +48,8 @@ namespace Thunder.Extensions
             Assert.IsTrue("adriano_@integgro.com".IsEmail());
             Assert.IsTrue("adriano_caldeira@integgro.com".IsEmail());
             Assert.IsTrue("adriano.caldeira@integgro.com".IsEmail());
+            Assert.IsTrue("adriano.caldeira@teste.academy".IsEmail());
+            Assert.IsTrue("adriano.caldeira@teste.me".IsEmail());
             Assert.IsFalse("adriano . caldeira@integgro.com".IsEmail());
             Assert.IsFalse("adriano . caldeira@integgro".IsEmail());
             Assert.IsFalse("adriano.caldeira@integgro".IsEmail());
