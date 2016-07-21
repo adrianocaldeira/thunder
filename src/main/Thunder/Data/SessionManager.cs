@@ -69,10 +69,12 @@ namespace Thunder.Data
 
                 _configuration = SerializeConfiguration ? 
                     new CfgSerialization("cfg.thunder").Load() : 
-                    new Configuration().Configure();
+                    new Configuration();
 
                 if (_configuration == null)
                     throw new InvalidOperationException("NHibernate configuration is null.");
+
+                _configuration.Configure();
 
                 return _configuration;
             }
@@ -83,7 +85,14 @@ namespace Thunder.Data
         /// </summary>
         public static ISession CurrentSession
         {
-            get { return SessionFactory.GetCurrentSession(); }
+            get
+            {
+                if (!CurrentSessionContext.HasBind(SessionFactory))
+                {
+                    CurrentSessionContext.Bind(SessionFactory.OpenSession());
+                }
+                return SessionFactory.GetCurrentSession();
+            }
         }
 
         /// <summary>
@@ -99,25 +108,9 @@ namespace Thunder.Data
         /// </summary>
         public static void Unbind()
         {
-            var session = CurrentSessionContext.Unbind(SessionFactory);
-
-            if (session == null || !session.IsOpen) return;
-
-            try
+            if (CurrentSessionContext.HasBind(SessionFactory))
             {
-                if (session.Transaction != null && session.Transaction.IsActive)
-                {
-                    session.Transaction.Rollback();
-                }
-                else
-                {
-                    session.Flush();
-                }
-            }
-            finally
-            {
-                session.Close();
-                session.Dispose();
+                CurrentSessionContext.Unbind(SessionFactory).Dispose();
             }
         }
     }
