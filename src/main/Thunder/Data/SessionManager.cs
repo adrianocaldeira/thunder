@@ -66,7 +66,7 @@ namespace Thunder.Data
         /// <summary>
         ///     Get or set listeners
         /// </summary>
-        public static Dictionary<ListenerType, object> Listeners { get; set; }
+        public static Dictionary<ListenerType, object[]> Listeners { get; set; }
 
         /// <summary>
         ///     Get hibernate configuration
@@ -91,7 +91,7 @@ namespace Thunder.Data
                 {
                     foreach (var listener in Listeners)
                     {
-                        _configuration.SetListener(listener.Key, listener.Value);
+                        _configuration.SetListeners(listener.Key, listener.Value);
                     }
                 }
 
