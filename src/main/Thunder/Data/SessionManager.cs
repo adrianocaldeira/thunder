@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using NHibernate;
 using NHibernate.Context;
+using NHibernate.Event;
 using Configuration = NHibernate.Cfg.Configuration;
 
 namespace Thunder.Data
 {
     /// <summary>
-    /// NHibernate Session Manager
+    ///     NHibernate Session Manager
     /// </summary>
     public sealed class SessionManager
     {
@@ -16,7 +19,7 @@ namespace Thunder.Data
         private static bool? _serializeConfiguration;
 
         /// <summary>
-        /// Get current instance of <see cref="ISessionFactory"/>.
+        ///     Get current instance of <see cref="ISessionFactory" />.
         /// </summary>
         public static ISessionFactory SessionFactory
         {
@@ -35,7 +38,7 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Get if serialize configuration
+        ///     Get if serialize configuration
         /// </summary>
         public static bool SerializeConfiguration
         {
@@ -45,34 +48,52 @@ namespace Thunder.Data
 
                 try
                 {
-                    _serializeConfiguration = !string.IsNullOrEmpty(ConfigurationManager.AppSettings["Thunder.Data.SessionManager.SerializeConfiguration"]) && 
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["Thunder.Data.SessionManager.SerializeConfiguration"]);
+                    _serializeConfiguration =
+                        !string.IsNullOrEmpty(
+                            ConfigurationManager.AppSettings["Thunder.Data.SessionManager.SerializeConfiguration"]) &&
+                        Convert.ToBoolean(
+                            ConfigurationManager.AppSettings["Thunder.Data.SessionManager.SerializeConfiguration"]);
                 }
                 catch (Exception)
                 {
                     _serializeConfiguration = false;
                 }
 
-                return _serializeConfiguration.Value;    
+                return _serializeConfiguration.Value;
             }
         }
 
         /// <summary>
-        /// Get hibernate configuration
+        ///     Get or set listeners
         /// </summary>
-        /// <returns><see cref="Configuration"/></returns>
+        public static Dictionary<ListenerType, object> Listeners { get; set; }
+
+        /// <summary>
+        ///     Get hibernate configuration
+        /// </summary>
+        /// <returns>
+        ///     <see cref="Configuration" />
+        /// </returns>
         public static Configuration Configuration
         {
             get
             {
                 if (_configuration != null) return _configuration;
 
-                _configuration = SerializeConfiguration ? 
-                    new CfgSerialization("cfg.thunder").Load() : 
-                    new Configuration();
+                _configuration = SerializeConfiguration
+                    ? new CfgSerialization("cfg.thunder").Load()
+                    : new Configuration();
 
                 if (_configuration == null)
                     throw new InvalidOperationException("NHibernate configuration is null.");
+
+                if (Listeners != null && Listeners.Any())
+                {
+                    foreach (var listener in Listeners)
+                    {
+                        _configuration.SetListener(listener.Key, listener.Value);
+                    }
+                }
 
                 _configuration.Configure();
 
@@ -81,7 +102,7 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Get current session
+        ///     Get current session
         /// </summary>
         public static ISession CurrentSession
         {
@@ -96,7 +117,7 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Bind nhibernate session
+        ///     Bind nhibernate session
         /// </summary>
         public static void Bind()
         {
@@ -104,7 +125,7 @@ namespace Thunder.Data
         }
 
         /// <summary>
-        /// Unbind nhibernate session
+        ///     Unbind nhibernate session
         /// </summary>
         public static void Unbind()
         {
