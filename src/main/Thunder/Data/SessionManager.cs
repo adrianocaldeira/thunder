@@ -136,12 +136,9 @@ namespace Thunder.Data
         /// </summary>
         public static void Unbind()
         {
-            lock (_lockObject)
+            if (CurrentSessionContext.HasBind(SessionFactory))
             {
-                if (CurrentSessionContext.HasBind(SessionFactory))
-                {
-                    CurrentSessionContext.Unbind(SessionFactory).Dispose();
-                }
+                CurrentSessionContext.Unbind(SessionFactory).Dispose();
             }
         }
     }
