@@ -17,6 +17,7 @@ namespace Thunder.Data
         private static Configuration _configuration;
         private static ISessionFactory _sessionFactory;
         private static bool? _serializeConfiguration;
+        private static readonly object _lockObject = new object();
 
         /// <summary>
         ///     Get current instance of <see cref="ISessionFactory" />.
@@ -25,15 +26,17 @@ namespace Thunder.Data
         {
             get
             {
-                if (_sessionFactory == null)
+                if (_sessionFactory != null) return _sessionFactory;
+
+                lock (_lockObject)
                 {
                     _sessionFactory = Configuration.BuildSessionFactory();
 
                     if (_sessionFactory == null)
                         throw new InvalidOperationException("Call to configuration.BuildSessionFactory() returned null.");
-                }
 
-                return _sessionFactory;
+                    return _sessionFactory;
+                }
             }
         }
 
@@ -80,24 +83,27 @@ namespace Thunder.Data
             {
                 if (_configuration != null) return _configuration;
 
-                _configuration = SerializeConfiguration
-                    ? new CfgSerialization("cfg.thunder").Load()
-                    : new Configuration();
-
-                if (_configuration == null)
-                    throw new InvalidOperationException("NHibernate configuration is null.");
-
-                if (Listeners != null && Listeners.Any())
+                lock (_lockObject)
                 {
-                    foreach (var listener in Listeners)
+                    _configuration = SerializeConfiguration
+                        ? new CfgSerialization("cfg.thunder").Load()
+                        : new Configuration();
+
+                    if (_configuration == null)
+                        throw new InvalidOperationException("NHibernate configuration is null.");
+
+                    if (Listeners != null && Listeners.Any())
                     {
-                        _configuration.SetListeners(listener.Key, listener.Value);
+                        foreach (var listener in Listeners)
+                        {
+                            _configuration.SetListeners(listener.Key, listener.Value);
+                        }
                     }
+
+                    _configuration.Configure();
+
+                    return _configuration;
                 }
-
-                _configuration.Configure();
-
-                return _configuration;
             }
         }
 
@@ -112,6 +118,7 @@ namespace Thunder.Data
                 {
                     CurrentSessionContext.Bind(SessionFactory.OpenSession());
                 }
+
                 return SessionFactory.GetCurrentSession();
             }
         }
@@ -129,9 +136,12 @@ namespace Thunder.Data
         /// </summary>
         public static void Unbind()
         {
-            if (CurrentSessionContext.HasBind(SessionFactory))
+            lock (_lockObject)
             {
-                CurrentSessionContext.Unbind(SessionFactory).Dispose();
+                if (CurrentSessionContext.HasBind(SessionFactory))
+                {
+                    CurrentSessionContext.Unbind(SessionFactory).Dispose();
+                }
             }
         }
     }

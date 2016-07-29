@@ -8,7 +8,7 @@ namespace Thunder.Web.Mvc
     /// <summary>
     /// NHibernate session per request attribute
     /// </summary>
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.All)]
     public class SessionPerRequestAttribute : ActionFilterAttribute
     {
         /// <summary>
