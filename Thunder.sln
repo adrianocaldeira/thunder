@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "main", "main", "{BAE0FF95-7A39-4B18-B611-873CAE780FD8}"
 EndProject
@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.Web.Mvc", "src\test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.NHibernate", "src\main\Thunder.NHibernate\Thunder.NHibernate.csproj", "{836F067A-DF2E-4BE7-B177-414BC0786F7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thunder.EntityFramework", "src\main\Thunder.EntityFramework\Thunder.EntityFramework.csproj", "{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,7 +52,6 @@ Global
 		{85E79781-5311-482C-BC8B-3F7781061ED5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{85E79781-5311-482C-BC8B-3F7781061ED5}.Release|x86.ActiveCfg = Release|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{C4351696-972B-4D72-83A1-1CE38729E3B4}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -68,14 +69,12 @@ Global
 		{56615F19-D609-46A3-8100-FB9FE29158FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{56615F19-D609-46A3-8100-FB9FE29158FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E62257AA-97FF-4057-B46C-9EED9D027C51}.Release|x86.ActiveCfg = Release|Any CPU
 		{F165EAF3-C84C-4299-894A-666A0053CA8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F165EAF3-C84C-4299-894A-666A0053CA8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F165EAF3-C84C-4299-894A-666A0053CA8F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{F165EAF3-C84C-4299-894A-666A0053CA8F}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{F165EAF3-C84C-4299-894A-666A0053CA8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -91,6 +90,18 @@ Global
 		{836F067A-DF2E-4BE7-B177-414BC0786F7F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{836F067A-DF2E-4BE7-B177-414BC0786F7F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{836F067A-DF2E-4BE7-B177-414BC0786F7F}.Release|x86.ActiveCfg = Release|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Debug|x86.Build.0 = Debug|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Release|x86.ActiveCfg = Release|Any CPU
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +115,6 @@ Global
 		{E62257AA-97FF-4057-B46C-9EED9D027C51} = {8ADC47BF-73DB-461E-8B7A-41AB85CA0B31}
 		{F165EAF3-C84C-4299-894A-666A0053CA8F} = {8ADC47BF-73DB-461E-8B7A-41AB85CA0B31}
 		{836F067A-DF2E-4BE7-B177-414BC0786F7F} = {F3304ED3-B238-4A5A-A655-EF0198409B8E}
+		{77B2EEF2-1A6B-4C02-98F8-0C602342BE2F} = {F3304ED3-B238-4A5A-A655-EF0198409B8E}
 	EndGlobalSection
 EndGlobal
