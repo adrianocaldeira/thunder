@@ -3,7 +3,7 @@ using System.Linq;
 using NHibernate.Criterion;
 using Thunder.Model;
 
-namespace Thunder.Data.Extensions
+namespace Thunder.NHibernate.Extensions
 {
     /// <summary>
     /// Filter extensions

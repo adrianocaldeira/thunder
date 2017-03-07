@@ -5,7 +5,7 @@ using NHibernate.Criterion;
 using Thunder.Collections;
 using Thunder.Collections.Extensions;
 
-namespace Thunder.Data.Extensions
+namespace Thunder.NHibernate.Extensions
 {
     /// <summary>
     /// Criteria extensions

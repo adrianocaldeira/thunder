@@ -1,8 +1,9 @@
 using System;
 using NHibernate.Event;
 using NHibernate.Persister.Entity;
+using Thunder.Data;
 
-namespace Thunder.Data.Pattern
+namespace Thunder.NHibernate.Pattern
 {
     /// <summary>
     /// Created and updated property event listener

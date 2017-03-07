@@ -12,19 +12,9 @@ namespace Thunder.Web
         /// Convert an object to a JSON string
         /// </summary>
         /// <param name="obj">Object</param>
-        /// <returns>JSON string</returns>
-        public static string Json(this object obj)
-        {
-            return Json(obj, Formatting.Indented);
-        }
-
-        /// <summary>
-        /// Convert an object to a JSON string
-        /// </summary>
-        /// <param name="obj">Object</param>
         /// <param name="formatting"><see cref="Formatting"/></param>
         /// <returns>JSON string</returns>
-        public static string Json(this object obj, Formatting formatting)
+        public static string Json(this object obj, Formatting formatting = Formatting.Indented)
         {
             return JsonConvert.SerializeObject(obj, formatting,
                 new JsonSerializerSettings

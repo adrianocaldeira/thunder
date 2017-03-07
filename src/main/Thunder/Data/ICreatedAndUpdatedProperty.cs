@@ -1,19 +1,19 @@
 using System;
 
-namespace Thunder.Data.Pattern
+namespace Thunder.Data
 {
     /// <summary>
-    /// Created and updated property
+    ///     Created and updated property
     /// </summary>
     public interface ICreatedAndUpdatedProperty
     {
         /// <summary>
-        /// Get or set created date
+        ///     Get or set created date
         /// </summary>
         DateTime Created { get; set; }
 
         /// <summary>
-        /// Get or set updated date
+        ///     Get or set updated date
         /// </summary>
         DateTime Updated { get; set; }
     }

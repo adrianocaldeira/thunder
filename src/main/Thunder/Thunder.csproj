@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -14,6 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Thunder.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,24 +35,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Thunder.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\log4net.2.0.5\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\log4net.2.0.7\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -70,25 +65,9 @@
     <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttribute.cs" />
     <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
-    <Compile Include="Data\CfgSerialization.cs" />
-    <Compile Include="Data\ConnectionBuilder.cs" />
-    <Compile Include="Data\ConnectionFactory.cs" />
-    <Compile Include="Data\DataBase.cs" />
-    <Compile Include="Data\DbUtil.cs" />
-    <Compile Include="Data\Dialect\MySQL5InnoDBDialect.cs" />
-    <Compile Include="Data\Extensions\CriteriaExtensions.cs" />
-    <Compile Include="Data\Extensions\FilterExtensions.cs" />
-    <Compile Include="Data\Extensions\ProxyExtensions.cs" />
-    <Compile Include="Data\Extensions\QueryExtensions.cs" />
-    <Compile Include="Data\Extensions\QueryOverExtensions.cs" />
-    <Compile Include="Data\Pattern\ActiveRecord.cs" />
-    <Compile Include="Data\Pattern\CreatedAndUpdatedPropertyEventListener.cs" />
-    <Compile Include="Data\Pattern\ICreatedAndUpdatedProperty.cs" />
-    <Compile Include="Data\Pattern\IRepository.cs" />
-    <Compile Include="Data\Pattern\Persist.cs" />
-    <Compile Include="Data\Pattern\Property.cs" />
-    <Compile Include="Data\Pattern\Repository.cs" />
-    <Compile Include="Data\SessionManager.cs" />
+    <Compile Include="Data\ICreatedAndUpdatedProperty.cs" />
+    <Compile Include="Data\Persist.cs" />
+    <Compile Include="Data\Property.cs" />
     <Compile Include="Extensions\BooleanExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Extensions\IntegerExtensions.cs" />

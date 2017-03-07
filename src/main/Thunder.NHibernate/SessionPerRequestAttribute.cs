@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using Thunder.Data;
 
-namespace Thunder.Web.Mvc
+namespace Thunder.NHibernate
 {
     /// <summary>
     /// NHibernate session per request attribute

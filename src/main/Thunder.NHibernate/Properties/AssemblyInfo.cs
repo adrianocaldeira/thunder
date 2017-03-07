@@ -2,17 +2,17 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-[assembly: AssemblyTitle("Thunder.Web.Mvc")]
+[assembly: AssemblyTitle("Thunder.NHibernate")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("acaldeira.me")]
-[assembly: AssemblyProduct("Thunder.Web.Mvc")]
+[assembly: AssemblyProduct("Thunder.NHibernate")]
 [assembly: AssemblyCopyright("Copyright © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
-[assembly: Guid("99265a7f-67fa-46d0-8c6f-285b265ca6cb")]
-[assembly: AssemblyVersion("1.5.4")]
-[assembly: AssemblyFileVersion("1.5.4")]
+[assembly: Guid("666de81a-9951-455d-b05f-9814b17e4bcf")]
+[assembly: AssemblyVersion("1.0.7")]
+[assembly: AssemblyFileVersion("1.0.7")]
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: SecurityRules(SecurityRuleSet.Level1)]

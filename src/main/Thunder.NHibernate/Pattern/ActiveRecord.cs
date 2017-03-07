@@ -7,9 +7,11 @@ using NHibernate.Criterion;
 using NHibernate.Transform;
 using Thunder.Collections;
 using Thunder.Collections.Extensions;
-using Thunder.Data.Extensions;
+using Thunder.Data;
+using Thunder.NHibernate.Extensions;
+using Property = Thunder.Data.Property;
 
-namespace Thunder.Data.Pattern
+namespace Thunder.NHibernate.Pattern
 {
     /// <summary>
     /// Active record

@@ -5,8 +5,9 @@ using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Criterion;
 using Thunder.Collections;
+using Thunder.Data;
 
-namespace Thunder.Data.Pattern
+namespace Thunder.NHibernate.Pattern
 {
     /// <summary>
     /// Repository interface

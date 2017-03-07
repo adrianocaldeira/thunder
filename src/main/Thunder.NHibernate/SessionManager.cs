@@ -7,7 +7,7 @@ using NHibernate.Context;
 using NHibernate.Event;
 using Configuration = NHibernate.Cfg.Configuration;
 
-namespace Thunder.Data
+namespace Thunder.NHibernate
 {
     /// <summary>
     ///     NHibernate Session Manager
@@ -86,7 +86,7 @@ namespace Thunder.Data
                 lock (_lockObject)
                 {
                     _configuration = SerializeConfiguration
-                        ? new CfgSerialization("cfg.thunder").Load()
+                        ? new NHibernate.CfgSerialization("cfg.thunder").Load()
                         : new Configuration();
 
                     if (_configuration == null)

@@ -1,6 +1,6 @@
 ﻿using NHibernate.Proxy;
 
-namespace Thunder.Data.Extensions
+namespace Thunder.NHibernate.Extensions
 {
     /// <summary>
     /// Hibernate proxy extension

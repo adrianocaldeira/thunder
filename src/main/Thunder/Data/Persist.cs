@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thunder.Data.Pattern
+namespace Thunder.Data
 {
     /// <summary>
     /// Persist object

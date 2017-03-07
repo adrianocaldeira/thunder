@@ -1,14 +1,14 @@
 ﻿using NHibernate.Dialect;
 
-namespace Thunder.Data.Dialect
+namespace Thunder.NHibernate.Dialect
 {
     /// <summary>
-    /// Mysql InnoDb dialect
+    ///     Mysql InnoDb dialect
     /// </summary>
     public class MySQL5InnoDBDialect : MySQL5Dialect
     {
         /// <summary>
-        /// Support cascade delete
+        ///     Support cascade delete
         /// </summary>
         public override bool SupportsCascadeDelete
         {
@@ -16,7 +16,7 @@ namespace Thunder.Data.Dialect
         }
 
         /// <summary>
-        /// Table tyle string
+        ///     Table tyle string
         /// </summary>
         public override string TableTypeString
         {
@@ -24,7 +24,7 @@ namespace Thunder.Data.Dialect
         }
 
         /// <summary>
-        /// Has self referential foreign key bug
+        ///     Has self referential foreign key bug
         /// </summary>
         public override bool HasSelfReferentialForeignKeyBug
         {

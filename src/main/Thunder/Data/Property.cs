@@ -1,4 +1,4 @@
-﻿namespace Thunder.Data.Pattern
+﻿namespace Thunder.Data
 {
     /// <summary>
     /// Property

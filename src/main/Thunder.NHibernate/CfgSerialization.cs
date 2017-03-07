@@ -3,10 +3,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using NHibernate.Cfg;
-using NHibernate.Event;
-using Thunder.Data.Pattern;
 
-namespace Thunder.Data
+namespace Thunder.NHibernate
 {
     /// <summary>
     /// Serialization Hibernate Configuration
@@ -53,16 +51,16 @@ namespace Thunder.Data
         /// <returns></returns>
         bool IsValid()
         {
-            if (Exist())
-            {
-                var assembly = Assembly.GetCallingAssembly();
-                var fileInfo = new FileInfo(GetPath());
-                var assemblyInfo = new FileInfo(assembly.Location);
+            if (!Exist()) return false;
 
-                return fileInfo.LastWriteTime >= assemblyInfo.LastWriteTime;
-            }
+            var assembly = Assembly.GetCallingAssembly();
+            var fileInfo = new FileInfo(GetPath());
+                
+            if (assembly.Location == null) return false;
 
-            return false;
+            var assemblyInfo = new FileInfo(assembly.Location);
+
+            return fileInfo.LastWriteTime >= assemblyInfo.LastWriteTime;
         }
 
         /// <summary>
