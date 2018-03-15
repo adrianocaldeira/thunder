@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using NHibernate.Event;
 using NHibernate.Persister.Entity;
 using Thunder.Data;
@@ -12,6 +14,11 @@ namespace Thunder.NHibernate.Pattern
     public class CreatedAndUpdatedPropertyEventListener : IPreUpdateEventListener, IPreInsertEventListener
     {
         #region Implementation of IPreUpdateEventListener
+
+        public Task<bool> OnPreUpdateAsync(PreUpdateEvent @event, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Return true if the operation should be vetoed
@@ -38,6 +45,11 @@ namespace Thunder.NHibernate.Pattern
         #endregion
 
         #region Implementation of IPreInsertEventListener
+
+        public Task<bool> OnPreInsertAsync(PreInsertEvent @event, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Return true if the operation should be vetoed
