@@ -4,27 +4,57 @@ using Newtonsoft.Json.Serialization;
 namespace Thunder.Web
 {
     /// <summary>
-    /// Json extensions
+    ///     Json extensions
     /// </summary>
     public static class JsonExtensions
     {
         /// <summary>
-        /// Convert an object to a JSON string
+        ///     Convert an object to a JSON string
         /// </summary>
         /// <param name="obj">Object</param>
-        /// <param name="formatting"><see cref="Formatting"/></param>
         /// <returns>JSON string</returns>
-        public static string Json(this object obj, Formatting formatting = Formatting.Indented)
+        public static string Json(this object obj)
         {
-            return JsonConvert.SerializeObject(obj, formatting,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
+            return obj.Json(Formatting.None);
         }
 
         /// <summary>
-        /// Converts the specified JSON string to an object of type
+        ///     Convert an object to a JSON string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="formatting"></param>
+        /// <returns></returns>
+        public static string Json(this object obj, Formatting formatting)
+        {
+            return obj.Json(formatting, new CamelCasePropertyNamesContractResolver());
+        }
+
+        /// <summary>
+        ///     Convert an object to a JSON string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="formatting"></param>
+        /// <param name="contractResolver"></param>
+        /// <returns></returns>
+        public static string Json(this object obj, Formatting formatting, IContractResolver contractResolver)
+        {
+            return obj.Json(formatting, new JsonSerializerSettings {ContractResolver = contractResolver});
+        }
+
+        /// <summary>
+        ///     Convert an object to a JSON string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="formatting"></param>
+        /// <param name="settings"></param>
+        /// <returns></returns>
+        public static string Json(this object obj, Formatting formatting, JsonSerializerSettings settings)
+        {
+            return JsonConvert.SerializeObject(obj, formatting, settings);
+        }
+
+        /// <summary>
+        ///     Converts the specified JSON string to an object of type
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
         /// <param name="input">Input</param>
