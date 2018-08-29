@@ -81,11 +81,16 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Binders\DecimalModelBinder.cs" />
+    <Compile Include="CustomViewEngine.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filter\ClearCacheAttribute.cs" />
     <Compile Include="Filter\CompressAttribute.cs" />
     <Compile Include="Filter\LayoutInjectAttribute.cs" />
+    <Compile Include="Filter\NoLowercaseQueryStringAttribute.cs" />
+    <Compile Include="Filter\NoTrailingSlashAttribute.cs" />
+    <Compile Include="Filter\RedirectToCanonicalUrlAttribute.cs" />
+    <Compile Include="Filter\WaitDownloadAttribute.cs" />
     <Compile Include="Html\Cnpj\CnpjBuilder.cs" />
     <Compile Include="Html\Cpf\CpfBuilder.cs" />
     <Compile Include="Html\Currency\CurrencyBuilder.cs" />

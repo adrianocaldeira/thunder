@@ -11,6 +11,22 @@ namespace Thunder.Web.Mvc
     public class JsonResult : System.Web.Mvc.JsonResult
     {
         /// <summary>
+        ///     Initialize new instance
+        /// </summary>
+        public JsonResult()
+        {
+            Settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+        }
+
+        /// <summary>
+        ///     Get or set <see cref="JsonSerializerSettings" />
+        /// </summary>
+        public JsonSerializerSettings Settings { get; set; }
+
+        /// <summary>
         /// Get or set data object
         /// </summary>
         public new object Data { get; set; }
@@ -38,12 +54,8 @@ namespace Thunder.Web.Mvc
 
             var response = context.HttpContext.Response;
             var json = JsonConvert.SerializeObject(new { Type, Data },
-                Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
-
+                Formatting.Indented, Settings);
+            
             response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/json";
 
             if (ContentEncoding != null) response.ContentEncoding = ContentEncoding;
