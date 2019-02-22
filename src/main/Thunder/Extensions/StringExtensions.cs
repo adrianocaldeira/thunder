@@ -502,6 +502,8 @@ namespace Thunder.Extensions
             var format = "";
             var text = source.OnlyNumbers();
 
+            if (string.IsNullOrWhiteSpace(text)) return string.Empty;
+
             if (formatType == FormatType.Cnpj)
                 format = @"{0:00\.000\.000\/0000\-00}";
 
