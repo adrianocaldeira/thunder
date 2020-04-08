@@ -15,3 +15,5 @@ reports*.xml
 packages
 *.oca
 /.vs/Thunder/v15/Server/sqlite3
+/.vs/thunder/v16/Server/sqlite3
+/.vs
