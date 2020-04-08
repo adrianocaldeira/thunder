@@ -12,7 +12,7 @@ namespace Thunder.ComponentModel.DataAnnotations
         /// <summary>
         /// Initialize new instance of <see cref="EmailAttribute"/>.
         /// </summary>
-        public EmailAttribute() : base(@"^\w+([-+.]*[\w-]+)*@(\w+([-.]?\w+)){1,}\.\w{2,4}$")
+        public EmailAttribute() : base(@"^\w+([-+.]*[\w-]+)*@(\w+([-.]?\w+)){1,}\.\w{2}$")
         {
         }
     }
