@@ -8,12 +8,12 @@ namespace Thunder.ComponentModel.DataAnnotations
     /// E-mail validador
     ///</summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
-    public class EmailDomainAttribute : RegularExpressionAttribute
+    public class EmailAttribute : RegularExpressionAttribute
     {
         /// <summary>
-        /// Initialize new instance of <see cref="EmailDomainAttribute"/>.
+        /// Initialize new instance of <see cref="EmailAttribute"/>.
         /// </summary>
-        public EmailDomainAttribute() : base(@"^\w+([-+.]*[\w-]+)*@(\w+([-.]?\w+)){1,}\.\w{2,}$")
+        public EmailAttribute() : base(@"^\w+([-+.]*[\w-]+)*@(\w+([-.]?\w+)){1,}\.\w{2,}$")
         {
         }
 
