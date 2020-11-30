@@ -105,7 +105,14 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="expression">Expression</param>
         /// <returns><see cref="IList{T}"/></returns>
         IList<T> All(Expression<Func<T, bool>> expression);
-
+        
+        /// <summary>
+        /// All entities with expression
+        /// </summary>
+        /// <param name="expression">Expression</param>
+        /// <returns><see cref="IQueryable{T}"/></returns>
+        IQueryable<T> AllQueryable(Expression<Func<T, bool>> expression);
+        
         /// <summary>
         /// All entities with criterion
         /// </summary>
