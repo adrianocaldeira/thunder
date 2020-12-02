@@ -261,6 +261,16 @@ namespace Thunder.NHibernate.Pattern
                 return list;
             }
         }
+        
+        /// <summary>
+        /// All entities with expression
+        /// </summary>
+        /// <param name="expression">Expression</param>
+        /// <returns><see cref="IQueryable{T}"/></returns>
+        public IQueryable<T> AllQueryable(Expression<Func<T, bool>> expression)
+        {
+            return Session.Query<T>().Where(expression);
+        }
 
         /// <summary>
         /// Find single entity from expression
