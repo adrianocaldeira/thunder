@@ -94,6 +94,7 @@
     <Compile Include="Pattern\Repository\IUserRepository.cs" />
     <Compile Include="Pattern\Repository\UserRepository.cs" />
     <Compile Include="Pattern\Repository\UserRepositoryTest.cs" />
+    <Compile Include="SessionManagerConfigTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

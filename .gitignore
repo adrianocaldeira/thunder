@@ -1,6 +1,9 @@
 *.user
 *.suo
 *.trx
+*.db
+TestResult.xml
+nunit-agent_*.log
 bin
 log
 _ReSharper.*

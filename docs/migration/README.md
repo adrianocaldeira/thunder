@@ -17,3 +17,7 @@ projetos consumidores atualizem com segurança.
 
 - [001 — Validações mais rígidas e correções de comportamento](001-validacoes-mais-rigidas.md)
   (Thunder 1.9.0 / Thunder.Web.Mvc 1.8.0)
+- [002 — Cache binário de configuração do NHibernate desativado](002-binaryformatter-desativado.md)
+  (Thunder.NHibernate 1.3.0)
+- [003 — Nova API de criptografia (AesEncryptor / PasswordHasher)](003-criptografia-v2.md)
+  (Thunder 1.10.0)

@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Thunder.Extensions;
 using Thunder.Web.Mvc.Extensions;
+using Thunder.Web.Mvc.Internal;
 
 namespace Thunder.Web.Mvc
 {
@@ -164,9 +165,12 @@ namespace Thunder.Web.Mvc
                 response.ContentEncoding = ContentEncoding;
             }
 
-            if (!string.IsNullOrEmpty(context.HttpContext.Request["callback"]))
+            var callback = context.HttpContext.Request["callback"];
+
+            if (JsonpCallback.IsValid(callback))
             {
-                json = string.Format("{0}({1})", context.HttpContext.Request["callback"], json);
+                json = "/**/" + callback + "(" + json + ");";
+                response.ContentType = "application/javascript";
             }
 
             context.HttpContext.Response.Write(json);

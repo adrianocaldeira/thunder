@@ -115,6 +115,8 @@
     <Compile Include="Html\Pagination\PaginationBuilder.cs" />
     <Compile Include="Html\Password\PasswordBuilder.cs" />
     <Compile Include="Html\Phone\PhoneBuilder.cs" />
+    <Compile Include="Internal\CanonicalHost.cs" />
+    <Compile Include="Internal\JsonpCallback.cs" />
     <Compile Include="JsonResult.cs" />
     <Compile Include="SelectListExtensions.cs" />
     <Compile Include="Html\StyleSheet\StyleSheetBuilder.cs" />

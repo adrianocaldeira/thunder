@@ -8,6 +8,7 @@ namespace Thunder.Security
     /// <summary>
     /// Hash security
     /// </summary>
+    [Obsolete("Use Thunder.Security.PasswordHasher para senhas, ou um algoritmo SHA-256+ explícito. Será removido na 2.0.")]
     public class Hash
     {
         #region Constructors

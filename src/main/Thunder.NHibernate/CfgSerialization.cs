@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using NHibernate.Cfg;
 
 namespace Thunder.NHibernate
@@ -9,6 +7,12 @@ namespace Thunder.NHibernate
     /// <summary>
     /// Serialization Hibernate Configuration
     /// </summary>
+    /// <remarks>
+    /// O cache binário de configuração baseado em serialização binária insegura foi desativado:
+    /// <see cref="Create"/> e <see cref="Load()"/>/<see cref="Load(string)"/> agora lançam
+    /// <see cref="NotSupportedException"/> por risco de desserialização insegura (CWE-502).
+    /// </remarks>
+    [Obsolete("O cache binário de configuração foi desativado por risco de desserialização insegura (CWE-502). Será removido na 2.0.")]
     public class CfgSerialization
     {
         private readonly string _directory;
@@ -46,44 +50,15 @@ namespace Thunder.NHibernate
         }
 
         /// <summary>
-        /// Configuration file serialized is valid
-        /// </summary>
-        /// <returns></returns>
-        bool IsValid()
-        {
-            if (!Exist()) return false;
-
-            var assembly = Assembly.GetCallingAssembly();
-            var fileInfo = new FileInfo(GetPath());
-                
-            if (assembly.Location == null) return false;
-
-            var assemblyInfo = new FileInfo(assembly.Location);
-
-            return fileInfo.LastWriteTime >= assemblyInfo.LastWriteTime;
-        }
-
-        /// <summary>
-        /// Configuration file serialized is new
-        /// </summary>
-        /// <returns></returns>
-        bool IsNew()
-        {
-            return !Exist() || !IsValid();
-        }
-
-        /// <summary>
         /// Create configuration file serialized
         /// </summary>
         /// <param name="configuration"></param>
+        /// <exception cref="NotSupportedException">
+        /// Sempre lançada: o cache binário de configuração foi desativado por segurança (CWE-502).
+        /// </exception>
         public void Create(Configuration configuration)
         {
-            using (var file = File.Open(GetPath(), FileMode.Create))
-            {
-                var bf = new BinaryFormatter();
-                
-                bf.Serialize(file, configuration);
-            }
+            throw new NotSupportedException("O cache binário de configuração foi desativado por segurança (CWE-502).");
         }
 
         /// <summary>
@@ -101,6 +76,9 @@ namespace Thunder.NHibernate
         /// Load configuration
         /// </summary>
         /// <returns>Configuration</returns>
+        /// <exception cref="NotSupportedException">
+        /// Sempre lançada: o cache binário de configuração foi desativado por segurança (CWE-502).
+        /// </exception>
         public Configuration Load()
         {
             return Load(null);
@@ -111,22 +89,12 @@ namespace Thunder.NHibernate
         /// </summary>
         /// <param name="fileName">File name</param>
         /// <returns>Configuration</returns>
+        /// <exception cref="NotSupportedException">
+        /// Sempre lançada: o cache binário de configuração foi desativado por segurança (CWE-502).
+        /// </exception>
         public Configuration Load(string fileName)
         {
-            if (IsNew())
-            {
-                Create(string.IsNullOrEmpty(fileName)
-                           ? new Configuration().Configure()
-                           : new Configuration().Configure(fileName));
-            }
-
-            using (var file = File.Open(GetPath(), FileMode.Open))
-            {
-                var bf = new BinaryFormatter();
-                var config = bf.Deserialize(file) as Configuration;
-
-                return config;
-            }
+            throw new NotSupportedException("O cache binário de configuração foi desativado por segurança (CWE-502).");
         }
     }
 }

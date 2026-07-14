@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
@@ -125,14 +126,14 @@ namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
 
             if (messages.Count.Equals(1))
             {
-                content.InnerHtml = messages[0];
+                content.InnerHtml = HttpUtility.HtmlEncode(messages[0]);
             }
             else
             {
                 var ul = new TagBuilder("ul");
                 foreach (var message in messages)
                 {
-                    ul.InnerHtml += new TagBuilder("li") {InnerHtml = message}.ToString();
+                    ul.InnerHtml += new TagBuilder("li") {InnerHtml = HttpUtility.HtmlEncode(message)}.ToString();
                 }
                 content.InnerHtml = ul.ToString();
             }
