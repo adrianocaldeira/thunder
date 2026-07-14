@@ -12,7 +12,9 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 
 ## Thunder
 
-### [Não lançado]
+### [1.9.0] - 2026-07-14
+
+Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
 
 #### Corrigido
 - **[COMPORTAMENTO]** `JsonExtensions`: a serialização/desserialização usava
@@ -99,7 +101,9 @@ com parte local vazia, que já eram e-mails inválidos.
 
 ## Thunder.Web.Mvc
 
-### [Não lançado]
+### [1.8.0] - 2026-07-14
+
+Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
 
 #### Corrigido
 - `SelectListExtensions.ToSelectList<T>()`: lançava `IndexOutOfRangeException` para enums sem
