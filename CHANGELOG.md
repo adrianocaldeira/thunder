@@ -25,10 +25,24 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 - **[COMPORTAMENTO]** `IsPhone`: alternância da regex sem agrupamento
   (`^\((10)|[1-9]{2}\)...`) fazia o DDD `10` contornar o restante da validação; corrigida a
   precedência com agrupamento explícito (`(10|[1-9]{2})`).
+- **[COMPORTAMENTO]** `EmailAttribute`: o `IsValid` sobrescrito no server-side só checava a
+  existência de exatamente um `@` na string, aceitando `"a@"` e `"@b.com"` como e-mails válidos.
+  Removido o override para que a validação use o `RegularExpressionAttribute` base (mesma regra
+  do client-side), unificando servidor e cliente numa única fonte de verdade. A regex do
+  construtor também tinha um defeito próprio (grupo de domínio exigia dois pontos para casar,
+  rejeitando domínios comuns de um único ponto como `"b.com"`) — corrigida a parte de domínio
+  para `([\w-]+\.)+\w{2,}$`. String vazia passa a ser aceita pelo atributo (responsabilidade do
+  `[Required]`, quando presente).
+- **[COMPORTAMENTO]** `IsEmail`: a parte local da regex permitia zero caracteres
+  (quantificador `*`), aceitando `"@dominio.com"` como e-mail válido; corrigido para exigir ao
+  menos um caractere (`+`).
 
 Impacto no consumidor real (portas-de-entrada): `IsCpf` (9 usos) e `IsPhone` (1 uso) passam a
 rejeitar entradas que antes eram aceitas indevidamente — sentido seguro, sem regressão esperada.
-`IsZipCode` não é utilizado pelo consumidor.
+`IsZipCode` não é utilizado pelo consumidor. `[Email]` tem 1 uso (`Gateway\Models\Users\Form.cs`,
+propriedade `Email`), que também tem `[Required]` — a aceitação de string vazia pelo atributo é
+inócua nesse uso. `IsEmail` tem 17 usos no consumidor; a correção só passa a rejeitar entradas
+com parte local vazia, que já eram e-mails inválidos.
 
 ### [1.8.1] - 2026-07-14
 
