@@ -95,6 +95,10 @@ com parte local vazia, que já eram e-mails inválidos.
 - **[COMPORTAMENTO]** `Controller.Success(data, contentType)`: o parâmetro `contentType` era
   ignorado e o overload sempre sobrescrevia para `"application/json"`; agora o valor informado é
   respeitado. Sem uso confirmado no consumidor real (portas-de-entrada).
+- **[COMPORTAMENTO]** `ModelStateDictionaryExtensions.ExcludePropertiesWithKeyPart`: o predicado
+  estava invertido (`ignoreKeys != null && !ignoreKeys.Contains(...)`), tornando o método um
+  no-op sempre que `ignoreKeys` era `null` — o caso mais comum, sem lista de exceções; corrigido
+  para `ignoreKeys == null || !ignoreKeys.Contains(...)`. Sem uso confirmado no consumidor real.
 
 ### [1.7.1] - 2026-07-14
 

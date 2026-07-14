@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerTest.cs" />
+    <Compile Include="Extensions\ModelStateDictionaryExtensionsTest.cs" />
     <Compile Include="Html\Design\ButtonExtensionsTest.cs" />
     <Compile Include="Html\Design\LabelExtensionsTest.cs" />
     <Compile Include="Html\SelectListExtensionsTest.cs" />

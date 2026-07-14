@@ -50,7 +50,7 @@ namespace Thunder.Web.Mvc.Extensions
 
             foreach (var item in source.ToList().Where(item => 
                 item.Key.ToLower().IndexOf(keyPart.ToLower(), StringComparison.InvariantCulture) != -1
-                && (ignoreKeys != null && !ignoreKeys.Contains(item.Key))))
+                && (ignoreKeys == null || !ignoreKeys.Contains(item.Key))))
             {
                 source.Remove(item);
             }
