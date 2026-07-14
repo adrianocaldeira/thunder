@@ -11,7 +11,7 @@ namespace Thunder.ComponentModel.DataAnnotations
             var attribute = new EmailAttribute();
 
             Assert.IsTrue(attribute.IsValid(null));            // null é responsabilidade do [Required]
-            Assert.IsTrue(attribute.IsValid(""));               // string vazia é responsabilidade do [Required] (confirmado: portas usa [Required] junto com [Email] em Gateway\Models\Users\Form.cs)
+            Assert.IsTrue(attribute.IsValid(""));               // string vazia também é responsabilidade do [Required]
             Assert.IsTrue(attribute.IsValid("a@b.com"));
             Assert.IsTrue(attribute.IsValid("a.b-c_d@dominio.com.br"));
             Assert.IsFalse(attribute.IsValid("a@"));           // B3

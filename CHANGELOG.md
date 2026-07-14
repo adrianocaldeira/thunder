@@ -25,10 +25,9 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
   aninhamento. Adicionado `CreateDefaultSettings()` interno, aplicado a `Json<T>()` e ao overload
   `Json(obj, formatting, contractResolver)`, fixando `TypeNameHandling.None` e `MaxDepth = 64`
   explicitamente — não são mais influenciados por `DefaultSettings` global. O overload que recebe
-  `JsonSerializerSettings` explícito permanece intocado (usuário no controle). Sem uso confirmado
-  de `JsonExtensions` no consumidor real (portas-de-entrada, que usa `JsonConvert` diretamente);
-  afeta apenas hosts que registrem `DefaultSettings` globais perigosos e dependam do
-  `JsonExtensions` para desserialização.
+  `JsonSerializerSettings` explícito permanece intocado (usuário no controle). Afeta apenas
+  hosts que registrem `DefaultSettings` globais perigosos e dependam do `JsonExtensions` para
+  desserialização.
 - **[COMPORTAMENTO]** `IsCpf`: a blacklist de dígitos repetidos continha um valor com 10 dígitos
   (`2222222222`), o que fazia `"22222222222"` (11 dígitos iguais) passar pela validação por falha
   de correspondência na comparação; substituída por verificação direta de dígitos repetidos
@@ -59,15 +58,13 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
   `CultureInfo.InvariantCulture` de forma determinística. Efeito colateral: strings com vírgula
   decimal (`"1,5"`) agora são interpretadas com a vírgula como separador de milhar do invariant
   (também viram `15m`), independente da cultura da thread — comportamento estável, porém oposto
-  ao de antes para esse caso específico. Sem uso confirmado de `Cast<decimal/double>` com
-  strings pt-BR no consumidor real (portas-de-entrada).
+  ao de antes para esse caso específico. Se o seu código converte strings com vírgula decimal
+  via `Cast<T>`, faça o parse explícito com a cultura desejada antes de atualizar.
 
-Impacto no consumidor real (portas-de-entrada): `IsCpf` (9 usos) e `IsPhone` (1 uso) passam a
-rejeitar entradas que antes eram aceitas indevidamente — sentido seguro, sem regressão esperada.
-`IsZipCode` não é utilizado pelo consumidor. `[Email]` tem 1 uso (`Gateway\Models\Users\Form.cs`,
-propriedade `Email`), que também tem `[Required]` — a aceitação de string vazia pelo atributo é
-inócua nesse uso. `IsEmail` tem 17 usos no consumidor; a correção só passa a rejeitar entradas
-com parte local vazia, que já eram e-mails inválidos.
+As correções de validação (`IsCpf`, `IsZipCode`, `IsPhone`, `IsEmail`, `[Email]`) apenas passam
+a rejeitar entradas que antes eram aceitas indevidamente — sentido seguro para quem valida
+entrada de usuário. Quem dependia do comportamento anterior (aceitar entradas malformadas) deve
+tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
 
 ### [1.8.1] - 2026-07-14
 
@@ -110,16 +107,16 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
   `[Display]`; passou a usar `EnumExtensions.DisplayName()`, com fallback para o nome do membro.
 - **[COMPORTAMENTO]** `Controller.Success(data, contentType)`: o parâmetro `contentType` era
   ignorado e o overload sempre sobrescrevia para `"application/json"`; agora o valor informado é
-  respeitado. Sem uso confirmado no consumidor real (portas-de-entrada).
+  respeitado.
 - **[COMPORTAMENTO]** `ModelStateDictionaryExtensions.ExcludePropertiesWithKeyPart`: o predicado
   estava invertido (`ignoreKeys != null && !ignoreKeys.Contains(...)`), tornando o método um
   no-op sempre que `ignoreKeys` era `null` — o caso mais comum, sem lista de exceções; corrigido
-  para `ignoreKeys == null || !ignoreKeys.Contains(...)`. Sem uso confirmado no consumidor real.
+  para `ignoreKeys == null || !ignoreKeys.Contains(...)`.
 - **[COMPORTAMENTO]** `CompressAttribute`: o cabeçalho `Vary` era emitido com o valor
   `Content-Encoding` (cabeçalho de resposta, sem efeito para caches/proxies), quando deveria
   referenciar `Accept-Encoding` (cabeçalho de requisição que de fato varia a resposta gzip);
-  corrigido. Usado pelo consumidor real via registro global do filtro no Gateway — mudança
-  segura, apenas corrige um cabeçalho incorreto, sem alterar a compressão em si.
+  corrigido. Mudança segura para quem registra o filtro globalmente — apenas corrige um
+  cabeçalho incorreto, sem alterar a compressão em si.
 - `NotifyResult` (renderização HTML, caminho não-Ajax): `Messages` é uma
   `IList<KeyValuePair<string, IList<string>>>`; o caminho HTML imprimia
   `KeyValuePair.ToString()` em vez do texto da mensagem. Corrigido para extrair as mensagens de
