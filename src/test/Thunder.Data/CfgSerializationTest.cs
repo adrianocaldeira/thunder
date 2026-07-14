@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NHibernate.Cfg;
 using NUnit.Framework;
@@ -6,6 +6,7 @@ using Thunder.NHibernate;
 
 namespace Thunder.Data
 {
+#pragma warning disable 618
     [TestFixture]
     public class CfgSerializationTest
     {
@@ -29,39 +30,43 @@ namespace Thunder.Data
             var ex = Assert.Throws<ArgumentException>(() => new CfgSerialization(null));
             StringAssert.Contains("File name no information.", ex.Message);
         }
-        
-        [Test]
-        public void ShouldCreate()
-        {
-            _serialization.Create(new Configuration().Configure());
 
-            Assert.True(File.Exists(_serialization.GetPath()));
+        [Test]
+        public void ShouldThrowNotSupportedExceptionOnCreate()
+        {
+            var ex = Assert.Throws<NotSupportedException>(() => _serialization.Create(new Configuration().Configure()));
+            StringAssert.Contains("CWE-502", ex.Message);
         }
 
         [Test]
-        public void ShouldDelete()
+        public void ShouldThrowNotSupportedExceptionOnLoad()
         {
-            _serialization.Create(new Configuration().Configure());
-            _serialization.Delete();
+            var ex = Assert.Throws<NotSupportedException>(() => _serialization.Load());
+            StringAssert.Contains("CWE-502", ex.Message);
+        }
+
+        [Test]
+        public void ShouldThrowNotSupportedExceptionOnLoadWithFileName()
+        {
+            var ex = Assert.Throws<NotSupportedException>(() => _serialization.Load("cfg.thunder"));
+            StringAssert.Contains("CWE-502", ex.Message);
+        }
+
+        [Test]
+        public void ShouldNotCreateFileOnDisk()
+        {
+            Assert.Throws<NotSupportedException>(() => _serialization.Create(new Configuration().Configure()));
 
             Assert.False(File.Exists(_serialization.GetPath()));
         }
 
         [Test]
-        public void ShouldLoad()
+        public void ShouldBeMarkedObsolete()
         {
-            _serialization.Create(new Configuration().Configure());
-            var configuration = _serialization.Load();
+            var attributes = typeof(CfgSerialization).GetCustomAttributes(typeof(ObsoleteAttribute), false);
 
-            Assert.IsNotNull(configuration);
-        }
-
-        [Test]
-        public void ShouldLoadForceCreate()
-        {
-            var configuration = _serialization.Load();
-
-            Assert.IsNotNull(configuration);
+            Assert.IsNotEmpty(attributes);
         }
     }
+#pragma warning restore 618
 }

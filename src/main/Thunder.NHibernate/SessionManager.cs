@@ -43,6 +43,11 @@ namespace Thunder.NHibernate
         /// <summary>
         ///     Get if serialize configuration
         /// </summary>
+        /// <remarks>
+        ///     Não tem mais efeito sobre <see cref="Configuration"/>: o cache binário de configuração foi
+        ///     desativado por risco de desserialização insegura (CWE-502).
+        /// </remarks>
+        [Obsolete("O cache binário de configuração foi desativado por risco de desserialização insegura (CWE-502). Será removido na 2.0.")]
         public static bool SerializeConfiguration
         {
             get
@@ -74,6 +79,11 @@ namespace Thunder.NHibernate
         /// <summary>
         ///     Get hibernate configuration
         /// </summary>
+        /// <remarks>
+        ///     Sempre cria uma <see cref="Configuration" /> nova; o cache binário de configuração (baseado em
+        ///     serialização binária insegura) foi desativado por risco de desserialização insegura (CWE-502) e
+        ///     não é mais consultado, independentemente do valor de <see cref="SerializeConfiguration" />.
+        /// </remarks>
         /// <returns>
         ///     <see cref="Configuration" />
         /// </returns>
@@ -85,9 +95,7 @@ namespace Thunder.NHibernate
 
                 lock (_lockObject)
                 {
-                    _configuration = SerializeConfiguration
-                        ? new NHibernate.CfgSerialization("cfg.thunder").Load()
-                        : new Configuration();
+                    _configuration = new Configuration();
 
                     if (_configuration == null)
                         throw new InvalidOperationException("NHibernate configuration is null.");
