@@ -273,7 +273,7 @@ namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
                 link.MergeAttribute("class", button.Class);
                 link.MergeAttribute("href", url, true);
                 link.MergeAttribute("title", button.Title, true);
-                link.InnerHtml = button.Text;
+                link.SetInnerText(button.Text);
 
                 li.InnerHtml = link.ToString();
                 ul.InnerHtml += li.ToString();
@@ -308,7 +308,7 @@ namespace Thunder.Web.Mvc.Html.Design.SimplaAdmin
 
                 link.Attributes.Add("href", "#tab" + i);
                 link.Attributes.Add("title", tab.Title);
-                link.InnerHtml = tab.Text;
+                link.SetInnerText(tab.Text);
 
                 li.InnerHtml = link.ToString();
                 ul.InnerHtml += li.ToString();

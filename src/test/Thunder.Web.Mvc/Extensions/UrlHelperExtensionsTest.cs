@@ -97,9 +97,9 @@ namespace Thunder.Web.Mvc.Extensions
         }
 
         [Test]
-        public void GetAbsoluteUrl_UrlJaAbsoluta_RetornaInalterada()
+        public void GetAbsoluteUrl_SemCanonicalHost_UrlJaAbsoluta_RetornaInalterada()
         {
-            ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com");
+            ConfigurationManager.AppSettings.Set(AppSettingKey, null);
             ValueField.SetValue(null, null);
             LoadedField.SetValue(null, false);
 
@@ -108,6 +108,51 @@ namespace Thunder.Web.Mvc.Extensions
             var result = InvokeGetAbsoluteUrl(requestMock.Object, "https://outro.exemplo.com/pagina");
 
             Assert.AreEqual("https://outro.exemplo.com/pagina", result.ToString());
+        }
+
+        [Test]
+        public void GetAbsoluteUrl_ComCanonicalHostConfigurado_UrlAbsolutaMaliciosaTemHostSubstituidoPeloCanonico()
+        {
+            // Fecha o bypass do A4: overloads AbsoluteAction/AbsoluteRouteUrl com "protocol" (sem hostName)
+            // fazem o próprio ASP.NET MVC gerar a url já absoluta usando Request.Url.Host (não confiável).
+            // Mesmo assim, com CanonicalHost configurado, a autoridade final deve ser sempre a canônica.
+            ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com");
+            ValueField.SetValue(null, null);
+            LoadedField.SetValue(null, false);
+
+            var requestMock = CreateRequestMock("https://evil.com/");
+
+            var result = InvokeGetAbsoluteUrl(requestMock.Object, "https://evil.com/Conta/Reset?token=abc");
+
+            Assert.AreEqual("https://app.exemplo.com/Conta/Reset?token=abc", result.ToString());
+        }
+
+        [Test]
+        public void GetAbsoluteUrl_ComCanonicalHostConfigurado_PreservaEsquemaHttpDaUrlAbsoluta()
+        {
+            ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com");
+            ValueField.SetValue(null, null);
+            LoadedField.SetValue(null, false);
+
+            var requestMock = CreateRequestMock("https://evil.com/");
+
+            var result = InvokeGetAbsoluteUrl(requestMock.Object, "http://evil.com/x");
+
+            Assert.AreEqual("http://app.exemplo.com/x", result.ToString());
+        }
+
+        [Test]
+        public void GetAbsoluteUrl_ComCanonicalHostConfigurado_PreservaEsquemaHttpsDaUrlAbsoluta()
+        {
+            ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com");
+            ValueField.SetValue(null, null);
+            LoadedField.SetValue(null, false);
+
+            var requestMock = CreateRequestMock("http://evil.com/");
+
+            var result = InvokeGetAbsoluteUrl(requestMock.Object, "https://evil.com/x");
+
+            Assert.AreEqual("https://app.exemplo.com/x", result.ToString());
         }
 
         [Test]
