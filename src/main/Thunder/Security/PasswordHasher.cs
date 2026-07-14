@@ -5,7 +5,7 @@ namespace Thunder.Security
 {
     /// <summary>
     /// Provides password hashing and verification using PBKDF2-SHA256 with a random salt.
-    /// Replaces the legacy <see cref="Hash"/>/<see cref="HashHelper"/> API for password storage.
+    /// Replaces the legacy <c>Hash</c>/<c>HashHelper</c> API (removed) for password storage.
     /// </summary>
     public static class PasswordHasher
     {

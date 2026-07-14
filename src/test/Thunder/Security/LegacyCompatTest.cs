@@ -20,15 +20,5 @@ namespace Thunder.Security
             Assert.AreEqual("x", new Cryptography { Key = "k" }.Decrypt(encrypted));
         }
 #pragma warning restore 618
-
-        [Test]
-#pragma warning disable 618
-        public void LegacyHashStillComputesSameValue()
-        {
-            var hash = new Hash();
-
-            Assert.AreEqual(hash.Get("texto"), new Hash().Get("texto"));
-        }
-#pragma warning restore 618
     }
 }
