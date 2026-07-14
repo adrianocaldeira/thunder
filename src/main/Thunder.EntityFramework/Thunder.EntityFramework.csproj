@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Version>1.1.1</Version>
+    <Version>2.0.0</Version>
     <Company>acaldeira.dev</Company>
     <Product>Thunder.EntityFramework</Product>
     <Copyright>Copyright © Adriano Caldeira</Copyright>
@@ -20,7 +20,7 @@
     <Title>Thunder.EntityFramework</Title>
     <Authors>Adriano Caldeira</Authors>
     <Description>Padrão Repository sobre Entity Framework 6, integrado ao Thunder.</Description>
-    <PackageReleaseNotes>Atualização de dependências (EntityFramework 6.5.2). Consulte o CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>Versão major. Repository redesenhado: unit-of-work explícito (Add/Update/Delete não persistem sozinhos; Save/SaveAsync confirmam), API async, AsNoTracking nas leituras e ownership correto do DbContext (não é mais descartado pelo repositório). Guia de migração 1.x -> 2.0 e CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/adrianocaldeira/thunder</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>entityframework repository net48</PackageTags>

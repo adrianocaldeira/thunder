@@ -12,6 +12,33 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 
 ## Thunder
 
+### [2.0.0] - 2026-07-14
+
+Mudanças de comportamento e remoções detalhadas no
+[guia de migração 004](docs/migration/004-thunder-2.0.md).
+
+#### Removido
+- **`Hash`, `HashHelper`, `HashProvider`** (descontinuados na 1.10.0): removidos. Substitutos —
+  `PasswordHasher.Hash`/`Verify` para hash de senha; `AesEncryptor.Encrypt`/`Decrypt` para
+  cifragem reversível. Não há substituto que reproduza o formato de hash legado; a migração de
+  dados existentes é descrita no [guia 003](docs/migration/003-criptografia-v2.md).
+
+#### Corrigido
+- **[COMPORTAMENTO]** Identidade de entidade em `Persist<T, TKey>`:
+  - `IsNew()` passa a funcionar com qualquer tipo de chave (`Guid`, `string`, numérico), não só
+    numérico. Antes, uma entidade era considerada "nova" quando `Id <= 0` — regra válida apenas
+    para chaves numéricas; agora é considerada nova apenas quando `Id` é igual ao valor padrão do
+    tipo (`default(TKey)`). **Consequência:** um `Id` numérico negativo deixa de ser tratado como
+    "novo".
+  - `Equals` passa a comparar `Id` **e** o tipo da entidade (antes comparava o hash code, o que
+    podia dar falsos positivos/negativos).
+  - `GetHashCode` é estável e não lança exceção quando `Id` é nulo. Uma entidade transiente
+    colocada numa coleção baseada em hash (`HashSet`/`Dictionary`) antes de persistir mantém o
+    hash de identidade de referência (relevante em cenários detached/multi-sessão).
+
+#### Alterado
+- Build convertido para SDK-style. Sem impacto de API ou de comportamento em runtime.
+
 ### [1.10.0] - 2026-07-14
 
 #### Adicionado
@@ -114,6 +141,43 @@ tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/00
 
 ## Thunder.NHibernate
 
+### [2.0.0] - 2026-07-14
+
+Mudanças de comportamento e remoções detalhadas no
+[guia de migração 004](docs/migration/004-thunder-2.0.md).
+
+#### Removido
+- **`CfgSerialization`** e **`SessionManager.SerializeConfiguration`** (descontinuados na 1.3.0):
+  removidos. O cache binário de configuração foi desativado por segurança (CWE-502, ver
+  [guia 002](docs/migration/002-binaryformatter-desativado.md)) e não tem substituto — a
+  configuração é sempre reconstruída em memória.
+
+#### Corrigido
+- **[COMPORTAMENTO]** `SessionManager` thread-safe: a inicialização da configuração/fábrica de
+  sessões passa a ser feita via `Lazy`, eliminando condições de corrida na primeira sessão. Uma
+  falha ao construir a configuração/fábrica passa a ser **fail-fast**: a exceção é cacheada e
+  relançada nos acessos seguintes, sem retry automático (antes, uma inicialização parcial podia
+  deixar o `SessionManager` num estado inconsistente).
+- **[COMPORTAMENTO]** `OrderBy` (extensão de `IQueryOver`): aplica todas as chaves de ordenação
+  informadas; antes o método não gerava ordenação alguma na consulta resultante.
+- **[COMPORTAMENTO]** Listener de timestamps (`Created`/`Updated`): no `insert`, o servidor sempre
+  grava `Created` e `Updated`, ignorando qualquer valor definido manualmente na entidade; no
+  `update`, grava apenas `Updated` (`Created` é imutável após a criação). O horário gravado
+  continua sendo o horário local.
+
+#### Alterado
+- **[COMPORTAMENTO]** O total de itens da paginação passa de `int` para `long`, para não truncar
+  contagens grandes. Consumidores que declaram explicitamente o tipo do total precisam recompilar.
+
+#### Adicionado
+- API assíncrona aditiva no `Repository`: métodos `...Async` com suporte a `CancellationToken`. Os
+  métodos síncronos e a transação-por-método permanecem inalterados. As sobrecargas de conveniência
+  não têm variante async.
+
+#### Descontinuado
+- **`ActiveRecord<T, TKey>`**: marcado `[Obsolete]`. Passa a delegar ao `Repository` e permanece
+  funcional; remoção planejada para a 3.0.
+
 ### [1.3.0] - 2026-07-14
 
 #### Corrigido
@@ -149,6 +213,12 @@ tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/00
 ---
 
 ## Thunder.Web.Mvc
+
+### [2.0.0] - 2026-07-14
+
+#### Alterado
+- Alinhamento à linha 2.0: passa a depender de `Thunder 2.0.0`. Não há mudança de comportamento
+  própria neste pacote.
 
 ### [1.9.0] - 2026-07-14
 
@@ -225,6 +295,25 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
 ---
 
 ## Thunder.EntityFramework
+
+### [2.0.0] - 2026-07-14
+
+Mudanças de comportamento detalhadas no
+[guia de migração 004](docs/migration/004-thunder-2.0.md).
+
+#### Alterado
+- **[COMPORTAMENTO]** `Repository<T, TKey>` redesenhado com unit-of-work explícito: `Add`, `Update`
+  e `Delete` não persistem sozinhos; as mudanças só são confirmadas ao chamar `Save()` ou
+  `SaveAsync()`. Antes, cada mutação persistia individualmente.
+- **[COMPORTAMENTO]** Ownership correto do `DbContext`: o repositório não descarta mais o
+  `DbContext` recebido — deixou de implementar `IDisposable`. O ciclo de vida do contexto é
+  responsabilidade de quem o cria (tipicamente o container de injeção de dependência).
+- **[COMPORTAMENTO]** As leituras (`All`/`FindBy`) passam a usar `AsNoTracking`. As entidades
+  retornadas não são rastreadas pelo contexto; para atualizá-las, use `Update` explicitamente antes
+  de `Save`.
+
+#### Adicionado
+- `SaveAsync`, `SingleAsync`, `Delete(TKey)` e as variantes assíncronas correspondentes.
 
 ### [1.1.1] - 2026-07-14
 

@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Version>1.9.0</Version>
+    <Version>2.0.0</Version>
     <Company>acaldeira.dev</Company>
     <Product>Thunder.Web.Mvc</Product>
     <Copyright>Copyright © Adriano Caldeira</Copyright>
@@ -20,7 +20,7 @@
     <Title>Thunder.Web.Mvc</Title>
     <Authors>Adriano Caldeira</Authors>
     <Description>HTML helpers, filtros e model binders para ASP.NET MVC 5, integrados ao Thunder.</Description>
-    <PackageReleaseNotes>Correções de segurança: model binder decimal robusto, codificação de mensagens (XSS), validação de callback JSONP e host canônico configurável. Consulte o CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>Versão major: alinhamento à linha 2.0; passa a depender de Thunder 2.0.0. Sem mudança de comportamento própria. Guia de migração 1.x -> 2.0 e CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/adrianocaldeira/thunder</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>aspnet mvc htmlhelpers modelbinder net48</PackageTags>

@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Version>1.10.0</Version>
+    <Version>2.0.0</Version>
     <Company>acaldeira.dev</Company>
     <Product>Thunder</Product>
     <Copyright>Copyright © Adriano Caldeira</Copyright>
@@ -20,7 +20,7 @@
     <Title>Thunder</Title>
     <Authors>Adriano Caldeira</Authors>
     <Description>Biblioteca utilitária para .NET Framework 4.8: extensões de tipos, validações e formatações brasileiras (CPF/CNPJ/e-mail/CEP/telefone), paginação, criptografia e notificações.</Description>
-    <PackageReleaseNotes>Correções de segurança e de validação. Novidades: criptografia moderna (AesEncryptor, AES-256 + HMAC-SHA256; PasswordHasher com PBKDF2). Consulte o CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>Versão major. Removidos Hash, HashHelper e HashProvider (use PasswordHasher para senhas ou AesEncryptor para cifragem). Identidade de entidade em Persist corrigida (IsNew, Equals e GetHashCode). Build convertido para SDK-style. Guia de migração 1.x -> 2.0 e CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/adrianocaldeira/thunder</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>brasil cpf cnpj validacao extensions net48</PackageTags>
