@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Extensions\ListExtensionsTest.cs" />
+    <Compile Include="Extensions\BooleanExtensionsTest.cs" />
     <Compile Include="Extensions\DateTimeExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Resources\TireItem.cs" />
