@@ -67,29 +67,8 @@ namespace Thunder.Extensions
                 return false;
 
             // Caso coloque todos os numeros iguais
-            switch (cpf)
-            {
-                case "00000000000":
-                    return false;
-                case "11111111111":
-                    return false;
-                case "2222222222":
-                    return false;
-                case "33333333333":
-                    return false;
-                case "44444444444":
-                    return false;
-                case "55555555555":
-                    return false;
-                case "66666666666":
-                    return false;
-                case "77777777777":
-                    return false;
-                case "88888888888":
-                    return false;
-                case "99999999999":
-                    return false;
-            }
+            if (cpf.Distinct().Count() == 1)
+                return false;
 
             try
             {
@@ -530,7 +509,7 @@ namespace Thunder.Extensions
         {
             var phone = souce.Format(FormatType.Phone);
 
-            return new Regex(@"^\((10)|[1-9]{2}\)\s[2-9][0-9]{3,4}\-[0-9]{4}$").IsMatch(phone);
+            return new Regex(@"^\((10|[1-9]{2})\)\s[2-9][0-9]{3,4}\-[0-9]{4}$").IsMatch(phone);
         }
 
         /// <summary>
@@ -542,7 +521,8 @@ namespace Thunder.Extensions
         {
             var zipCode = souce.Format(FormatType.ZipCode);
 
-            return !new Regex(@"^[0-9]{5}-[0-9]{3}$").IsMatch(zipCode) || !new Regex(@"^([0]{5}-[0]{3}|[1]{5}-[1]{3}|[2]{5}-[2]{3}|[3]{5}-[3]{3}|[4]{5}-[4]{3}|[5]{5}-[5]{3}|[6]{5}-[6]{3}|[7]{5}-[7]{3}|[8]{5}-[8]{3}|[9]{5}-[9]{3})$").IsMatch(zipCode);
+            return new Regex(@"^[0-9]{5}-[0-9]{3}$").IsMatch(zipCode)
+                   && !new Regex(@"^([0-9])\1{4}-\1{3}$").IsMatch(zipCode);
         }
     }
 }

@@ -12,6 +12,24 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 
 ## Thunder
 
+### [Não lançado]
+
+#### Corrigido
+- **[COMPORTAMENTO]** `IsCpf`: a blacklist de dígitos repetidos continha um valor com 10 dígitos
+  (`2222222222`), o que fazia `"22222222222"` (11 dígitos iguais) passar pela validação por falha
+  de correspondência na comparação; substituída por verificação direta de dígitos repetidos
+  (`cpf.Distinct().Count() == 1`).
+- **[COMPORTAMENTO]** `IsZipCode`: lógica de validação estava invertida
+  (`!formatoValido || !éBlacklist`), retornando `true` inclusive para entradas sem formato de CEP;
+  corrigida para `formatoValido && !éBlacklist`.
+- **[COMPORTAMENTO]** `IsPhone`: alternância da regex sem agrupamento
+  (`^\((10)|[1-9]{2}\)...`) fazia o DDD `10` contornar o restante da validação; corrigida a
+  precedência com agrupamento explícito (`(10|[1-9]{2})`).
+
+Impacto no consumidor real (portas-de-entrada): `IsCpf` (9 usos) e `IsPhone` (1 uso) passam a
+rejeitar entradas que antes eram aceitas indevidamente — sentido seguro, sem regressão esperada.
+`IsZipCode` não é utilizado pelo consumidor.
+
 ### [1.8.1] - 2026-07-14
 
 #### Alterado
