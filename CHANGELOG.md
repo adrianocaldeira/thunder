@@ -87,6 +87,15 @@ com parte local vazia, que já eram e-mails inválidos.
 
 ## Thunder.Web.Mvc
 
+### [Não lançado]
+
+#### Corrigido
+- `SelectListExtensions.ToSelectList<T>()`: lançava `IndexOutOfRangeException` para enums sem
+  `[Display]`; passou a usar `EnumExtensions.DisplayName()`, com fallback para o nome do membro.
+- **[COMPORTAMENTO]** `Controller.Success(data, contentType)`: o parâmetro `contentType` era
+  ignorado e o overload sempre sobrescrevia para `"application/json"`; agora o valor informado é
+  respeitado. Sem uso confirmado no consumidor real (portas-de-entrada).
+
 ### [1.7.1] - 2026-07-14
 
 #### Alterado

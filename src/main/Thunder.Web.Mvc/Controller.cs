@@ -160,7 +160,7 @@ namespace Thunder.Web.Mvc
         /// <returns></returns>
         public JsonResult Success(object data, string contentType)
         {
-            return Success(data, "application/json", JsonRequestBehavior.DenyGet);
+            return Success(data, contentType, JsonRequestBehavior.DenyGet);
         }
 
         /// <summary>
