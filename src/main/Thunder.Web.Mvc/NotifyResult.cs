@@ -106,7 +106,7 @@ namespace Thunder.Web.Mvc
         public Encoding ContentEncoding { get; set; }
 
         /// <summary>
-        /// Get an set content type
+        /// Get or set content type
         /// </summary>
         public string ContentType { get; set; }
 

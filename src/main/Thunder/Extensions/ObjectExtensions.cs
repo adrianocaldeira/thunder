@@ -41,10 +41,11 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Call Trim function all string properties of object
+        /// Call Trim function on all string properties of object
         /// </summary>
-        /// <param name="source"></param>
-        public static void Trim<T>(this T source) where T : class 
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="source">Object</param>
+        public static void Trim<T>(this T source) where T : class
         {
             var properties = source.GetType().GetProperties().Where(p => p.PropertyType == typeof(string) && p.CanWrite);
 

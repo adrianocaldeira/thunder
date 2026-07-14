@@ -371,7 +371,7 @@ namespace Thunder.Extensions
         ///     Check if the string can be parse as Double respective Int32
         /// </summary>
         /// <param name="s">String</param>
-        /// <param name="floatpoint">Double is considered, otherwhise Int32 is considered</param>
+        /// <param name="floatpoint">Double is considered, otherwise Int32 is considered</param>
         /// <returns>String contains only digits or float-point</returns>
         public static bool IsNumber(this string s, bool floatpoint)
         {
@@ -503,7 +503,7 @@ namespace Thunder.Extensions
         /// <summary>
         ///     Validate phone number
         /// </summary>
-        /// <param name="souce"></param>
+        /// <param name="souce">Phone number</param>
         /// <returns>Valid</returns>
         public static bool IsPhone(this string souce)
         {
@@ -513,9 +513,9 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Validate zip code
+        ///     Validate zip code
         /// </summary>
-        /// <param name="souce"></param>
+        /// <param name="souce">Zip code</param>
         /// <returns>Valid</returns>
         public static bool IsZipCode(this string souce)
         {
