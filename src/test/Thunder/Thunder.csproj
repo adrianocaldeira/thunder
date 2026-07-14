@@ -75,6 +75,9 @@
     <Compile Include="Extensions\ObjectExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Resources\TireItem.cs" />
+    <Compile Include="Security\AesEncryptorTest.cs" />
+    <Compile Include="Security\PasswordHasherTest.cs" />
+    <Compile Include="Security\LegacyCompatTest.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttributeTest.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EmailAttributeTest.cs" />
     <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensionsTest.cs" />

@@ -8,6 +8,7 @@ namespace Thunder.Security
     /// <summary>
     /// Cryptography security
     /// </summary>
+    [Obsolete("Use Thunder.Security.AesEncryptor (AES-256 + HMAC-SHA256). A criptografia legada é fraca (IV fixo, KDF fraco) e será removida na 2.0.")]
     public class Cryptography
     {
         #region Constructors
