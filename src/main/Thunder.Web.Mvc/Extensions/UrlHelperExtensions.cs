@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Thunder.Web.Mvc.Internal;
 
 namespace Thunder.Web.Mvc.Extensions
 {
@@ -229,8 +230,38 @@ namespace Thunder.Web.Mvc.Extensions
             if (uri.IsAbsoluteUri)
                 return uri;
 
-            url = String.Format("{0}{1}", request.Url.GetLeftPart(UriPartial.Authority), url);
+            url = ComposeAbsoluteUrl(CanonicalHost.Value, request.Url.Scheme, request.Url.GetLeftPart(UriPartial.Authority), url);
             return new Uri(url);
+        }
+
+        /// <summary>
+        /// Composes an absolute URL by prefixing <paramref name="relativeUrl"/> with an authority
+        /// (scheme + host [+ port]).
+        /// </summary>
+        /// <remarks>
+        /// Mitigates host header poisoning (A4): when <paramref name="canonicalHost"/> is <c>null</c>
+        /// (the default, opt-in-off state), the authority is taken from <paramref name="requestAuthority"/>
+        /// — this preserves the pre-existing behavior of trusting the incoming request's Host header.
+        /// When <paramref name="canonicalHost"/> is configured, it is used instead: if it already
+        /// contains a scheme (i.e. contains "://"), it is used verbatim as the full authority; otherwise
+        /// it is treated as a bare host and prefixed with <paramref name="scheme"/> (the request's own
+        /// scheme is preserved so http vs https is not silently changed).
+        /// </remarks>
+        /// <param name="canonicalHost">The configured canonical host (<see cref="CanonicalHost.Value"/>), or <c>null</c> when not configured.</param>
+        /// <param name="scheme">The request's scheme (e.g. "http" or "https"), used when <paramref name="canonicalHost"/> has no scheme of its own.</param>
+        /// <param name="requestAuthority">The request's own authority (e.g. "https://host"), used when <paramref name="canonicalHost"/> is <c>null</c>.</param>
+        /// <param name="relativeUrl">The relative URL to append to the resolved authority.</param>
+        /// <returns>The composed absolute URL string.</returns>
+        internal static string ComposeAbsoluteUrl(string canonicalHost, string scheme, string requestAuthority, string relativeUrl)
+        {
+            if (canonicalHost == null)
+                return requestAuthority + relativeUrl;
+
+            var authority = canonicalHost.IndexOf("://", StringComparison.Ordinal) >= 0
+                ? canonicalHost
+                : scheme + Uri.SchemeDelimiter + canonicalHost;
+
+            return authority + relativeUrl;
         }
     }
 }

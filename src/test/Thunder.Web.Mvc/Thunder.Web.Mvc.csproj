@@ -46,6 +46,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>..\..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -71,12 +72,14 @@
     <Compile Include="Binders\DecimalModelBinderTest.cs" />
     <Compile Include="ControllerTest.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExtensionsTest.cs" />
+    <Compile Include="Extensions\UrlHelperExtensionsTest.cs" />
     <Compile Include="Filter\CompressAttributeTest.cs" />
     <Compile Include="Html\Design\ButtonExtensionsTest.cs" />
     <Compile Include="Html\Design\LabelExtensionsTest.cs" />
     <Compile Include="Html\Design\MessageExtensionsTest.cs" />
     <Compile Include="Html\Notify\NotifyBuilderTest.cs" />
     <Compile Include="Html\SelectListExtensionsTest.cs" />
+    <Compile Include="Internal\CanonicalHostTest.cs" />
     <Compile Include="Internal\JsonpCallbackTest.cs" />
     <Compile Include="JsonResultJsonpTest.cs" />
     <Compile Include="NotifyResultTest.cs" />
