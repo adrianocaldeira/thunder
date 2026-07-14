@@ -44,7 +44,7 @@ namespace Thunder.Web.Mvc.Filter
                 }
             }
             
-            response.AppendHeader("Vary", "Content-Encoding");
+            response.AppendHeader("Vary", "Accept-Encoding");
         }
     }
 }

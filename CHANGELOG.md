@@ -99,6 +99,11 @@ com parte local vazia, que já eram e-mails inválidos.
   estava invertido (`ignoreKeys != null && !ignoreKeys.Contains(...)`), tornando o método um
   no-op sempre que `ignoreKeys` era `null` — o caso mais comum, sem lista de exceções; corrigido
   para `ignoreKeys == null || !ignoreKeys.Contains(...)`. Sem uso confirmado no consumidor real.
+- **[COMPORTAMENTO]** `CompressAttribute`: o cabeçalho `Vary` era emitido com o valor
+  `Content-Encoding` (cabeçalho de resposta, sem efeito para caches/proxies), quando deveria
+  referenciar `Accept-Encoding` (cabeçalho de requisição que de fato varia a resposta gzip);
+  corrigido. Usado pelo consumidor real via registro global do filtro no Gateway — mudança
+  segura, apenas corrige um cabeçalho incorreto, sem alterar a compressão em si.
 
 ### [1.7.1] - 2026-07-14
 
