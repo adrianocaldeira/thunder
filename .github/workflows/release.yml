@@ -22,45 +22,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configura NuGet
-        uses: NuGet/setup-nuget@v2
-
-      - name: Configura MSBuild
-        uses: microsoft/setup-msbuild@v2
+      - name: Configura .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
       - name: Restaura pacotes
-        run: nuget restore Thunder.sln
+        run: dotnet restore Thunder.sln
 
       - name: Compila (Release)
-        run: msbuild Thunder.sln /p:Configuration=Release /m /nologo
+        run: dotnet build Thunder.sln -c Release --no-restore
 
-      - name: Confere versão dos nuspec contra os assemblies
-        shell: pwsh
-        run: |
-          $map = @{
-            'Thunder'                 = 'src/main/Thunder/bin/Release/Thunder.dll'
-            'Thunder.NHibernate'      = 'src/main/Thunder.NHibernate/bin/Release/Thunder.NHibernate.dll'
-            'Thunder.Web.Mvc'         = 'src/main/Thunder.Web.Mvc/bin/Release/Thunder.Web.Mvc.dll'
-            'Thunder.EntityFramework' = 'src/main/Thunder.EntityFramework/bin/Release/Thunder.EntityFramework.dll'
-          }
-          foreach ($id in $map.Keys) {
-            [xml]$nuspec = Get-Content "build/nuspec/$id.nuspec"
-            $nuspecVersion = $nuspec.package.metadata.version
-            $asmVersion = [Reflection.AssemblyName]::GetAssemblyName((Resolve-Path $map[$id])).Version.ToString(3)
-            if ($nuspecVersion -ne $asmVersion) {
-              throw "Versao divergente em ${id}: nuspec=$nuspecVersion assembly=$asmVersion"
-            }
-            Write-Host "$id OK ($nuspecVersion)"
-          }
+      - name: Testa (Release)
+        run: dotnet test Thunder.sln -c Release --no-build
 
-      - name: Empacota
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force artifacts | Out-Null
-          Get-ChildItem build/nuspec/*.nuspec | ForEach-Object {
-            nuget pack $_.FullName -BasePath . -OutputDirectory artifacts -Properties Configuration=Release
-            if ($LASTEXITCODE -ne 0) { throw "Falha ao empacotar $($_.Name)" }
-          }
+      - name: Empacota (Release)
+        run: dotnet pack Thunder.sln -c Release --no-build -o artifacts
 
       - name: Login no NuGet (OIDC troca por chave temporária)
         uses: NuGet/login@v1
@@ -69,9 +46,4 @@ jobs:
           user: acaldeira
 
       - name: Publica no NuGet.org
-        shell: pwsh
-        run: |
-          Get-ChildItem artifacts/*.nupkg | ForEach-Object {
-            dotnet nuget push $_.FullName --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
-            if ($LASTEXITCODE -ne 0) { throw "Falha ao publicar $($_.Name)" }
-          }
+        run: dotnet nuget push artifacts/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate

@@ -1,153 +1,70 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{56615F19-D609-46A3-8100-FB9FE29158FA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Thunder.Web.Mvc</RootNamespace>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>Thunder.Web.Mvc</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
+    <RootNamespace>Thunder.Web.Mvc</RootNamespace>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Version>1.9.0</Version>
+    <Company>acaldeira.dev</Company>
+    <Product>Thunder.Web.Mvc</Product>
+    <Copyright>Copyright © Adriano Caldeira</Copyright>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup>
+    <PackageId>Thunder.Web.Mvc</PackageId>
+    <Title>Thunder.Web.Mvc</Title>
+    <Authors>Adriano Caldeira</Authors>
+    <Description>HTML helpers, filtros e model binders para ASP.NET MVC 5, integrados ao Thunder.</Description>
+    <PackageReleaseNotes>Correções de segurança: model binder decimal robusto, codificação de mensagens (XSS), validação de callback JSONP e host canônico configurável. Consulte o CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/adrianocaldeira/thunder</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>aspnet mvc htmlhelpers modelbinder net48</PackageTags>
+    <RepositoryUrl>https://github.com/adrianocaldeira/thunder</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Thunder.Web.Mvc.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.17.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\log4net.2.0.17\lib\net45\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.3.0" />
+    <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="Controller.cs" />
-    <Compile Include="Binders\DecimalModelBinder.cs" />
-    <Compile Include="CustomViewEngine.cs" />
-    <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
-    <Compile Include="Extensions\UrlHelperExtensions.cs" />
-    <Compile Include="Filter\ClearCacheAttribute.cs" />
-    <Compile Include="Filter\CompressAttribute.cs" />
-    <Compile Include="Filter\LayoutInjectAttribute.cs" />
-    <Compile Include="Filter\NoLowercaseQueryStringAttribute.cs" />
-    <Compile Include="Filter\NoTrailingSlashAttribute.cs" />
-    <Compile Include="Filter\RedirectToCanonicalUrlAttribute.cs" />
-    <Compile Include="Filter\WaitDownloadAttribute.cs" />
-    <Compile Include="Html\Cnpj\CnpjBuilder.cs" />
-    <Compile Include="Html\Cpf\CpfBuilder.cs" />
-    <Compile Include="Html\Currency\CurrencyBuilder.cs" />
-    <Compile Include="Html\Date\DateBuilder.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\ButtonExtensions.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\LabelExtensions.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\MessageExtensions.cs" />
-    <Compile Include="Html\Grid\GridSortBuilder.cs" />
-    <Compile Include="Html\Grid\MvcGrid.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\PaginationExtensions.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\ContentBoxExtensions.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeader.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeaderButton.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeaderLoading.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\ContentBoxHeaderTab.cs" />
-    <Compile Include="Html\Design\SimplaAdmin\MvcContentBox.cs" />
-    <Compile Include="Html\Grid\GridBuilder.cs" />
-    <Compile Include="Html\HtmlAttributesUtility.cs" />
-    <Compile Include="Html\Image\ImageBuilder.cs" />
-    <Compile Include="Html\JavaScript\JavaScriptBuilder.cs" />
-    <Compile Include="Html\Notify\NotifyBuilder.cs" />
-    <Compile Include="Html\Numeric\NumericBuilder.cs" />
-    <Compile Include="Html\Pagination\PaginationBuilder.cs" />
-    <Compile Include="Html\Password\PasswordBuilder.cs" />
-    <Compile Include="Html\Phone\PhoneBuilder.cs" />
-    <Compile Include="Internal\CanonicalHost.cs" />
-    <Compile Include="Internal\JsonpCallback.cs" />
-    <Compile Include="JsonResult.cs" />
-    <Compile Include="SelectListExtensions.cs" />
-    <Compile Include="Html\StyleSheet\StyleSheetBuilder.cs" />
-    <Compile Include="Html\TextArea\TextAreaBuilder.cs" />
-    <Compile Include="Html\TextBox\TextBoxBuilder.cs" />
-    <Compile Include="Html\Thunder.cs" />
-    <Compile Include="Html\ThunderHelperExtensions.cs" />
-    <Compile Include="Html\ZipCode\ZipCodeBuilder.cs" />
-    <Compile Include="NotifyResult.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <ProjectReference Include="..\Thunder\Thunder.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <InternalsVisibleTo Include="Thunder.Web.Mvc.Test" />
   </ItemGroup>
+
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
+      <_Parameter1>false</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Security.AllowPartiallyTrustedCallersAttribute" />
+    <AssemblyAttribute Include="System.Security.SecurityRulesAttribute">
+      <_Parameter1>System.Security.SecurityRuleSet.Level1</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+    </AssemblyAttribute>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Thunder\Thunder.csproj">
-      <Project>{85e79781-5311-482c-bc8b-3f7781061ed5}</Project>
-      <Name>Thunder</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

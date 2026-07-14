@@ -1,114 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{85E79781-5311-482C-BC8B-3F7781061ED5}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Thunder</RootNamespace>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>Thunder</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
+    <RootNamespace>Thunder</RootNamespace>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Version>1.10.0</Version>
+    <Company>acaldeira.dev</Company>
+    <Product>Thunder</Product>
+    <Copyright>Copyright © Adriano Caldeira</Copyright>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Thunder.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup>
+    <PackageId>Thunder</PackageId>
+    <Title>Thunder</Title>
+    <Authors>Adriano Caldeira</Authors>
+    <Description>Biblioteca utilitária para .NET Framework 4.8: extensões de tipos, validações e formatações brasileiras (CPF/CNPJ/e-mail/CEP/telefone), paginação, criptografia e notificações.</Description>
+    <PackageReleaseNotes>Correções de segurança e de validação. Novidades: criptografia moderna (AesEncryptor, AES-256 + HMAC-SHA256; PasswordHasher com PBKDF2). Consulte o CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/adrianocaldeira/thunder</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>brasil cpf cnpj validacao extensions net48</PackageTags>
+    <RepositoryUrl>https://github.com/adrianocaldeira/thunder</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Thunder.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.17.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\log4net.2.0.17\lib\net45\log4net.dll</HintPath>
-    </Reference>
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Core" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Collections\Extensions\PagingExtensions.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\DocumentAttribute.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\EmailAttribute.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\Enumerator.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\EnumRequiredAttribute.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensions.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttribute.cs" />
-    <Compile Include="ComponentModel\DataAnnotations\UrlAttribute.cs" />
-    <Compile Include="Data\ICreatedAndUpdatedProperty.cs" />
-    <Compile Include="Data\Persist.cs" />
-    <Compile Include="Data\Property.cs" />
-    <Compile Include="Extensions\BooleanExtensions.cs" />
-    <Compile Include="Extensions\GenericExtensions.cs" />
-    <Compile Include="Extensions\IntegerExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="FormatType.cs" />
-    <Compile Include="IObjectState.cs" />
-    <Compile Include="Collections\IPaging.cs" />
-    <Compile Include="Collections\Extensions\ListExtensions.cs" />
-    <Compile Include="JsonResultType.cs" />
-    <Compile Include="Model\Filter.cs" />
-    <Compile Include="Model\FilterOrder.cs" />
-    <Compile Include="Notify.cs" />
-    <Compile Include="ObjectState.cs" />
-    <Compile Include="Collections\Paging.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Logging.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DisplayName.cs" />
-    <Compile Include="Security\AesEncryptor.cs" />
-    <Compile Include="Security\CryptoUtil.cs" />
-    <Compile Include="Security\Cryptography.cs" />
-    <Compile Include="Security\CryptographyHelper.cs" />
-    <Compile Include="Security\CryptographyProvider.cs" />
-    <Compile Include="Security\Hash.cs" />
-    <Compile Include="Security\HashHelper.cs" />
-    <Compile Include="Security\HashProvider.cs" />
-    <Compile Include="Security\PasswordHasher.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Utility.cs" />
-    <Compile Include="Web\ContentType.cs" />
-    <Compile Include="Web\JsonExtensions.cs" />
-    <Compile Include="NotifyType.cs" />
+    <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
+      <_Parameter1>false</_Parameter1>
+      <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Security.AllowPartiallyTrustedCallersAttribute" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
