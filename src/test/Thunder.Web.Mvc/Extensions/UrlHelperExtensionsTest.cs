@@ -38,6 +38,15 @@ namespace Thunder.Web.Mvc.Extensions
         }
 
         [Test]
+        public void ComposeAbsoluteUrl_RelativoSemBarraInicial_NaoFundeComAutoridade()
+        {
+            var result = UrlHelperExtensions.ComposeAbsoluteUrl("app.exemplo.com", "https", "https://evil.com", "sub.evil.com/x");
+
+            Assert.AreEqual("https://app.exemplo.com/sub.evil.com/x", result);
+            Assert.AreEqual("app.exemplo.com", new Uri(result).Host);
+        }
+
+        [Test]
         public void ComposeAbsoluteUrl_CanonicalHostSemEsquema_PreservaEsquemaHttpDoRequest()
         {
             var result = UrlHelperExtensions.ComposeAbsoluteUrl("app.exemplo.com", "http", "http://evil.com", "/pedidos/1");

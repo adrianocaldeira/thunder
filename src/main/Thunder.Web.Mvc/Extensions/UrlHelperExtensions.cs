@@ -307,6 +307,12 @@ namespace Thunder.Web.Mvc.Extensions
                 ? canonicalHost
                 : scheme + Uri.SchemeDelimiter + canonicalHost;
 
+            // Defesa em profundidade: garante que a URL relativa comece com "/" para que o host
+            // canônico não seja concatenado a um caminho sem separador (evita que uma entrada como
+            // "sub.evil.com/x" seja fundida à autoridade, virando "app.exemplo.com" + "sub.evil.com").
+            if (string.IsNullOrEmpty(relativeUrl) || relativeUrl[0] != '/')
+                relativeUrl = "/" + relativeUrl;
+
             return authority + relativeUrl;
         }
     }
