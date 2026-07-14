@@ -32,7 +32,7 @@ namespace Thunder.Extensions
         [Test]
         public void Cast_StringComVirgula_TrataComoSeparadorDeMilharIndependenteDaCulturaCorrente()
         {
-            // Com cultura invariante seca (decisão 6c), a vírgula é o separador de milhar
+            // Com cultura invariante seca, a vírgula é o separador de milhar
             // do invariant (não o separador decimal do pt-BR) — "1,5" vira 15m
             // deterministicamente, seja qual for a cultura corrente da thread.
             var originalCulture = Thread.CurrentThread.CurrentCulture;

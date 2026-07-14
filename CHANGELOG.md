@@ -117,12 +117,12 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
   referenciar `Accept-Encoding` (cabeçalho de requisição que de fato varia a resposta gzip);
   corrigido. Mudança segura para quem registra o filtro globalmente — apenas corrige um
   cabeçalho incorreto, sem alterar a compressão em si.
-- `NotifyResult` (renderização HTML, caminho não-Ajax): `Messages` é uma
+- **[COMPORTAMENTO]** `NotifyResult` (renderização HTML, caminho não-Ajax): `Messages` é uma
   `IList<KeyValuePair<string, IList<string>>>`; o caminho HTML imprimia
   `KeyValuePair.ToString()` em vez do texto da mensagem. Corrigido para extrair as mensagens de
   cada `Value` e aplicar `HttpUtility.HtmlEncode` em cada uma antes de montar o
   `<li>`/corpo — mitigação pontual de XSS neste caminho específico; o encode abrangente de toda
-  a superfície de mensagens (A2 da auditoria) fica para a Fase 2.
+  a superfície de mensagens fica para uma versão futura.
 
 ### [1.7.1] - 2026-07-14
 

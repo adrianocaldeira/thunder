@@ -48,6 +48,11 @@ var cpf = "53778321676";
 if (cpf.IsCpf())
     Console.WriteLine(cpf.Format(FormatType.Cpf)); // 537.783.216-76
 
+var cnpj = "33846757000150";
+
+if (cnpj.IsCnpj())
+    Console.WriteLine(cnpj.Format(FormatType.Cnpj)); // 33.846.757/0001-50
+
 // Paging: page 0 (first page), 20 items per page
 IEnumerable<Produto> produtos = repositorio.Listar();
 var pagina = produtos.Paging(0, 20);
