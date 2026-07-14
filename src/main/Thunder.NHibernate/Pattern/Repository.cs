@@ -377,9 +377,9 @@ namespace Thunder.NHibernate.Pattern
                     .UnderlyingCriteria.AddOrder(orders);
 
                 var queryCount = Session.QueryOver<T>()
-                    .Select(Projections.CountDistinct("Id"));
+                    .Select(Projections.Cast(NHibernateUtil.Int64, Projections.CountDistinct("Id")));
 
-                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
+                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<long>());
 
                 transaction.Commit();
 
@@ -469,9 +469,9 @@ namespace Thunder.NHibernate.Pattern
 
                 var queryCount = Session.QueryOver<T>()
                     .And(criterions)
-                    .Select(Projections.CountDistinct("Id"));
+                    .Select(Projections.Cast(NHibernateUtil.Int64, Projections.CountDistinct("Id")));
 
-                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
+                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<long>());
 
                 transaction.Commit();
 
@@ -560,10 +560,10 @@ namespace Thunder.NHibernate.Pattern
                     .UnderlyingCriteria.AddOrder(orders);
 
                 var queryCount = Session.QueryOver<T>()
-                    .Select(Projections.CountDistinct("Id"))
+                    .Select(Projections.Cast(NHibernateUtil.Int64, Projections.CountDistinct("Id")))
                     .And(criterions);
 
-                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
+                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<long>());
 
                 transaction.Commit();
 
