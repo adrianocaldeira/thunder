@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using Thunder.Extensions;
 
@@ -40,13 +41,13 @@ namespace Thunder.Web.Mvc.Html.Notify
             {
                 if (notify.Messages.Count == 1)
                 {
-                    content += notify.Messages[0];
+                    content += HttpUtility.HtmlEncode(notify.Messages[0]);
                 }
                 else
                 {
                     var ul = new TagBuilder("ul");
 
-                    foreach (var li in notify.Messages.Select(message => new TagBuilder("li") {InnerHtml = message}))
+                    foreach (var li in notify.Messages.Select(message => new TagBuilder("li") {InnerHtml = HttpUtility.HtmlEncode(message)}))
                     {
                         ul.InnerHtml += li.ToString();
                     }
