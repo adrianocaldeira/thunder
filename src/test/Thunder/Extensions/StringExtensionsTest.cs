@@ -28,6 +28,8 @@ namespace Thunder.Extensions
             Assert.IsTrue("76786625304".IsCpf());
             Assert.IsFalse("".IsCpf());
             Assert.IsFalse("76786625301".IsCpf());
+            Assert.IsFalse("22222222222".IsCpf());
+            Assert.IsFalse("222.222.222-22".IsCpf());
         }
 
 
@@ -55,6 +57,8 @@ namespace Thunder.Extensions
             Assert.IsFalse("adriano.caldeira@integgro".IsEmail());
             Assert.IsFalse("adriano@integgro".IsEmail());
             Assert.IsFalse("".IsEmail());
+            Assert.IsFalse("@dominio.com".IsEmail());          // parte local vazia
+            Assert.IsTrue("a@dominio.com".IsEmail());
         }
 
         [Test]
@@ -201,6 +205,8 @@ namespace Thunder.Extensions
             Assert.IsFalse("(80) 3111-1112".IsPhone());
             Assert.IsFalse("(90) 3111-1112".IsPhone());
             Assert.IsFalse("(11) 31-1112".IsPhone());
+            Assert.IsFalse("(10qualquercoisa".IsPhone());
+            Assert.IsFalse("(10) 01111-2222".IsPhone());
 
             Assert.IsTrue("(10) 3111-1112".IsPhone());
             Assert.IsTrue("(11) 3111-1112".IsPhone());
@@ -223,6 +229,7 @@ namespace Thunder.Extensions
             Assert.IsFalse("77777-777".IsZipCode());
             Assert.IsFalse("88888-888".IsZipCode());
             Assert.IsFalse("99999-999".IsZipCode());
+            Assert.IsFalse("abcde-fgh".IsZipCode());
             Assert.IsTrue("03067-000".IsZipCode());
         }
     }

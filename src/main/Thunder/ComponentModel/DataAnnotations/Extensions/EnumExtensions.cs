@@ -20,14 +20,13 @@ namespace Thunder.ComponentModel.DataAnnotations.Extensions
             var member = enumType.GetMember(enumValue)[0];
 
             var attrs = member.GetCustomAttributes(typeof (DisplayAttribute), false);
-            var outString = ((DisplayAttribute) attrs[0]).Name;
 
-            if (((DisplayAttribute) attrs[0]).ResourceType != null)
-            {
-                outString = ((DisplayAttribute) attrs[0]).GetName();
-            }
+            if (attrs.Length == 0)
+                return enumValue;
 
-            return outString;
+            var display = (DisplayAttribute) attrs[0];
+
+            return display.ResourceType != null ? display.GetName() : display.Name ?? enumValue;
         }
     }
 }

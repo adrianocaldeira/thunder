@@ -112,17 +112,15 @@ namespace Thunder.Data
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidCurrentPageArgument()
         {
-            new Paging<string>(new System.Collections.Generic.List<string>(), -1, _pageSize);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Paging<string>(new System.Collections.Generic.List<string>(), -1, _pageSize));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ValidPageSizeArgument()
         {
-            new Paging<string>(new System.Collections.Generic.List<string>(), 0, -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Paging<string>(new System.Collections.Generic.List<string>(), 0, -1));
         }
 
         [Test]

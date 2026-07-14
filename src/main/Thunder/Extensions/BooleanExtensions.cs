@@ -1,4 +1,4 @@
-namespace Thunder.Extensions
+ï»¿namespace Thunder.Extensions
 {
     /// <summary>
     /// Boolean extensions
@@ -6,13 +6,13 @@ namespace Thunder.Extensions
     public static class BooleanExtensions
     {
         /// <summary>
-        /// Transforme booelan to text plan Sim or Não 
+        /// Transforma boolean em texto Sim ou NÃ£o
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
         public static string Text(this bool source)
         {
-            return source ? "Sim" : "Não";
+            return source ? "Sim" : "NÃ£o";
         }
     }
 }

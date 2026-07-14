@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Thunder.Extensions
@@ -28,10 +29,10 @@ namespace Thunder.Extensions
 
                 if (nullableType != null)
                 {
-                    return (T)Convert.ChangeType(source, nullableType);
+                    return (T)Convert.ChangeType(source, nullableType, CultureInfo.InvariantCulture);
                 }
 
-                return (T)Convert.ChangeType(source, type);
+                return (T)Convert.ChangeType(source, type, CultureInfo.InvariantCulture);
             }
             catch
             {
@@ -40,10 +41,11 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        /// Call Trim function all string properties of object
+        /// Call Trim function on all string properties of object
         /// </summary>
-        /// <param name="source"></param>
-        public static void Trim<T>(this T source) where T : class 
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="source">Object</param>
+        public static void Trim<T>(this T source) where T : class
         {
             var properties = source.GetType().GetProperties().Where(p => p.PropertyType == typeof(string) && p.CanWrite);
 

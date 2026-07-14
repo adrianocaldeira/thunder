@@ -35,17 +35,28 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\packages\Castle.Core.5.1.1\lib\net462\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
-      <HintPath>..\..\..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+      <HintPath>..\..\..\packages\Moq.4.18.4\lib\net462\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.3.14.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>..\..\..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,9 +68,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControllerTest.cs" />
+    <Compile Include="Extensions\ModelStateDictionaryExtensionsTest.cs" />
+    <Compile Include="Filter\CompressAttributeTest.cs" />
     <Compile Include="Html\Design\ButtonExtensionsTest.cs" />
     <Compile Include="Html\Design\LabelExtensionsTest.cs" />
     <Compile Include="Html\SelectListExtensionsTest.cs" />
+    <Compile Include="NotifyResultTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +85,10 @@
     <ProjectReference Include="..\..\main\Thunder.Web.Mvc\Thunder.Web.Mvc.csproj">
       <Project>{56615F19-D609-46A3-8100-FB9FE29158FA}</Project>
       <Name>Thunder.Web.Mvc %28main\framework\Thunder.Web.Mvc%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\main\Thunder\Thunder.csproj">
+      <Project>{85E79781-5311-482C-BC8B-3F7781061ED5}</Project>
+      <Name>Thunder %28main\framework\Thunder%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

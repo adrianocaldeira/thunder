@@ -12,6 +12,60 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 
 ## Thunder
 
+### [1.9.0] - 2026-07-14
+
+Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
+
+#### Corrigido
+- **[COMPORTAMENTO]** `JsonExtensions`: a serialização/desserialização usava
+  `JsonConvert.SerializeObject`/`DeserializeObject` sem `JsonSerializerSettings` completos,
+  herdando `JsonConvert.DefaultSettings` global configurado pela aplicação host — se o host
+  registrasse `TypeNameHandling.All` (ou similar) globalmente, `"...".Json<T>()` ficava exposto a
+  desserialização de tipos arbitrários via `$type` (RCE) e sem limite de profundidade de
+  aninhamento. Adicionado `CreateDefaultSettings()` interno, aplicado a `Json<T>()` e ao overload
+  `Json(obj, formatting, contractResolver)`, fixando `TypeNameHandling.None` e `MaxDepth = 64`
+  explicitamente — não são mais influenciados por `DefaultSettings` global. O overload que recebe
+  `JsonSerializerSettings` explícito permanece intocado (usuário no controle). Afeta apenas
+  hosts que registrem `DefaultSettings` globais perigosos e dependam do `JsonExtensions` para
+  desserialização.
+- **[COMPORTAMENTO]** `IsCpf`: a blacklist de dígitos repetidos continha um valor com 10 dígitos
+  (`2222222222`), o que fazia `"22222222222"` (11 dígitos iguais) passar pela validação por falha
+  de correspondência na comparação; substituída por verificação direta de dígitos repetidos
+  (`cpf.Distinct().Count() == 1`).
+- **[COMPORTAMENTO]** `IsZipCode`: lógica de validação estava invertida
+  (`!formatoValido || !éBlacklist`), retornando `true` inclusive para entradas sem formato de CEP;
+  corrigida para `formatoValido && !éBlacklist`.
+- **[COMPORTAMENTO]** `IsPhone`: alternância da regex sem agrupamento
+  (`^\((10)|[1-9]{2}\)...`) fazia o DDD `10` contornar o restante da validação; corrigida a
+  precedência com agrupamento explícito (`(10|[1-9]{2})`).
+- **[COMPORTAMENTO]** `EmailAttribute`: o `IsValid` sobrescrito no server-side só checava a
+  existência de exatamente um `@` na string, aceitando `"a@"` e `"@b.com"` como e-mails válidos.
+  Removido o override para que a validação use o `RegularExpressionAttribute` base (mesma regra
+  do client-side), unificando servidor e cliente numa única fonte de verdade. A regex do
+  construtor também tinha um defeito próprio (grupo de domínio exigia dois pontos para casar,
+  rejeitando domínios comuns de um único ponto como `"b.com"`) — corrigida a parte de domínio
+  para `([\w-]+\.)+\w{2,}$`. String vazia passa a ser aceita pelo atributo (responsabilidade do
+  `[Required]`, quando presente).
+- **[COMPORTAMENTO]** `IsEmail`: a parte local da regex permitia zero caracteres
+  (quantificador `*`), aceitando `"@dominio.com"` como e-mail válido; corrigido para exigir ao
+  menos um caractere (`+`).
+- `BooleanExtensions.Text()`: o literal `"N�o"` estava com a codificação corrompida no fonte
+  (mojibake); regravado como `"Não"` (arquivo salvo em UTF-8 com BOM, padrão do repositório).
+- `EnumExtensions.DisplayName()`: lançava `IndexOutOfRangeException` para enums sem
+  `[Display]`; adicionado fallback para o nome do membro (`Enum.GetName`).
+- **[COMPORTAMENTO]** `ObjectExtensions.Cast<T>`: os `Convert.ChangeType` usavam a cultura
+  corrente da thread, fazendo `"1.5".Cast<decimal>()` virar `15m` em pt-BR; passaram a usar
+  `CultureInfo.InvariantCulture` de forma determinística. Efeito colateral: strings com vírgula
+  decimal (`"1,5"`) agora são interpretadas com a vírgula como separador de milhar do invariant
+  (também viram `15m`), independente da cultura da thread — comportamento estável, porém oposto
+  ao de antes para esse caso específico. Se o seu código converte strings com vírgula decimal
+  via `Cast<T>`, faça o parse explícito com a cultura desejada antes de atualizar.
+
+As correções de validação (`IsCpf`, `IsZipCode`, `IsPhone`, `IsEmail`, `[Email]`) apenas passam
+a rejeitar entradas que antes eram aceitas indevidamente — sentido seguro para quem valida
+entrada de usuário. Quem dependia do comportamento anterior (aceitar entradas malformadas) deve
+tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
+
 ### [1.8.1] - 2026-07-14
 
 #### Alterado
@@ -43,6 +97,32 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 ---
 
 ## Thunder.Web.Mvc
+
+### [1.8.0] - 2026-07-14
+
+Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
+
+#### Corrigido
+- `SelectListExtensions.ToSelectList<T>()`: lançava `IndexOutOfRangeException` para enums sem
+  `[Display]`; passou a usar `EnumExtensions.DisplayName()`, com fallback para o nome do membro.
+- **[COMPORTAMENTO]** `Controller.Success(data, contentType)`: o parâmetro `contentType` era
+  ignorado e o overload sempre sobrescrevia para `"application/json"`; agora o valor informado é
+  respeitado.
+- **[COMPORTAMENTO]** `ModelStateDictionaryExtensions.ExcludePropertiesWithKeyPart`: o predicado
+  estava invertido (`ignoreKeys != null && !ignoreKeys.Contains(...)`), tornando o método um
+  no-op sempre que `ignoreKeys` era `null` — o caso mais comum, sem lista de exceções; corrigido
+  para `ignoreKeys == null || !ignoreKeys.Contains(...)`.
+- **[COMPORTAMENTO]** `CompressAttribute`: o cabeçalho `Vary` era emitido com o valor
+  `Content-Encoding` (cabeçalho de resposta, sem efeito para caches/proxies), quando deveria
+  referenciar `Accept-Encoding` (cabeçalho de requisição que de fato varia a resposta gzip);
+  corrigido. Mudança segura para quem registra o filtro globalmente — apenas corrige um
+  cabeçalho incorreto, sem alterar a compressão em si.
+- **[COMPORTAMENTO]** `NotifyResult` (renderização HTML, caminho não-Ajax): `Messages` é uma
+  `IList<KeyValuePair<string, IList<string>>>`; o caminho HTML imprimia
+  `KeyValuePair.ToString()` em vez do texto da mensagem. Corrigido para extrair as mensagens de
+  cada `Value` e aplicar `HttpUtility.HtmlEncode` em cada uma antes de montar o
+  `<li>`/corpo — mitigação pontual de XSS neste caminho específico; o encode abrangente de toda
+  a superfície de mensagens fica para uma versão futura.
 
 ### [1.7.1] - 2026-07-14
 

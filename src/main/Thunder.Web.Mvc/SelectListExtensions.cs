@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using Thunder.ComponentModel.DataAnnotations.Extensions;
 
 namespace Thunder.Web.Mvc
 {
@@ -165,9 +164,7 @@ namespace Thunder.Web.Mvc
             var values = new List<dynamic>();
             foreach (T suit in Enum.GetValues(typeof(T)))
             {
-                var member = suit.GetType().GetMember(suit.ToString(CultureInfo.InvariantCulture));
-                var attributes = member[0].GetCustomAttributes(typeof(DisplayAttribute), false);
-                var displayName = ((DisplayAttribute)attributes[0]).Name;
+                var displayName = ((Enum)(object)suit).DisplayName();
 
                 values.Add(new { Id = suit, Name = displayName });
             }

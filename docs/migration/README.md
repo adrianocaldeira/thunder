@@ -15,5 +15,5 @@ projetos consumidores atualizem com segurança.
 
 ## Guias disponíveis
 
-_Nenhum até o momento. As versões 1.8.1 / 1.2.1 / 1.7.1 / 1.1.1 são patches de dependência
-sem mudança de comportamento._
+- [001 — Validações mais rígidas e correções de comportamento](001-validacoes-mais-rigidas.md)
+  (Thunder 1.9.0 / Thunder.Web.Mvc 1.8.0)
