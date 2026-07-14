@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Transform;
@@ -568,6 +570,275 @@ namespace Thunder.NHibernate.Pattern
                 transaction.Commit();
 
                 return list;
+            }
+        }
+        #endregion
+
+        #region Async
+
+        /// <summary>
+        /// Cria a entidade de forma assíncrona
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        public async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                entity.Trim();
+                await Session.SaveAsync(entity, cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return entity;
+            }
+        }
+
+        /// <summary>
+        /// Cria as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="entities"><see cref="IList{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IList{T}"/></returns>
+        public async Task<IList<T>> CreateAsync(IList<T> entities, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                foreach (var entity in entities)
+                {
+                    entity.Trim();
+                    await Session.SaveAsync(entity, cancellationToken);
+                }
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return entities.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Atualiza a entidade de forma assíncrona
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                entity.Trim();
+                await Session.SaveOrUpdateAsync(entity, cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return entity;
+            }
+        }
+
+        /// <summary>
+        /// Exclui a entidade pelo identificador de forma assíncrona
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        public async Task DeleteAsync(TKey id, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                await Session.DeleteAsync(await Session.GetAsync<T>(id, cancellationToken), cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Exclui a entidade de forma assíncrona
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                await Session.DeleteAsync(entity, cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Exclui as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="entities"><see cref="IEnumerable{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        public async Task DeleteAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                foreach (var entity in entities)
+                {
+                    await Session.DeleteAsync(entity, cancellationToken);
+                }
+
+                await transaction.CommitAsync(cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Busca a entidade pelo identificador de forma assíncrona
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        public async Task<T> FindAsync(TKey id, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var entity = await Session.GetAsync<T>(id, cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return entity;
+            }
+        }
+
+        /// <summary>
+        /// Retorna todas as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IList{T}"/></returns>
+        public async Task<IList<T>> AllAsync(CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var list = await Session.QueryOver<T>().ListAsync<T>(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// Retorna todas as entidades que satisfazem a expressão de forma assíncrona
+        /// </summary>
+        /// <param name="expression">Expressão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IList{T}"/></returns>
+        public async Task<IList<T>> AllAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var list = await Session.QueryOver<T>().Where(expression).ListAsync(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        /// Busca uma única entidade a partir da expressão de forma assíncrona
+        /// </summary>
+        /// <param name="expression">Expressão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        public async Task<T> SingleAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var entity = await Session.QueryOver<T>().Where(expression).SingleOrDefaultAsync<T>(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return entity;
+            }
+        }
+
+        /// <summary>
+        /// Verifica se existe entidade de forma assíncrona
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <param name="expression">Expressão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Existe</returns>
+        public async Task<bool> ExistAsync(TKey id, Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var count = await Session.QueryOver<T>()
+                    .Select(Projections.CountDistinct("Id"))
+                    .Where(Restrictions.Not(Restrictions.Eq("Id", id)))
+                    .And(expression)
+                    .SingleOrDefaultAsync<int>(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return count > 0;
+            }
+        }
+
+        /// <summary>
+        /// Pagina as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="currentPage">Página atual</param>
+        /// <param name="pageSize">Tamanho da página</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public async Task<IPaging<T>> PageAsync(int currentPage, int pageSize, IList<Order> orders, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var query = Session.QueryOver<T>()
+                    .TransformUsing(new DistinctRootEntityResultTransformer());
+
+                query.UnderlyingCriteria.AddOrder(orders);
+
+                var count = await Session.QueryOver<T>()
+                    .Select(Projections.Cast(NHibernateUtil.Int64, Projections.CountDistinct("Id")))
+                    .SingleOrDefaultAsync<long>(cancellationToken);
+
+                query.UnderlyingCriteria.SetFirstResult(currentPage * pageSize).SetMaxResults(pageSize);
+
+                var items = await query.ListAsync(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return new Paging<T>(items, currentPage, pageSize, count);
+            }
+        }
+
+        /// <summary>
+        /// Pagina as entidades que satisfazem os critérios de forma assíncrona
+        /// </summary>
+        /// <param name="currentPage">Página atual</param>
+        /// <param name="pageSize">Tamanho da página</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        public async Task<IPaging<T>> PageAsync(int currentPage, int pageSize, IList<ICriterion> criterions, CancellationToken cancellationToken = default)
+        {
+            using (var transaction = Session.BeginTransaction())
+            {
+                var query = Session.QueryOver<T>()
+                    .TransformUsing(new DistinctRootEntityResultTransformer())
+                    .And(criterions);
+
+                query.UnderlyingCriteria.AddOrder(new List<Order> { Order.Asc("Id") });
+
+                var count = await Session.QueryOver<T>()
+                    .And(criterions)
+                    .Select(Projections.Cast(NHibernateUtil.Int64, Projections.CountDistinct("Id")))
+                    .SingleOrDefaultAsync<long>(cancellationToken);
+
+                query.UnderlyingCriteria.SetFirstResult(currentPage * pageSize).SetMaxResults(pageSize);
+
+                var items = await query.ListAsync(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+
+                return new Paging<T>(items, currentPage, pageSize, count);
             }
         }
         #endregion

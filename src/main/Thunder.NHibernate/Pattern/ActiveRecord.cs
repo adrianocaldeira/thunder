@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,6 +18,7 @@ namespace Thunder.NHibernate.Pattern
     /// </summary>
     /// <typeparam name="T">Class type</typeparam>
     /// <typeparam name="TKey">Key type</typeparam>
+    [Obsolete("Use Thunder.NHibernate.Pattern.Repository<T, TKey>. Será removida na 3.0.")]
     public class ActiveRecord<T, TKey> : Persist<T, TKey> where T : Persist<T, TKey>
     {
         /// <summary>
@@ -50,8 +51,8 @@ namespace Thunder.NHibernate.Pattern
                         var propertyName = Utility.GetPropertyName(property);
                         var propertyInfoItem = item.GetType().GetProperty(propertyName);
                         var propertyInfoCurrentItem = currentItem.GetType().GetProperty(propertyName);
-                        
-                        propertyInfoCurrentItem.SetValue(currentItem, Convert.ChangeType(propertyInfoItem.GetValue(item, null), 
+
+                        propertyInfoCurrentItem.SetValue(currentItem, Convert.ChangeType(propertyInfoItem.GetValue(item, null),
                             propertyInfoCurrentItem.PropertyType), null);
                     }
                 }
@@ -71,55 +72,21 @@ namespace Thunder.NHibernate.Pattern
         /// </summary>
         /// <param name="entity">Entity</param>
         /// <returns>Entity</returns>
-        public static T Create(T entity)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                Session.Save(entity);
-
-                transaction.Commit();
-
-                return entity;
-            }
-        }
-
+        public static T Create(T entity) => new Repository<T, TKey>().Create(entity);
 
         /// <summary>
-        /// Create entity 
+        /// Create entity
         /// </summary>
         /// <param name="entities"><see cref="IList{T}"/></param>
         /// <returns><see cref="IList{T}"/></returns>
-        public static IList<T> Create(IList<T> entities)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                foreach (var entity in entities)
-                {
-                    Session.Save(entity);
-                }
-
-                transaction.Commit();
-
-                return entities.ToList();
-            }
-        }
+        public static IList<T> Create(IList<T> entities) => new Repository<T, TKey>().Create(entities);
 
         /// <summary>
         /// Update entity
         /// </summary>
         /// <param name="entity">Entity</param>
         /// <returns>Entity</returns>
-        public static T Update(T entity)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                Session.SaveOrUpdate(entity);
-
-                transaction.Commit();
-
-                return entity;
-            }
-        }
+        public static T Update(T entity) => new Repository<T, TKey>().Update(entity);
 
         /// <summary>
         /// Update property
@@ -128,10 +95,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="name">Property Name</param>
         /// <param name="value">Property Value</param>
         /// <returns>Entity</returns>
-        public static T UpdateProperty<TProperty>(TKey id, string name, TProperty value)
-        {
-            return UpdateProperty(id, Property<TProperty>.Create(name, value));
-        }
+        public static T UpdateProperty<TProperty>(TKey id, string name, TProperty value) =>
+            new Repository<T, TKey>().UpdateProperty(id, name, value);
 
         /// <summary>
         /// Update property
@@ -140,21 +105,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="id">Id</param>
         /// <param name="property">Property</param>
         /// <returns>Entity</returns>
-        public static T UpdateProperty<TProperty>(TKey id, Property<TProperty> property)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var entity = Session.Get<T>(id);
-
-                Property.SetValue(entity, property);
-                
-                Session.SaveOrUpdate(entity);
-
-                transaction.Commit();
-
-                return entity;
-            }
-        }
+        public static T UpdateProperty<TProperty>(TKey id, Property<TProperty> property) =>
+            new Repository<T, TKey>().UpdateProperty(id, property);
 
         /// <summary>
         /// Update properties
@@ -162,151 +114,60 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="id">Id</param>
         /// <param name="properties"><see cref="IList{T}"/></param>
         /// <returns>Entity</returns>
-        public static T UpdateProperties(TKey id, IList<Property<object>> properties)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var entity = Session.Get<T>(id);
-
-                foreach (var property in properties)
-                {
-                    Property.SetValue(entity, property);
-                }
-                
-                Session.SaveOrUpdate(entity);
-
-                transaction.Commit();
-
-                return entity;
-            }
-        }
+        public static T UpdateProperties(TKey id, IList<Property<object>> properties) =>
+            new Repository<T, TKey>().UpdateProperties(id, properties);
 
         /// <summary>
         /// Delete entity
         /// </summary>
         /// <param name="id">Id</param>
-        public static void Delete(TKey id)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                Session.Delete(Session.Get<T>(id));
-
-                transaction.Commit();
-            }
-        }
+        public static void Delete(TKey id) => new Repository<T, TKey>().Delete(id);
 
         /// <summary>
         /// Delete entity
         /// </summary>
         /// <param name="entity">Entity</param>
-        public static void Delete(T entity)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                Session.Delete(entity);
-
-                transaction.Commit();
-            }
-        }
+        public static void Delete(T entity) => new Repository<T, TKey>().Delete(entity);
 
         /// <summary>
         /// Delete entity
         /// </summary>
         /// <param name="entities"><see cref="IEnumerable{T}"/></param>
-        public static void Delete(IEnumerable<T> entities)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                foreach (var entity in entities)
-                {
-                    Session.Delete(entity);
-                }
-
-                transaction.Commit();
-            }
-        }
+        public static void Delete(IEnumerable<T> entities) => new Repository<T, TKey>().Delete(entities);
 
         /// <summary>
         /// Find entity by id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>Entity</returns>
-        public static T Find(TKey id)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var entity = Session.Get<T>(id);
-                transaction.Commit();
-                return entity;
-            }
-        }
+        public static T Find(TKey id) => new Repository<T, TKey>().Find(id);
 
         /// <summary>
         /// All entities
         /// </summary>
         /// <returns><see cref="IQueryable{T}"/></returns>
-        public static IList<T> All()
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var list = Session.QueryOver<T>().List<T>();
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
+        public static IList<T> All() => new Repository<T, TKey>().All();
 
         /// <summary>
         /// All entities with expression
         /// </summary>
         /// <param name="expression">Expression</param>
         /// <returns><see cref="IList{T}"/></returns>
-        public static IList<T> All(Expression<Func<T, bool>> expression)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var list = Session.QueryOver<T>().Where(expression).List();
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
+        public static IList<T> All(Expression<Func<T, bool>> expression) => new Repository<T, TKey>().All(expression);
 
         /// <summary>
         /// All entities with criterion
         /// </summary>
         /// <param name="criterion"><see cref="ICriterion"/></param>
         /// <returns></returns>
-        public static IList<T> All(ICriterion criterion)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var list = Session.QueryOver<T>().Where(criterion).List();
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
+        public static IList<T> All(ICriterion criterion) => new Repository<T, TKey>().All(criterion);
 
         /// <summary>
         /// Find single entity from expression
         /// </summary>
         /// <param name="expression">Expression</param>
         /// <returns>Entity</returns>
-        public static T Single(Expression<Func<T, bool>> expression)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var entity = Session.QueryOver<T>().Where(expression).SingleOrDefault<T>();
-
-                transaction.Commit();
-
-                return entity;
-            }
-        }
+        public static T Single(Expression<Func<T, bool>> expression) => new Repository<T, TKey>().Single(expression);
 
         /// <summary>
         /// Exist entity
@@ -314,21 +175,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="id">Id</param>
         /// <param name="expression">Expression</param>
         /// <returns>Exist</returns>
-        public static bool Exist(TKey id, Expression<Func<T, bool>> expression)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var count = Session.QueryOver<T>()
-                    .Select(Projections.CountDistinct("Id"))
-                    .Where(Restrictions.Not(Restrictions.Eq("Id", id)))
-                    .And(expression)
-                    .SingleOrDefault<int>();
-
-                transaction.Commit();
-
-                return count > 0;
-            }
-        }
+        public static bool Exist(TKey id, Expression<Func<T, bool>> expression) =>
+            new Repository<T, TKey>().Exist(id, expression);
 
         /// <summary>
         /// Exist entity
@@ -336,26 +184,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="id">Id</param>
         /// <param name="criterions"><see cref="ICriterion"/></param>
         /// <returns>Exist</returns>
-        public static bool Exist(TKey id, params ICriterion[] criterions)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var query = Session.QueryOver<T>()
-                    .Select(Projections.CountDistinct("Id"))
-                    .Where(Restrictions.Not(Restrictions.Eq("Id", id)));
-
-                foreach (var criterion in criterions)
-                {
-                    query.And(criterion);
-                }
-
-                var count = query.SingleOrDefault<int>();
-
-                transaction.Commit();
-
-                return count > 0;
-            }
-        }
+        public static bool Exist(TKey id, params ICriterion[] criterions) =>
+            new Repository<T, TKey>().Exist(id, criterions);
 
         /// <summary>
         /// Page entity
@@ -363,10 +193,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="currentPage">Current Page</param>
         /// <param name="pageSize">Page Size</param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize)
-        {
-            return Page(currentPage, pageSize, Order.Asc("Id"));
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize);
 
         /// <summary>
         /// Page entity
@@ -375,10 +203,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="pageSize">Page Size</param>
         /// <param name="order"><see cref="Order"/></param>
         /// <returns><see cref="IList{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, Order order)
-        {
-            return Page(currentPage, pageSize, new List<Order> { order });
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, Order order) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, order);
 
         /// <summary>
         /// Page entity
@@ -387,24 +213,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="pageSize">Page Size</param>
         /// <param name="orders"><see cref="IList{T}"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<Order> orders)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var queryResult = Session.QueryOver<T>()
-                    .TransformUsing(new DistinctRootEntityResultTransformer())
-                    .UnderlyingCriteria.AddOrder(orders);
-
-                var queryCount = Session.QueryOver<T>()
-                    .Select(Projections.CountDistinct("Id"));
-
-                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<Order> orders) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, orders);
 
         /// <summary>
         /// Page entity
@@ -413,10 +223,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="pageSize">Page Size</param>
         /// <param name="criterion">Criterion Expression</param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion)
-        {
-            return Page(currentPage, pageSize, criterion, Order.Asc("Id"));
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterion);
 
         /// <summary>
         /// Page entity
@@ -426,10 +234,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterion">Criterion Expression</param>
         /// <param name="order"><see cref="Order"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, Order order)
-        {
-            return Page(currentPage, pageSize, criterion, new List<Order> { order });
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, Order order) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterion, order);
 
         /// <summary>
         /// Page entity
@@ -439,10 +245,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterion">Criterion Expression</param>
         /// <param name="orders"><see cref="IList{T}"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, IList<Order> orders)
-        {
-            return Page(currentPage, pageSize, new List<Expression<Func<T, bool>>> { criterion }, orders);
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, Expression<Func<T, bool>> criterion, IList<Order> orders) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterion, orders);
 
         /// <summary>
         /// Page entity
@@ -451,10 +255,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="pageSize">Page Size</param>
         /// <param name="criterions">Criterions Expression</param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions)
-        {
-            return Page(currentPage, pageSize, criterions, Order.Asc("Id"));
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterions);
 
         /// <summary>
         /// Page entity
@@ -464,10 +266,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterions">Criterions Expression</param>
         /// <param name="order"><see cref="Order"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, Order order)
-        {
-            return Page(currentPage, pageSize, criterions, new List<Order> { order });
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, Order order) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterions, order);
 
         /// <summary>
         /// Page entity
@@ -477,26 +277,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterions">Criterions Expression</param>
         /// <param name="orders"><see cref="IList{T}"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, IList<Order> orders)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var queryResult = Session.QueryOver<T>()
-                    .TransformUsing(new DistinctRootEntityResultTransformer())
-                    .And(criterions)
-                    .UnderlyingCriteria.AddOrder(orders);
-
-                var queryCount = Session.QueryOver<T>()
-                    .And(criterions)
-                    .Select(Projections.CountDistinct("Id"));
-
-                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<Expression<Func<T, bool>>> criterions, IList<Order> orders) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterions, orders);
 
         /// <summary>
         /// Page entity
@@ -505,10 +287,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="pageSize">Page Size</param>
         /// <param name="criterion"><see cref="ICriterion"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion)
-        {
-            return Page(currentPage, pageSize, criterion, Order.Asc("Id"));
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterion);
 
         /// <summary>
         /// Page entity
@@ -518,10 +298,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterion"><see cref="ICriterion"/></param>
         /// <param name="order"><see cref="Order"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, Order order)
-        {
-            return Page(currentPage, pageSize, criterion, new List<Order> { order });
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, Order order) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterion, order);
 
         /// <summary>
         /// Page entity
@@ -531,10 +309,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterion"><see cref="ICriterion"/></param>
         /// <param name="orders"><see cref="IList{T}"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, IList<Order> orders)
-        {
-            return Page(currentPage, pageSize, new List<ICriterion> { criterion }, orders);
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, ICriterion criterion, IList<Order> orders) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterion, orders);
 
         /// <summary>
         /// Page entity
@@ -543,10 +319,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="pageSize">Page Size</param>
         /// <param name="criterions"><see cref="IList{T}"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions)
-        {
-            return Page(currentPage, pageSize, criterions, Order.Asc("Id"));
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterions);
 
         /// <summary>
         /// Page entity
@@ -556,10 +330,8 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterions"><see cref="IList{T}"/></param>
         /// <param name="order"><see cref="Order"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, Order order)
-        {
-            return Page(currentPage, pageSize, criterions, new List<Order> { order });
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, Order order) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterions, order);
 
         /// <summary>
         /// Page entity
@@ -569,25 +341,7 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="criterions"><see cref="IList{T}"/></param>
         /// <param name="orders"><see cref="Order"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
-        public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, IList<Order> orders)
-        {
-            using (var transaction = Session.BeginTransaction())
-            {
-                var queryResult = Session.QueryOver<T>()
-                    .TransformUsing(new DistinctRootEntityResultTransformer())
-                    .And(criterions)
-                    .UnderlyingCriteria.AddOrder(orders);
-
-                var queryCount = Session.QueryOver<T>()
-                    .Select(Projections.CountDistinct("Id"))
-                    .And(criterions);
-
-                var list = queryResult.Paging<T>(currentPage, pageSize, queryCount.SingleOrDefault<int>());
-
-                transaction.Commit();
-
-                return list;
-            }
-        }
+        public static IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, IList<Order> orders) =>
+            new Repository<T, TKey>().Page(currentPage, pageSize, criterions, orders);
     }
 }
