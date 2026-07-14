@@ -204,6 +204,7 @@ namespace Thunder.Extensions
             Assert.IsFalse("(90) 3111-1112".IsPhone());
             Assert.IsFalse("(11) 31-1112".IsPhone());
             Assert.IsFalse("(10qualquercoisa".IsPhone());
+            Assert.IsFalse("(10) 01111-2222".IsPhone());
 
             Assert.IsTrue("(10) 3111-1112".IsPhone());
             Assert.IsTrue("(11) 3111-1112".IsPhone());
