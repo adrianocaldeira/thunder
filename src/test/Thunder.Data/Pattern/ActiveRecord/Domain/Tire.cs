@@ -1,4 +1,6 @@
-﻿namespace Thunder.Data.Pattern.ActiveRecord.Domain
+﻿using Thunder.NHibernate.Pattern;
+
+namespace Thunder.Data.Pattern.ActiveRecord.Domain
 {
     public class Tire : ActiveRecord<Tire, short>
     {

@@ -2,6 +2,7 @@
 using System.IO;
 using NHibernate.Cfg;
 using NUnit.Framework;
+using Thunder.NHibernate;
 
 namespace Thunder.Data
 {
@@ -23,10 +24,10 @@ namespace Thunder.Data
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "File name no information.", MatchType = MessageMatch.Contains)]
         public void ShouldGenerateException()
         {
-            new CfgSerialization(null);
+            var ex = Assert.Throws<ArgumentException>(() => new CfgSerialization(null));
+            StringAssert.Contains("File name no information.", ex.Message);
         }
         
         [Test]

@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using NHibernate.Criterion;
 using NUnit.Framework;
 using Thunder.Data.Pattern.ActiveRecord.Domain;
+using Thunder.NHibernate;
 
 namespace Thunder.Data.Pattern.ActiveRecord
 {
