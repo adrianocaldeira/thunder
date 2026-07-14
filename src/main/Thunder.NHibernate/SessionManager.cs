@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
+using System.Threading;
 using NHibernate;
 using NHibernate.Context;
 using NHibernate.Event;
@@ -10,113 +9,42 @@ using Configuration = NHibernate.Cfg.Configuration;
 namespace Thunder.NHibernate
 {
     /// <summary>
-    ///     NHibernate Session Manager
+    ///     Gerenciador de sessões do NHibernate: mantém uma única <see cref="Configuration" /> e uma única
+    ///     <see cref="ISessionFactory" /> por processo, inicializadas de forma tardia e thread-safe.
     /// </summary>
     public sealed class SessionManager
     {
-        private static Configuration _configuration;
-        private static ISessionFactory _sessionFactory;
-        private static bool? _serializeConfiguration;
-        private static readonly object _lockObject = new object();
+        private static readonly Lazy<Configuration> _configuration =
+            new Lazy<Configuration>(BuildConfiguration, LazyThreadSafetyMode.ExecutionAndPublication);
+
+        private static readonly Lazy<ISessionFactory> _sessionFactory =
+            new Lazy<ISessionFactory>(() => Configuration.BuildSessionFactory(), LazyThreadSafetyMode.ExecutionAndPublication);
 
         /// <summary>
-        ///     Get current instance of <see cref="ISessionFactory" />.
-        /// </summary>
-        public static ISessionFactory SessionFactory
-        {
-            get
-            {
-                if (_sessionFactory != null) return _sessionFactory;
-
-                lock (_lockObject)
-                {
-                    _sessionFactory = Configuration.BuildSessionFactory();
-
-                    if (_sessionFactory == null)
-                        throw new InvalidOperationException("Call to configuration.BuildSessionFactory() returned null.");
-
-                    return _sessionFactory;
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Get if serialize configuration
+        ///     Obtém ou define os listeners aplicados à <see cref="Configuration" />.
         /// </summary>
         /// <remarks>
-        ///     Não tem mais efeito sobre <see cref="Configuration"/>: o cache binário de configuração foi
-        ///     desativado por risco de desserialização insegura (CWE-502).
+        ///     Devem ser definidos antes do primeiro acesso a <see cref="Configuration" /> ou
+        ///     <see cref="SessionFactory" />; após a materialização da configuração, alterações
+        ///     nesta propriedade não têm efeito.
         /// </remarks>
-        [Obsolete("O cache binário de configuração foi desativado por risco de desserialização insegura (CWE-502). Será removido na 2.0.")]
-        public static bool SerializeConfiguration
-        {
-            get
-            {
-                if (_serializeConfiguration != null) return _serializeConfiguration.Value;
-
-                try
-                {
-                    _serializeConfiguration =
-                        !string.IsNullOrEmpty(
-                            ConfigurationManager.AppSettings["Thunder.Data.SessionManager.SerializeConfiguration"]) &&
-                        Convert.ToBoolean(
-                            ConfigurationManager.AppSettings["Thunder.Data.SessionManager.SerializeConfiguration"]);
-                }
-                catch (Exception)
-                {
-                    _serializeConfiguration = false;
-                }
-
-                return _serializeConfiguration.Value;
-            }
-        }
-
-        /// <summary>
-        ///     Get or set listeners
-        /// </summary>
         public static Dictionary<ListenerType, object[]> Listeners { get; set; }
 
         /// <summary>
-        ///     Get hibernate configuration
+        ///     Obtém a configuração do NHibernate, criada uma única vez por processo.
         /// </summary>
-        /// <remarks>
-        ///     Sempre cria uma <see cref="Configuration" /> nova; o cache binário de configuração (baseado em
-        ///     serialização binária insegura) foi desativado por risco de desserialização insegura (CWE-502) e
-        ///     não é mais consultado, independentemente do valor de <see cref="SerializeConfiguration" />.
-        /// </remarks>
         /// <returns>
         ///     <see cref="Configuration" />
         /// </returns>
-        public static Configuration Configuration
-        {
-            get
-            {
-                if (_configuration != null) return _configuration;
-
-                lock (_lockObject)
-                {
-                    _configuration = new Configuration();
-
-                    if (_configuration == null)
-                        throw new InvalidOperationException("NHibernate configuration is null.");
-
-                    if (Listeners != null && Listeners.Any())
-                    {
-                        foreach (var listener in Listeners)
-                        {
-                            _configuration.SetListeners(listener.Key, listener.Value);
-                        }
-                    }
-
-                    _configuration.Configure();
-
-                    return _configuration;
-                }
-            }
-        }
+        public static Configuration Configuration => _configuration.Value;
 
         /// <summary>
-        ///     Get current session
+        ///     Obtém a instância única de <see cref="ISessionFactory" />.
+        /// </summary>
+        public static ISessionFactory SessionFactory => _sessionFactory.Value;
+
+        /// <summary>
+        ///     Obtém a sessão corrente, abrindo e vinculando uma nova sessão ao contexto se necessário.
         /// </summary>
         public static ISession CurrentSession
         {
@@ -132,7 +60,7 @@ namespace Thunder.NHibernate
         }
 
         /// <summary>
-        ///     Bind nhibernate session
+        ///     Abre uma nova sessão e a vincula ao contexto corrente do NHibernate.
         /// </summary>
         public static void Bind()
         {
@@ -140,7 +68,7 @@ namespace Thunder.NHibernate
         }
 
         /// <summary>
-        ///     Unbind nhibernate session
+        ///     Desvincula a sessão do contexto corrente do NHibernate e a descarta.
         /// </summary>
         public static void Unbind()
         {
@@ -148,6 +76,23 @@ namespace Thunder.NHibernate
             {
                 CurrentSessionContext.Unbind(SessionFactory).Dispose();
             }
+        }
+
+        private static Configuration BuildConfiguration()
+        {
+            var configuration = new Configuration();
+
+            if (Listeners != null)
+            {
+                foreach (var listener in Listeners)
+                {
+                    configuration.SetListeners(listener.Key, listener.Value);
+                }
+            }
+
+            configuration.Configure();
+
+            return configuration;
         }
     }
 }
