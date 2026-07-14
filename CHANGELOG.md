@@ -36,6 +36,17 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 - **[COMPORTAMENTO]** `IsEmail`: a parte local da regex permitia zero caracteres
   (quantificador `*`), aceitando `"@dominio.com"` como e-mail válido; corrigido para exigir ao
   menos um caractere (`+`).
+- `BooleanExtensions.Text()`: o literal `"N�o"` estava com a codificação corrompida no fonte
+  (mojibake); regravado como `"Não"` (arquivo salvo em UTF-8 com BOM, padrão do repositório).
+- `EnumExtensions.DisplayName()`: lançava `IndexOutOfRangeException` para enums sem
+  `[Display]`; adicionado fallback para o nome do membro (`Enum.GetName`).
+- **[COMPORTAMENTO]** `ObjectExtensions.Cast<T>`: os `Convert.ChangeType` usavam a cultura
+  corrente da thread, fazendo `"1.5".Cast<decimal>()` virar `15m` em pt-BR; passaram a usar
+  `CultureInfo.InvariantCulture` de forma determinística. Efeito colateral: strings com vírgula
+  decimal (`"1,5"`) agora são interpretadas com a vírgula como separador de milhar do invariant
+  (também viram `15m`), independente da cultura da thread — comportamento estável, porém oposto
+  ao de antes para esse caso específico. Sem uso confirmado de `Cast<decimal/double>` com
+  strings pt-BR no consumidor real (portas-de-entrada).
 
 Impacto no consumidor real (portas-de-entrada): `IsCpf` (9 usos) e `IsPhone` (1 uso) passam a
 rejeitar entradas que antes eram aceitas indevidamente — sentido seguro, sem regressão esperada.

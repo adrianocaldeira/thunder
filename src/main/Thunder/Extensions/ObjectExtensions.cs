@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Thunder.Extensions
@@ -28,10 +29,10 @@ namespace Thunder.Extensions
 
                 if (nullableType != null)
                 {
-                    return (T)Convert.ChangeType(source, nullableType);
+                    return (T)Convert.ChangeType(source, nullableType, CultureInfo.InvariantCulture);
                 }
 
-                return (T)Convert.ChangeType(source, type);
+                return (T)Convert.ChangeType(source, type, CultureInfo.InvariantCulture);
             }
             catch
             {
