@@ -15,6 +15,18 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 ### [Não lançado]
 
 #### Corrigido
+- **[COMPORTAMENTO]** `JsonExtensions`: a serialização/desserialização usava
+  `JsonConvert.SerializeObject`/`DeserializeObject` sem `JsonSerializerSettings` completos,
+  herdando `JsonConvert.DefaultSettings` global configurado pela aplicação host — se o host
+  registrasse `TypeNameHandling.All` (ou similar) globalmente, `"...".Json<T>()` ficava exposto a
+  desserialização de tipos arbitrários via `$type` (RCE) e sem limite de profundidade de
+  aninhamento. Adicionado `CreateDefaultSettings()` interno, aplicado a `Json<T>()` e ao overload
+  `Json(obj, formatting, contractResolver)`, fixando `TypeNameHandling.None` e `MaxDepth = 64`
+  explicitamente — não são mais influenciados por `DefaultSettings` global. O overload que recebe
+  `JsonSerializerSettings` explícito permanece intocado (usuário no controle). Sem uso confirmado
+  de `JsonExtensions` no consumidor real (portas-de-entrada, que usa `JsonConvert` diretamente);
+  afeta apenas hosts que registrem `DefaultSettings` globais perigosos e dependam do
+  `JsonExtensions` para desserialização.
 - **[COMPORTAMENTO]** `IsCpf`: a blacklist de dígitos repetidos continha um valor com 10 dígitos
   (`2222222222`), o que fazia `"22222222222"` (11 dígitos iguais) passar pela validação por falha
   de correspondência na comparação; substituída por verificação direta de dígitos repetidos

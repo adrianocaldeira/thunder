@@ -38,7 +38,7 @@ namespace Thunder.Web
         /// <returns></returns>
         public static string Json(this object obj, Formatting formatting, IContractResolver contractResolver)
         {
-            return obj.Json(formatting, new JsonSerializerSettings {ContractResolver = contractResolver});
+            return obj.Json(formatting, CreateDefaultSettings(contractResolver));
         }
 
         /// <summary>
@@ -61,7 +61,24 @@ namespace Thunder.Web
         /// <returns>Object</returns>
         public static T Json<T>(this string input)
         {
-            return JsonConvert.DeserializeObject<T>(input);
+            return JsonConvert.DeserializeObject<T>(input, CreateDefaultSettings());
+        }
+
+        /// <summary>
+        ///     Cria configurações de serialização seguras, independentes de <see cref="JsonConvert.DefaultSettings" />
+        ///     configurado globalmente pela aplicação host. Evita herdar <see cref="TypeNameHandling" /> perigoso
+        ///     (risco de desserialização de tipos arbitrários) e limita a profundidade de aninhamento.
+        /// </summary>
+        /// <param name="contractResolver">Contract resolver a utilizar. Quando nulo, usa camelCase.</param>
+        /// <returns>Configurações de serialização seguras</returns>
+        private static JsonSerializerSettings CreateDefaultSettings(IContractResolver contractResolver = null)
+        {
+            return new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver ?? new CamelCasePropertyNamesContractResolver(),
+                TypeNameHandling = TypeNameHandling.None,
+                MaxDepth = 64
+            };
         }
     }
 }
