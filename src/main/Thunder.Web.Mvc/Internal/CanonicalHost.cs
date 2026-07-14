@@ -18,6 +18,8 @@ namespace Thunder.Web.Mvc.Internal
         /// Gets the canonical host configured via the "Thunder.Web.Mvc.CanonicalHost" application
         /// setting, or <c>null</c> when the setting is absent or empty. The feature is opt-in: when
         /// this returns <c>null</c>, callers must keep relying on the current request's own authority.
+        /// Any trailing slash in the configured value is trimmed, so callers composing URLs by simple
+        /// concatenation (authority + "/relative/path") never end up with a double slash.
         /// The value is read once and cached in a static field for the lifetime of the application domain.
         /// </summary>
         public static string Value
@@ -27,7 +29,7 @@ namespace Thunder.Web.Mvc.Internal
                 if (!_loaded)
                 {
                     var configured = ConfigurationManager.AppSettings[AppSettingKey];
-                    _value = string.IsNullOrEmpty(configured) ? null : configured;
+                    _value = string.IsNullOrEmpty(configured) ? null : configured.TrimEnd('/');
                     _loaded = true;
                 }
 

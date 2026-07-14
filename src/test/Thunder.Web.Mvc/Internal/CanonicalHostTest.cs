@@ -66,6 +66,14 @@ namespace Thunder.Web.Mvc.Internal
         }
 
         [Test]
+        public void Value_ComAppSettingComBarraFinal_RemoveBarraFinal()
+        {
+            ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com/");
+
+            Assert.AreEqual("app.exemplo.com", CanonicalHost.Value);
+        }
+
+        [Test]
         public void Value_LeSomenteUmaVez_UsaCacheEmChamadasSubsequentes()
         {
             ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com");

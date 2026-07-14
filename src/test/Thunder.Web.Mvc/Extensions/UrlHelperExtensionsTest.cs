@@ -152,6 +152,20 @@ namespace Thunder.Web.Mvc.Extensions
             Assert.AreEqual("https://app.exemplo.com/pedidos/1", result.ToString());
         }
 
+        [Test]
+        public void GetAbsoluteUrl_ComCanonicalHostComBarraFinal_NaoGeraBarraDupla()
+        {
+            ConfigurationManager.AppSettings.Set(AppSettingKey, "app.exemplo.com/");
+            ValueField.SetValue(null, null);
+            LoadedField.SetValue(null, false);
+
+            var requestMock = CreateRequestMock("https://evil.com/qualquer");
+
+            var result = InvokeGetAbsoluteUrl(requestMock.Object, "/pedidos/1");
+
+            Assert.AreEqual("https://app.exemplo.com/pedidos/1", result.ToString());
+        }
+
         #endregion
     }
 }
