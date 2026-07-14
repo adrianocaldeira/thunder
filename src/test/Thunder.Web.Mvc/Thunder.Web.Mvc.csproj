@@ -77,6 +77,8 @@
     <Compile Include="Html\Design\MessageExtensionsTest.cs" />
     <Compile Include="Html\Notify\NotifyBuilderTest.cs" />
     <Compile Include="Html\SelectListExtensionsTest.cs" />
+    <Compile Include="Internal\JsonpCallbackTest.cs" />
+    <Compile Include="JsonResultJsonpTest.cs" />
     <Compile Include="NotifyResultTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

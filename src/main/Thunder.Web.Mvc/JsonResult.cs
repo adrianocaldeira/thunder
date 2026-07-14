@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Thunder.Web.Mvc.Internal;
 
 namespace Thunder.Web.Mvc
 {
@@ -60,9 +61,13 @@ namespace Thunder.Web.Mvc
 
             if (ContentEncoding != null) response.ContentEncoding = ContentEncoding;
 
-            if (!string.IsNullOrEmpty(context.HttpContext.Request["callback"]))
+            var callback = context.HttpContext.Request["callback"];
+
+            if (JsonpCallback.IsValid(callback))
             {
-                json = string.Format("{0}({1})", context.HttpContext.Request["callback"], json);
+                json = "/**/" + callback + "(" + json + ");";
+                ContentType = "application/javascript";
+                response.ContentType = ContentType;
             }
 
             context.HttpContext.Response.Write(json);
