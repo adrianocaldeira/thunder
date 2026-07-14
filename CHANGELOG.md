@@ -154,15 +154,17 @@ Mudanças de comportamento e remoções detalhadas no
 
 #### Corrigido
 - **[COMPORTAMENTO]** `SessionManager` thread-safe: a inicialização da configuração/fábrica de
-  sessões passa a ser feita via `Lazy`, eliminando condições de corrida na primeira sessão. Uma
-  falha ao construir a configuração/fábrica passa a ser **fail-fast**: a exceção é cacheada e
-  relançada nos acessos seguintes, sem retry automático (antes, uma inicialização parcial podia
-  deixar o `SessionManager` num estado inconsistente).
+  sessões passa a ser feita via `Lazy`, eliminando condições de corrida na primeira sessão (antes,
+  uma inicialização parcial podia deixar o `SessionManager` num estado inconsistente). Uma falha ao
+  construir a configuração/fábrica (por exemplo, banco indisponível durante a subida da aplicação)
+  é propagada ao chamador, mas **não é permanente**: o acesso seguinte tenta materializar de novo.
+  Uma vez materializadas com sucesso, as instâncias permanecem as mesmas por todo o processo.
 - **[COMPORTAMENTO]** `OrderBy` (extensão de `IQueryOver`): aplica todas as chaves de ordenação
   informadas; antes o método não gerava ordenação alguma na consulta resultante.
 - **[COMPORTAMENTO]** Listener de timestamps (`Created`/`Updated`): no `insert`, o servidor sempre
   grava `Created` e `Updated`, ignorando qualquer valor definido manualmente na entidade; no
-  `update`, grava apenas `Updated` (`Created` é imutável após a criação). O horário gravado
+  `update`, o listener grava `Updated` e simplesmente não altera `Created` — não há proteção
+  contra o consumidor alterar `Created` em memória e persistir o novo valor. O horário gravado
   continua sendo o horário local.
 
 #### Alterado
@@ -170,13 +172,24 @@ Mudanças de comportamento e remoções detalhadas no
   contagens grandes. Consumidores que declaram explicitamente o tipo do total precisam recompilar.
 
 #### Adicionado
-- API assíncrona aditiva no `Repository`: métodos `...Async` com suporte a `CancellationToken`. Os
+- API assíncrona no `Repository`: métodos `...Async` com suporte a `CancellationToken`. Os
   métodos síncronos e a transação-por-método permanecem inalterados. As sobrecargas de conveniência
-  não têm variante async.
+  não têm variante async. **Ressalva:** os novos membros foram adicionados também a `IRepository` —
+  não-breaking para chamadores e para quem herda de `Repository`, mas **breaking para quem
+  implementa `IRepository` diretamente**, que precisa implementar os novos membros.
 
 #### Descontinuado
 - **`ActiveRecord<T, TKey>`**: marcado `[Obsolete]`. Passa a delegar ao `Repository` e permanece
-  funcional; remoção planejada para a 3.0.
+  funcional; remoção planejada para a 3.0. A delegação traz duas paridades de comportamento com o
+  `Repository`, além de uma mudança na declaração da classe:
+  - **[COMPORTAMENTO]** Os métodos estáticos de persistência passam a aparar espaços (`Trim()`)
+    de todas as strings graváveis da entidade antes de persistir — comportamento que o
+    `Repository` sempre teve e o `ActiveRecord` não tinha.
+  - **[COMPORTAMENTO]** A sessão passa a ser resolvida via sessão corrente, aberta e vinculada
+    automaticamente ao contexto quando necessário — antes era exigida uma sessão já vinculada.
+  - A classe base mudou de `ICreatedAndUpdatedProperty where T : class` para `Persist<T, TKey>`
+    com a constraint `where T : Persist<T, TKey>` — breaking para declarações fora do padrão CRTP
+    (isto é, quando `T` não é a própria classe que herda de `ActiveRecord`).
 
 ### [1.3.0] - 2026-07-14
 
@@ -313,7 +326,10 @@ Mudanças de comportamento detalhadas no
   de `Save`.
 
 #### Adicionado
-- `SaveAsync`, `SingleAsync`, `Delete(TKey)` e as variantes assíncronas correspondentes.
+- `SaveAsync`, `SingleAsync` e `Delete(TKey)`. **Ressalva:** o redesenho de `IRepository` (novos
+  membros e nova semântica de persistência) é **breaking para quem implementa a interface
+  diretamente**; para chamadores e para quem herda de `Repository`, valem apenas as mudanças de
+  comportamento descritas acima.
 
 ### [1.1.1] - 2026-07-14
 

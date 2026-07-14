@@ -51,17 +51,18 @@ criptografia/hash têm um guia dedicado — ver [003](003-criptografia-v2.md).
 
 ### Thunder.NHibernate
 
-- **`SessionManager` thread-safe e fail-fast.** A configuração/fábrica de sessões passa a ser
-  inicializada via `Lazy`, eliminando condições de corrida na primeira sessão. Uma falha ao
-  construir a configuração/fábrica agora é **fail-fast**: a exceção é cacheada e relançada nos
-  acessos seguintes, sem retry automático. Se a sua aplicação dependia de que uma configuração
-  inválida "se recuperasse" numa chamada posterior, isso não ocorre mais — corrija a causa raiz da
-  falha de configuração.
+- **`SessionManager` thread-safe.** A configuração/fábrica de sessões passa a ser inicializada via
+  `Lazy`, eliminando condições de corrida na primeira sessão. Uma falha ao construir a
+  configuração/fábrica (por exemplo, banco de dados indisponível durante a subida da aplicação) é
+  propagada ao chamador, mas **não é permanente**: o acesso seguinte tenta materializar novamente.
+  Uma vez materializadas com sucesso, as instâncias permanecem as mesmas durante toda a vida do
+  processo.
 - **Listener de timestamps (`Created`/`Updated`).** No `insert`, o servidor sempre grava `Created`
-  e `Updated`, **ignorando** qualquer valor definido manualmente na entidade. No `update`, grava
-  apenas `Updated` — `Created` é imutável após a criação. O horário gravado continua sendo o
-  horário local. Revise rotinas de importação/carga que definiam `Created` manualmente esperando
-  que o valor fosse preservado.
+  e `Updated`, **ignorando** qualquer valor definido manualmente na entidade. No `update`, o
+  listener grava `Updated` e simplesmente não altera `Created` — não há proteção contra o
+  consumidor alterar `Created` em memória e persistir o novo valor. O horário gravado continua
+  sendo o horário local. Revise rotinas de importação/carga que definiam `Created` manualmente
+  esperando que o valor fosse preservado.
 - **`OrderBy` (extensão de `IQueryOver`).** Passa a aplicar todas as chaves de ordenação; antes o
   método não gerava ordenação alguma. Consultas que usavam `OrderBy` e "funcionavam" sem ordenação
   agora retornam resultados ordenados — verifique se alguma lógica dependia da ordem não
@@ -88,16 +89,30 @@ criptografia/hash têm um guia dedicado — ver [003](003-criptografia-v2.md).
 Sem mudança de comportamento própria. A versão 2.0.0 apenas alinha o pacote à linha 2.0 e passa a
 depender de `Thunder 2.0.0`.
 
-## Novidades não-breaking
+## Novidades e ressalvas
 
 - **API assíncrona no `Repository` do NHibernate.** Novos métodos `...Async` com suporte a
-  `CancellationToken`, aditivos: os métodos síncronos e a transação-por-método continuam
-  disponíveis. As sobrecargas de conveniência não têm variante async.
-- **API assíncrona no `Repository` do EntityFramework.** Adicionados `SaveAsync`, `SingleAsync`,
-  `Delete(TKey)` e as variantes assíncronas correspondentes.
+  `CancellationToken`: os métodos síncronos e a transação-por-método continuam disponíveis. As
+  sobrecargas de conveniência não têm variante async. **Ressalva:** os novos membros também foram
+  adicionados a `IRepository` — não-breaking para chamadores e para quem herda de `Repository`,
+  mas **breaking para quem implementa a interface diretamente**, que precisa implementar os novos
+  membros.
+- **API assíncrona no `Repository` do EntityFramework.** Adicionados `SaveAsync`, `SingleAsync` e
+  `Delete(TKey)`. **Ressalva:** o redesenho de `IRepository` (novos membros e nova semântica de
+  persistência) é **breaking para quem implementa a interface diretamente** — não-breaking apenas
+  para chamadores e para quem herda de `Repository`.
 - **`ActiveRecord<T, TKey>` marcado `[Obsolete]`** (Thunder.NHibernate). Continua funcional —
   passa a delegar ao `Repository` — e emite aviso de compilação. Remoção planejada para a 3.0;
-  migre para `Repository` no seu próprio ritmo.
+  migre para `Repository` no seu próprio ritmo. A delegação traz paridades de comportamento com o
+  `Repository` e uma mudança na declaração da classe:
+  - Os métodos estáticos de persistência passam a aparar espaços (`Trim()`) de todas as strings
+    graváveis da entidade antes de persistir — comportamento que o `Repository` sempre teve e o
+    `ActiveRecord` não tinha.
+  - A sessão passa a ser resolvida via sessão corrente, aberta e vinculada automaticamente ao
+    contexto quando necessário — antes era exigida uma sessão já vinculada.
+  - A classe base mudou de `ICreatedAndUpdatedProperty where T : class` para `Persist<T, TKey>`
+    com a constraint `where T : Persist<T, TKey>` — breaking para declarações fora do padrão CRTP
+    (isto é, quando `T` não é a própria classe que herda de `ActiveRecord`).
 
 ## Checklist de atualização
 
