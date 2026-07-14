@@ -14,6 +14,8 @@ namespace Thunder.Security
         private const int SaltSize = 16;
         private const int SubkeySize = 32;
         private const int Iterations = 600000;
+        private const int MinIterations = 100000;
+        private const int MaxIterations = 2000000;
 
         #endregion
 
@@ -54,8 +56,11 @@ namespace Thunder.Security
         /// <summary>
         /// Verifies whether <paramref name="password"/> matches the <paramref name="hash"/> previously
         /// produced by <see cref="Hash"/>. Re-derives the subkey with the same salt/iterations and
-        /// compares it in constant time. Never throws for a wrong password or a malformed hash: it
-        /// simply returns <c>false</c>.
+        /// compares it in constant time. The iteration count parsed from <paramref name="hash"/> is
+        /// required to fall within [<c>100,000</c>, <c>2,000,000</c>]; values outside that band are
+        /// treated as an invalid hash and rejected before any key derivation is attempted, preventing
+        /// a corrupted or forged hash with an absurd iteration count from stalling the caller. Never
+        /// throws for a wrong password or a malformed hash: it simply returns <c>false</c>.
         /// </summary>
         /// <param name="password">Password informed by the user.</param>
         /// <param name="hash">Hash previously produced by <see cref="Hash"/>.</param>
@@ -76,7 +81,7 @@ namespace Thunder.Security
 
             int iterations;
 
-            if (!int.TryParse(parts[0], out iterations) || iterations <= 0)
+            if (!int.TryParse(parts[0], out iterations) || iterations < MinIterations || iterations > MaxIterations)
             {
                 return false;
             }

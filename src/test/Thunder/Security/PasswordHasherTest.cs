@@ -51,5 +51,27 @@ namespace Thunder.Security
 
             Assert.AreEqual(3, parts.Length);
         }
+
+        [Test]
+        public void VerifyReturnsFalseForIterationsBelowSaneBand()
+        {
+            const string password = "MinhaSenh@123";
+
+            var parts = PasswordHasher.Hash(password).Split('.');
+            var tamperedHash = "1." + parts[1] + "." + parts[2];
+
+            Assert.IsFalse(PasswordHasher.Verify(password, tamperedHash));
+        }
+
+        [Test]
+        public void VerifyReturnsFalseForIterationsAboveSaneBand()
+        {
+            const string password = "MinhaSenh@123";
+
+            var parts = PasswordHasher.Hash(password).Split('.');
+            var tamperedHash = "3000000." + parts[1] + "." + parts[2];
+
+            Assert.IsFalse(PasswordHasher.Verify(password, tamperedHash));
+        }
     }
 }

@@ -146,19 +146,19 @@ namespace Thunder.Security
             }
             catch (FormatException ex)
             {
-                throw new CryptographicException("Payload em Base64 invalido.", ex);
+                throw new CryptographicException("Payload em Base64 inválido.", ex);
             }
 
             var minLength = 1 + SaltSize + IvSize + MacSize;
 
             if (data.Length < minLength)
             {
-                throw new CryptographicException("Payload invalido: tamanho insuficiente.");
+                throw new CryptographicException("Payload inválido: tamanho insuficiente.");
             }
 
             if (data[0] != Version)
             {
-                throw new CryptographicException("Versao de payload nao suportada.");
+                throw new CryptographicException("Versão de payload não suportada.");
             }
 
             var salt = new byte[SaltSize];
@@ -202,7 +202,7 @@ namespace Thunder.Security
 
             if (!CryptoUtil.FixedTimeEquals(expectedMac, mac))
             {
-                throw new CryptographicException("Falha na verificacao de integridade (HMAC).");
+                throw new CryptographicException("Falha na verificação de integridade (HMAC).");
             }
 
             using (var aes = Aes.Create())
