@@ -74,6 +74,7 @@
     <Compile Include="Html\Design\ButtonExtensionsTest.cs" />
     <Compile Include="Html\Design\LabelExtensionsTest.cs" />
     <Compile Include="Html\SelectListExtensionsTest.cs" />
+    <Compile Include="NotifyResultTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\..\main\Thunder.Web.Mvc\Thunder.Web.Mvc.csproj">
       <Project>{56615F19-D609-46A3-8100-FB9FE29158FA}</Project>
       <Name>Thunder.Web.Mvc %28main\framework\Thunder.Web.Mvc%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\main\Thunder\Thunder.csproj">
+      <Project>{85E79781-5311-482C-BC8B-3F7781061ED5}</Project>
+      <Name>Thunder %28main\framework\Thunder%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

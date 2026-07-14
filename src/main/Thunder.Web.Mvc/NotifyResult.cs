@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -175,19 +176,20 @@ namespace Thunder.Web.Mvc
         {
             var builder = new StringBuilder();
             var messages = new StringBuilder();
+            var allMessages = Messages.SelectMany(message => message.Value).ToList();
 
-           if(Messages.Count > 0)
+           if(allMessages.Count > 0)
            {
-               if(Messages.Count == 1)
+               if(allMessages.Count == 1)
                {
-                   messages.Append(Messages[0]);
+                   messages.Append(HttpUtility.HtmlEncode(allMessages[0]));
                }
                else
                {
                    messages.Append("<ul>");
-                   foreach (var message in Messages)
+                   foreach (var message in allMessages)
                    {
-                       messages.Append("<li>{0}</li>".With(message));
+                       messages.Append("<li>{0}</li>".With(HttpUtility.HtmlEncode(message)));
                    }
                    messages.Append("</ul>");
                }
