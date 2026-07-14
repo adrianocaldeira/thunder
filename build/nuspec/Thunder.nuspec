@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Thunder</id>
+    <version>1.10.0</version>
+    <title>Thunder</title>
+    <authors>Adriano Caldeira</authors>
+    <owners>acaldeira.dev</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/adrianocaldeira/thunder</projectUrl>
+    <iconUrl>https://github.com/adrianocaldeira/thunder/raw/master/thunder.png</iconUrl>
+    <description>Biblioteca utilitária para .NET Framework 4.8: extensões de tipos, validações e formatações brasileiras (CPF/CNPJ/e-mail/CEP/telefone), paginação, criptografia e notificações.</description>
+    <releaseNotes>Correções de segurança e de validação. Novidades: criptografia moderna (AesEncryptor, AES-256 + HMAC-SHA256; PasswordHasher com PBKDF2). Consulte o CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</releaseNotes>
+    <copyright>Copyright © Adriano Caldeira</copyright>
+    <tags>brasil cpf cnpj validacao extensions net48</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="13.0.4" />
+      <dependency id="log4net" version="2.0.17" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\main\Thunder\bin\Release\Thunder.dll" target="lib\net48" />
+    <file src="src\main\Thunder\bin\Release\Thunder.pdb" target="lib\net48" />
+    <file src="src\main\Thunder\bin\Release\Thunder.xml" target="lib\net48" />
+  </files>
+</package>

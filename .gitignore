@@ -4,6 +4,7 @@
 *.db
 TestResult.xml
 nunit-agent_*.log
+artifacts
 bin
 log
 _ReSharper.*
