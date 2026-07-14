@@ -76,6 +76,7 @@
     <Compile Include="Resources\TireItem.cs" />
     <Compile Include="ComponentModel\DataAnnotations\ListRequiredAttributeTest.cs" />
     <Compile Include="ComponentModel\DataAnnotations\EmailAttributeTest.cs" />
+    <Compile Include="ComponentModel\DataAnnotations\Extensions\EnumExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
