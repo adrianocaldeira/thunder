@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
+[assembly: InternalsVisibleTo("Thunder.Web.Mvc.Test")]
 [assembly: AssemblyTitle("Thunder.Web.Mvc")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

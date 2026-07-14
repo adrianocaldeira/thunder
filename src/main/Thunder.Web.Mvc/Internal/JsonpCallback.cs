@@ -6,9 +6,9 @@ namespace Thunder.Web.Mvc.Internal
     /// Validate JSONP callback names before echoing them back into the response,
     /// preventing reflected script injection via the callback query string value.
     /// </summary>
-    public static class JsonpCallback
+    internal static class JsonpCallback
     {
-        private static readonly Regex ValidCallback = new Regex(@"^[A-Za-z_$][A-Za-z0-9_$.\[\]]*$", RegexOptions.Compiled);
+        private static readonly Regex ValidCallback = new Regex(@"\A[A-Za-z_$][A-Za-z0-9_$.\[\]]*\z", RegexOptions.Compiled);
 
         /// <summary>
         /// Determine whether <paramref name="callback"/> is a safe JSONP callback name.

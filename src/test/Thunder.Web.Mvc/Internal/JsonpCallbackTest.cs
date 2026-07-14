@@ -30,5 +30,14 @@ namespace Thunder.Web.Mvc.Internal
         {
             Assert.IsFalse(JsonpCallback.IsValid(null));
         }
+
+        [Test]
+        public void IsValid_NomeComQuebraDeLinha_RetornaFalse()
+        {
+            Assert.IsFalse(JsonpCallback.IsValid("foo\n"));
+            Assert.IsFalse(JsonpCallback.IsValid("foo\r"));
+            Assert.IsFalse(JsonpCallback.IsValid("foo\r\n"));
+            Assert.IsTrue(JsonpCallback.IsValid("foo"));
+        }
     }
 }
