@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binders\DecimalModelBinderTest.cs" />
     <Compile Include="ControllerTest.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExtensionsTest.cs" />
     <Compile Include="Filter\CompressAttributeTest.cs" />
