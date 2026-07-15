@@ -46,4 +46,9 @@ jobs:
           user: acaldeira
 
       - name: Publica no NuGet.org
-        run: dotnet nuget push artifacts/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: |
+          $pacotes = Get-ChildItem artifacts/*.nupkg
+          if (-not $pacotes) { throw "Nenhum pacote .nupkg encontrado em artifacts/." }
+          foreach ($pacote in $pacotes) {
+            dotnet nuget push $pacote.FullName --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
