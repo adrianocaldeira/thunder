@@ -36,10 +36,24 @@ namespace Thunder.Extensions
         [Test]
         public void IsCnpj()
         {
+            // numéricos (retrocompatibilidade)
             Assert.IsTrue("33.846.757/0001-50".IsCnpj());
             Assert.IsTrue("33846757000150".IsCnpj());
             Assert.IsFalse("".IsCnpj());
             Assert.IsFalse("33846757000151".IsCnpj());
+            Assert.IsFalse("11111111111111".IsCnpj());       // todos os dígitos iguais
+            Assert.IsFalse("11.111.111/1111-11".IsCnpj());   // idem, com máscara
+
+            // alfanuméricos (novos)
+            Assert.IsTrue("12ABC345000188".IsCnpj());         // vetor de referência
+            Assert.IsTrue("12.ABC.345/0001-88".IsCnpj());     // com máscara
+            Assert.IsTrue("12abc345000188".IsCnpj());         // minúsculas normalizadas
+            Assert.IsTrue("IOQF0000000046".IsCnpj());         // letras I/O/Q/F aceitas
+            Assert.IsFalse("12ABC345000199".IsCnpj());        // dígito verificador errado
+            Assert.IsFalse("12ABC3450001AB".IsCnpj());        // DV não-numérico
+            Assert.IsFalse("AAAAAAAAAAAA00".IsCnpj());        // base uniforme, DV inválido
+            Assert.IsFalse("11222333".IsCnpj());              // tamanho errado
+            Assert.IsFalse(((string)null).IsCnpj());          // null → false, sem exceção
         }
 
         [Test]

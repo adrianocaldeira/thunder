@@ -118,80 +118,52 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        ///     Check cnpj is valid
+        ///     Verifica se a string é um CNPJ válido. Aceita CNPJ numérico e CNPJ alfanumérico
+        ///     (base de 12 caracteres 0-9/A-Z com dois dígitos verificadores numéricos, calculados
+        ///     por módulo 11 sobre os valores ASCII). Aceita a entrada com ou sem máscara e
+        ///     normaliza letras minúsculas para maiúsculas.
         /// </summary>
-        /// <param name="cnpj">Cnpj</param>
-        /// <returns>String is cnpj</returns>
+        /// <param name="cnpj">CNPJ</param>
+        /// <returns>Verdadeiro se for um CNPJ válido</returns>
         public static bool IsCnpj(this string cnpj)
         {
-            cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
-
-            var reg = new Regex(@"(^(\d{2}.\d{3}.\d{3}/\d{4}-\d{2})|(\d{14})$)");
-
-            if (!reg.IsMatch(cnpj))
+            if (string.IsNullOrWhiteSpace(cnpj))
                 return false;
 
-            if (cnpj.Length != 14)
+            cnpj = cnpj.ToUpperInvariant().Replace(".", "").Replace("-", "").Replace("/", "");
+
+            if (!Regex.IsMatch(cnpj, "^[A-Z0-9]{12}[0-9]{2}$"))
                 return false;
 
-            switch (cnpj)
-            {
-                case "00000000000000":
-                    return false;
-                case "11111111111111":
-                    return false;
-                case "22222222222222":
-                    return false;
-                case "33333333333333":
-                    return false;
-                case "44444444444444":
-                    return false;
-                case "55555555555555":
-                    return false;
-                case "66666666666666":
-                    return false;
-                case "77777777777777":
-                    return false;
-                case "88888888888888":
-                    return false;
-                case "99999999999999":
-                    return false;
-            }
+            if (cnpj.Distinct().Count() == 1)
+                return false;
 
             var multiplicador1 = new[] {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
             var multiplicador2 = new[] {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
+            var digito1 = CalcularDigitoCnpj(cnpj.Substring(0, 12), multiplicador1);
+            var digito2 = CalcularDigitoCnpj(cnpj.Substring(0, 12) + digito1, multiplicador2);
 
-            var tempCnpj = cnpj.Substring(0, 12);
+            return cnpj[12] - '0' == digito1 && cnpj[13] - '0' == digito2;
+        }
+
+        /// <summary>
+        ///     Calcula um dígito verificador de CNPJ por módulo 11 sobre os valores ASCII dos
+        ///     caracteres (valor = código ASCII do caractere menos 48).
+        /// </summary>
+        /// <param name="valor">Base sobre a qual calcular o dígito</param>
+        /// <param name="pesos">Pesos aplicados a cada posição</param>
+        /// <returns>Dígito verificador (0-9)</returns>
+        private static int CalcularDigitoCnpj(string valor, int[] pesos)
+        {
             var soma = 0;
 
-            for (var i = 0; i < 12; i++)
-                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture))*multiplicador1[i];
+            for (var i = 0; i < pesos.Length; i++)
+                soma += (valor[i] - '0') * pesos[i];
 
-            var resto = (soma%11);
+            var resto = soma % 11;
 
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-
-            var digito = resto.ToString(CultureInfo.InvariantCulture);
-            tempCnpj = tempCnpj + digito;
-            soma = 0;
-
-            for (var i = 0; i < 13; i++)
-                soma += int.Parse(tempCnpj[i].ToString(CultureInfo.InvariantCulture))*multiplicador2[i];
-
-            resto = (soma%11);
-
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-
-            digito = digito + resto;
-
-            return cnpj.EndsWith(digito);
+            return resto < 2 ? 0 : 11 - resto;
         }
 
         /// <summary>
