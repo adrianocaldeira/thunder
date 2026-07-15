@@ -20,7 +20,7 @@
   --bs-btn-hover-bg: #155a89;
   --bs-btn-hover-border-color: #155a89;
 }
-mark, .text-accent { background: #ffd23f33; }
+mark { background: #ffd23f33; }
 /* home: cards dos pacotes */
 .pkg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
 .pkg-cards .card { border: 1px solid var(--bs-border-color); border-radius: .75rem; padding: 1rem 1.25rem; }

@@ -53,7 +53,7 @@ Também há `FirstDayOfYear`/`LastDayOfYear`, `PreviousDay`/`NextDay` (com sobre
 using Thunder.Extensions;
 
 "42".Cast<int>();  // 42
-"".Cast<int>();     // 0 (default(T) em caso de falha na conversão)
+"".Cast<int>();     // 0 (string vazia cai no guard que retorna default(T) antes de tentar converter)
 ```
 
 `Trim<T>` percorre as propriedades públicas do tipo `T` e aplica `string.Trim()` em todas

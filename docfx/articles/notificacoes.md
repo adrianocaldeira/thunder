@@ -19,6 +19,7 @@ demais construtores aceitam uma mensagem única, uma lista de mensagens, ou um `
 explícito:
 
 ```csharp
+using System.Collections.Generic;
 using Thunder;
 
 // Sucesso (Type assume NotifyType.Success)

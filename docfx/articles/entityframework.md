@@ -42,20 +42,22 @@ public class ProdutoRepository : Repository<Produto, Guid>
 persistência só ocorre ao chamar `Save()`/`SaveAsync()`:
 
 ```csharp
-using var context = new MeuDbContext();
-var repository = new ProdutoRepository(context);
+using (var context = new MeuDbContext())
+{
+    var repository = new ProdutoRepository(context);
 
-var produto = new Produto { Nome = "Caneta azul", Preco = 2.50m };
+    var produto = new Produto { Nome = "Caneta azul", Preco = 2.50m };
 
-repository.Add(produto);
-repository.Save(); // só agora o INSERT é executado
+    repository.Add(produto);
+    repository.Save(); // só agora o INSERT é executado
 
-produto.Preco = 3.00m;
-repository.Update(produto);
-repository.Save(); // UPDATE
+    produto.Preco = 3.00m;
+    repository.Update(produto);
+    repository.Save(); // UPDATE
 
-repository.Delete(produto.Id);
-repository.Save(); // DELETE
+    repository.Delete(produto.Id);
+    repository.Save(); // DELETE
+}
 ```
 
 Várias mutações podem ser acumuladas e persistidas numa única chamada a `Save`:

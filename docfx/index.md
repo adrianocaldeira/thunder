@@ -7,7 +7,7 @@ _layout: landing
   <h1>Thunder</h1>
   <p class="lead">Utilitários .NET para o dia a dia brasileiro — validações, dados, web.</p>
   <p>
-    <a class="btn btn-primary" href="articles/introducao.html">Começar</a>
+    <a class="btn btn-primary" href="articles/introducao.md">Começar</a>
     <a class="btn btn-outline-secondary" href="https://www.nuget.org/profiles/acaldeira">NuGet</a>
   </p>
 </div>
@@ -39,4 +39,4 @@ _layout: landing
 Install-Package Thunder
 ```
 
-Veja o [guia de introdução](articles/introducao.html) para os primeiros passos.
+Veja o [guia de introdução](articles/introducao.md) para os primeiros passos.
