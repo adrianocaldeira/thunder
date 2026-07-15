@@ -24,5 +24,6 @@ packages
 /.vs
 
 # DocFX (artefatos gerados)
-docfx/api/
+docfx/api/*
+!docfx/api/index.md
 docfx/_site/
