@@ -1,0 +1,47 @@
+name: docs
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configura .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Instala DocFX
+        run: dotnet tool install -g docfx
+
+      - name: Gera o site
+        run: docfx docfx/docfx.json
+
+      - name: Configura Pages
+        uses: actions/configure-pages@v5
+
+      - name: Publica artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docfx/_site
+
+      - name: Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
