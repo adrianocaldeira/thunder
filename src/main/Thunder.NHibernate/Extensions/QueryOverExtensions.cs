@@ -95,14 +95,16 @@ namespace Thunder.NHibernate.Extensions
         /// <returns><see cref="IQueryOver{TRoot}"/></returns>
         public static IQueryOver<T, T> OrderBy<T>(this IQueryOver<T, T> source, IList<Expression<Func<T, object>>> orders)
         {
-            if (orders != null && orders.Any())
+            if (orders == null || !orders.Any())
             {
-                source.OrderBy(orders[0]);
+                return source;
+            }
 
-                for (var i = 1; i < orders.Count; i++)
-                {
-                    source.ThenBy(orders[1]);
-                }
+            source.OrderBy(orders[0]).Asc();
+
+            for (var i = 1; i < orders.Count; i++)
+            {
+                source.ThenBy(orders[i]).Asc();
             }
 
             return source;

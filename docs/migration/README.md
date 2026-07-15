@@ -21,3 +21,5 @@ projetos consumidores atualizem com segurança.
   (Thunder.NHibernate 1.3.0)
 - [003 — Nova API de criptografia (AesEncryptor / PasswordHasher)](003-criptografia-v2.md)
   (Thunder 1.10.0)
+- [004 — Atualização para a linha 2.0](004-thunder-2.0.md)
+  (Thunder 2.0.0 / Thunder.NHibernate 2.0.0 / Thunder.Web.Mvc 2.0.0 / Thunder.EntityFramework 2.0.0)

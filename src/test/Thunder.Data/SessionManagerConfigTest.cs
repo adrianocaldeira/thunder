@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
 using NHibernate.Cfg;
 using NUnit.Framework;
 using Thunder.NHibernate;
@@ -10,34 +9,9 @@ namespace Thunder.Data
     [TestFixture]
     public class SessionManagerConfigTest
     {
-        private static readonly FieldInfo ConfigurationField =
-            typeof(SessionManager).GetField("_configuration", BindingFlags.NonPublic | BindingFlags.Static);
-
-        private static readonly FieldInfo SerializeConfigurationField =
-            typeof(SessionManager).GetField("_serializeConfiguration", BindingFlags.NonPublic | BindingFlags.Static);
-
-        private object _originalConfiguration;
-        private object _originalSerializeConfiguration;
-
-        [SetUp]
-        public void Setup()
-        {
-            _originalConfiguration = ConfigurationField.GetValue(null);
-            _originalSerializeConfiguration = SerializeConfigurationField.GetValue(null);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            ConfigurationField.SetValue(null, _originalConfiguration);
-            SerializeConfigurationField.SetValue(null, _originalSerializeConfiguration);
-        }
-
         [Test]
-        public void ConfigurationShouldReturnValidInstanceWithoutBinaryCache()
+        public void Configuration_retorna_instancia_valida()
         {
-            ConfigurationField.SetValue(null, null);
-
             var configuration = SessionManager.Configuration;
 
             Assert.IsNotNull(configuration);
@@ -45,34 +19,27 @@ namespace Thunder.Data
         }
 
         [Test]
-        public void ConfigurationShouldIgnoreLegacySerializeConfigurationFlagEvenWhenTrue()
+        public void Configuration_e_singleton()
         {
-            // Artefato legado de execuções antigas: garante que o teste não dependa do estado do disco.
-            var legacyCacheFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cfg.thunder");
-            if (File.Exists(legacyCacheFile))
-            {
-                File.Delete(legacyCacheFile);
-            }
-
-            ConfigurationField.SetValue(null, null);
-            SerializeConfigurationField.SetValue(null, (bool?)true);
-
-            Configuration configuration = null;
-
-            Assert.DoesNotThrow(() => configuration = SessionManager.Configuration);
-            Assert.IsNotNull(configuration);
-
-            Assert.False(File.Exists(legacyCacheFile),
-                "SessionManager.Configuration não deve criar/ler cache binário mesmo com a flag legada SerializeConfiguration ativa.");
+            Assert.AreSame(SessionManager.Configuration, SessionManager.Configuration);
         }
 
         [Test]
-        public void SerializeConfigurationPropertyShouldBeMarkedObsolete()
+        public void SessionFactory_e_singleton()
         {
-            var property = typeof(SessionManager).GetProperty("SerializeConfiguration");
-            var attributes = property.GetCustomAttributes(typeof(ObsoleteAttribute), false);
+            Assert.AreSame(SessionManager.SessionFactory, SessionManager.SessionFactory);
+        }
 
-            Assert.IsNotEmpty(attributes);
+        [Test]
+        public void Configuration_nao_cria_cache_binario_legado()
+        {
+            // Regressão do CWE-502: o cache binário de configuração foi removido e o acesso à
+            // Configuration não deve criar (nem depender de) arquivo de cache em disco.
+            var legacyCacheFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cfg.thunder");
+
+            Assert.IsNotNull(SessionManager.Configuration);
+            Assert.False(File.Exists(legacyCacheFile),
+                "SessionManager.Configuration não deve criar cache binário de configuração em disco.");
         }
     }
 }

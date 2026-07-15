@@ -1,0 +1,174 @@
+# 004 — Atualização para a linha 2.0
+
+**Pacotes afetados:** Thunder 2.0.0 · Thunder.NHibernate 2.0.0 · Thunder.Web.Mvc 2.0.0 ·
+Thunder.EntityFramework 2.0.0
+**Tipo de versão:** major (remoções e mudanças de comportamento). Os quatro pacotes sobem juntos
+para 2.0.0; `Thunder.NHibernate`, `Thunder.Web.Mvc` e `Thunder.EntityFramework` passam a depender
+de `Thunder 2.0.0`.
+
+Este guia reúne o que muda ao subir de qualquer versão 1.x para a 2.0. As mudanças específicas de
+criptografia/hash têm um guia dedicado — ver [003](003-criptografia-v2.md).
+
+## Remoções e substitutos
+
+| Removido | Pacote | Substituto |
+| --- | --- | --- |
+| `Hash`, `HashHelper` | Thunder | `PasswordHasher.Hash`/`Verify` (hash de senha) |
+| `HashProvider` (enum) | Thunder | — (só existia para os tipos acima) |
+| `CfgSerialization` | Thunder.NHibernate | — (cache binário desativado por segurança) |
+| `SessionManager.SerializeConfiguration` | Thunder.NHibernate | — (sem efeito desde a 1.3.0) |
+
+- **`Hash` / `HashHelper` / `HashProvider`** foram descontinuados na 1.10.0 e agora removidos. O
+  provedor padrão era SHA-1 sem salt, inadequado para senhas. Para senhas, use
+  `PasswordHasher.Hash`/`Verify`; para cifragem reversível, `AesEncryptor.Encrypt`/`Decrypt`. Não
+  há substituto que reproduza o formato de hash antigo — a estratégia de migração de dados já
+  hasheados está descrita no [guia 003](003-criptografia-v2.md).
+- **`CfgSerialization` e `SessionManager.SerializeConfiguration`** foram descontinuados na 1.3.0 e
+  agora removidos. O cache binário de configuração do NHibernate foi desativado por segurança
+  (desserialização via `BinaryFormatter`, CWE-502 — ver
+  [guia 002](002-binaryformatter-desativado.md)). Não há substituto: a configuração é sempre
+  reconstruída em memória. Se ainda houver a AppSetting `Thunder.Data.SessionManager.SerializeConfiguration`
+  no `web.config`/`app.config`, remova-a — ela não tem mais efeito.
+
+## Mudanças de comportamento
+
+### Thunder — identidade de entidade (`Persist<T, TKey>`)
+
+- **`IsNew()` com qualquer tipo de chave.** Antes, uma entidade era considerada "nova" quando
+  `Id <= 0` — regra válida apenas para chaves numéricas. Agora `IsNew()` funciona para `Guid`,
+  `string` e tipos numéricos, considerando nova apenas a entidade cujo `Id` é igual ao valor padrão
+  do tipo (`default(TKey)`). **Consequência:** um `Id` numérico negativo deixa de ser tratado como
+  "novo". Se o seu modelo usa `Id` negativo com algum significado (marcador, seed manual), revise
+  os pontos que dependem de `IsNew()`.
+- **`Equals` compara `Id` + tipo.** Antes a comparação se baseava no hash code, o que podia
+  produzir falsos positivos/negativos. Agora duas entidades são iguais quando têm o mesmo `Id` e o
+  mesmo tipo. Revise usos em `HashSet`, `Dictionary` e comparações diretas (`==`, `.Equals`) que
+  dependiam do comportamento antigo.
+- **`GetHashCode` estável e sem exceção.** Deixa de lançar exceção quando o `Id` é nulo. Uma
+  entidade transiente colocada numa coleção baseada em hash **antes** de persistir mantém o hash de
+  identidade de referência (não muda o hash ao receber o `Id`), o que preserva a localização do
+  item na coleção em cenários detached/multi-sessão.
+
+### Thunder.NHibernate
+
+- **`SessionManager` thread-safe.** A configuração/fábrica de sessões passa a ser inicializada via
+  `Lazy`, eliminando condições de corrida na primeira sessão. Uma falha ao construir a
+  configuração/fábrica (por exemplo, banco de dados indisponível durante a subida da aplicação) é
+  propagada ao chamador, mas **não é permanente**: o acesso seguinte tenta materializar novamente.
+  Uma vez materializadas com sucesso, as instâncias permanecem as mesmas durante toda a vida do
+  processo.
+- **Listener de timestamps (`Created`/`Updated`).** No `insert`, o servidor sempre grava `Created`
+  e `Updated`, **ignorando** qualquer valor definido manualmente na entidade. No `update`, o
+  listener grava `Updated` e simplesmente não altera `Created` — não há proteção contra o
+  consumidor alterar `Created` em memória e persistir o novo valor. O horário gravado continua
+  sendo o horário local. Revise rotinas de importação/carga que definiam `Created` manualmente
+  esperando que o valor fosse preservado. Para entidades mapeadas com `dynamic-update="true"`,
+  registre também o novo `CreatedAndUpdatedFlushEntityListener` — ver
+  [Novidades e ressalvas](#novidades-e-ressalvas).
+- **`OrderBy` (extensão de `IQueryOver`).** Passa a aplicar todas as chaves de ordenação; antes o
+  método não gerava ordenação alguma. Consultas que usavam `OrderBy` e "funcionavam" sem ordenação
+  agora retornam resultados ordenados — verifique se alguma lógica dependia da ordem não
+  determinística anterior.
+- **Total de paginação em `long`.** O total de itens passa de `int` para `long`, para não truncar
+  contagens grandes. É uma mudança de assinatura: código que declara explicitamente o tipo do total
+  (variável tipada, atribuição a `int`) precisa ser ajustado e recompilado.
+
+### Thunder.EntityFramework — `Repository<T, TKey>`
+
+- **Unit-of-work explícito.** `Add`, `Update` e `Delete` não persistem sozinhos; as mudanças só são
+  confirmadas ao chamar `Save()`/`SaveAsync()`. Antes, cada mutação persistia individualmente.
+  Ajuste o código para agrupar as mutações e chamar `Save` ao final da operação.
+- **Ownership do `DbContext`.** O repositório não descarta mais o `DbContext` recebido — deixou de
+  implementar `IDisposable`. O ciclo de vida do contexto passa a ser responsabilidade de quem o cria
+  (tipicamente o container de injeção de dependência). Remova `using`/`Dispose` que assumiam que o
+  repositório fecharia o contexto.
+- **Leituras sem rastreamento.** `All` e `FindBy` passam a usar `AsNoTracking`. As entidades
+  retornadas não são rastreadas pelo contexto; para atualizá-las, chame `Update` explicitamente
+  antes de `Save`.
+
+### Thunder.Web.Mvc
+
+Sem mudança de comportamento própria. A versão 2.0.0 apenas alinha o pacote à linha 2.0 e passa a
+depender de `Thunder 2.0.0`.
+
+## Novidades e ressalvas
+
+- **`CreatedAndUpdatedFlushEntityListener` — timestamps consistentes com `dynamic-update`**
+  (Thunder.NHibernate). **[COMPORTAMENTO]** quando registrado. Em entidades mapeadas com
+  `dynamic-update="true"`, o UPDATE contém apenas as colunas dirty, calculadas **antes** do evento
+  `PreUpdate` — por isso, com o registro apenas em `PreInsert`/`PreUpdate`, o update parcial de uma
+  entidade attached **não persistia** `Updated` (a coluna ficava fora do SQL dinâmico). O novo
+  listener atua no evento `FlushEntity`: define `Updated` antes do dirty-check padrão, fazendo a
+  coluna entrar no UPDATE dinâmico; um flush sem alteração real não gera UPDATE espúrio. Para
+  timestamps consistentes com `dynamic-update`, registre as **três** entradas em
+  `SessionManager.Listeners` (antes do primeiro acesso à `Configuration`/`SessionFactory`):
+
+  ```csharp
+  var listener = new CreatedAndUpdatedPropertyEventListener();      // PreInsert/PreUpdate
+  var flush    = new CreatedAndUpdatedFlushEntityListener();        // FlushEntity (novo)
+
+  SessionManager.Listeners = new Dictionary<ListenerType, object[]>
+  {
+      { ListenerType.PreInsert,   new IPreInsertEventListener[]   { listener } },
+      { ListenerType.PreUpdate,   new IPreUpdateEventListener[]   { listener } },
+      { ListenerType.FlushEntity, new IFlushEntityEventListener[] { flush } }
+  };
+  ```
+
+  A entrada `ListenerType.FlushEntity` deve conter **apenas** o `CreatedAndUpdatedFlushEntityListener`:
+  como `SetListeners` substitui o listener padrão do NHibernate, a classe herda de
+  `DefaultFlushEntityEventListener` e delega ao comportamento base — registrar o listener padrão
+  junto faria o flush executar duas vezes. A divisão de responsabilidades: o `PreInsert` cobre o
+  insert (`Created` + `Updated`); o `FlushEntity` cobre o update parcial de entidade attached; o
+  `PreUpdate` cobre o reattach sem snapshot (update completo). Sem a entrada nova, o comportamento
+  anterior é preservado (inclusive a inconsistência com `dynamic-update`).
+- **API assíncrona no `Repository` do NHibernate.** Novos métodos `...Async` com suporte a
+  `CancellationToken`: os métodos síncronos e a transação-por-método continuam disponíveis. As
+  sobrecargas de conveniência não têm variante async. **Ressalva:** os novos membros também foram
+  adicionados a `IRepository` — não-breaking para chamadores e para quem herda de `Repository`,
+  mas **breaking para quem implementa a interface diretamente**, que precisa implementar os novos
+  membros.
+- **API assíncrona no `Repository` do EntityFramework.** Adicionados `SaveAsync`, `SingleAsync` e
+  `Delete(TKey)`. **Ressalva:** o redesenho de `IRepository` (novos membros e nova semântica de
+  persistência) é **breaking para quem implementa a interface diretamente** — não-breaking apenas
+  para chamadores e para quem herda de `Repository`.
+- **`ActiveRecord<T, TKey>` marcado `[Obsolete]`** (Thunder.NHibernate). Continua funcional —
+  passa a delegar ao `Repository` — e emite aviso de compilação. Remoção planejada para a 3.0;
+  migre para `Repository` no seu próprio ritmo. A delegação traz paridades de comportamento com o
+  `Repository` e uma mudança na declaração da classe:
+  - Os métodos estáticos de persistência passam a aparar espaços (`Trim()`) de todas as strings
+    graváveis da entidade antes de persistir — comportamento que o `Repository` sempre teve e o
+    `ActiveRecord` não tinha.
+  - A sessão passa a ser resolvida via sessão corrente, aberta e vinculada automaticamente ao
+    contexto quando necessário — antes era exigida uma sessão já vinculada.
+  - A classe base mudou de `ICreatedAndUpdatedProperty where T : class` para `Persist<T, TKey>`
+    com a constraint `where T : Persist<T, TKey>` — breaking para declarações fora do padrão CRTP
+    (isto é, quando `T` não é a própria classe que herda de `ActiveRecord`).
+
+## Checklist de atualização
+
+1. **Suba as referências dos quatro pacotes para `2.0.0`** (`packages.config`,
+   `PackageReference` ou `.csproj`), mantendo-os na mesma linha de versão.
+2. **Substitua os membros removidos antes de compilar:**
+   - `Hash`/`HashHelper`/`HashProvider` → `PasswordHasher` (senhas) ou `AesEncryptor` (cifragem).
+   - Remova referências a `CfgSerialization`/`SessionManager.SerializeConfiguration` e a AppSetting
+     correspondente do `*.config`.
+3. **Recompile** e trate os avisos de `[Obsolete]` (`ActiveRecord`) e quaisquer erros de assinatura
+   (por exemplo, total de paginação agora `long`).
+4. **Valide em runtime** os pontos sensíveis:
+   - **Entidades:** comparações de identidade (`Equals`/`GetHashCode`) e uso de `IsNew()`,
+     especialmente com chaves não numéricas ou `Id` negativo, e em coleções `HashSet`/`Dictionary`.
+   - **Timestamps:** rotinas de criação/importação que dependiam de `Created`/`Updated` definidos
+     manualmente; se houver entidades com `dynamic-update="true"`, registre o
+     `CreatedAndUpdatedFlushEntityListener` (ver [Novidades e ressalvas](#novidades-e-ressalvas)).
+   - **Paginação:** consultas que usam `OrderBy` (agora efetivamente ordenadas) e o total agora em
+     `long`.
+   - **Repositório EF:** confirme que cada operação chama `Save`/`SaveAsync`; que o `DbContext` é
+     descartado por quem o cria; e que as entidades lidas por `All`/`FindBy` (sem rastreamento)
+     passam por `Update` antes de serem persistidas.
+
+## Referências
+
+Entradas correspondentes no [CHANGELOG](../../CHANGELOG.md), seções 2.0.0 de cada pacote.
+Guias relacionados: [002 — cache binário do NHibernate](002-binaryformatter-desativado.md) e
+[003 — nova API de criptografia](003-criptografia-v2.md).

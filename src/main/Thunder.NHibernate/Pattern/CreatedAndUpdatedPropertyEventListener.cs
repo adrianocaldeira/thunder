@@ -8,7 +8,10 @@ using Thunder.Data;
 namespace Thunder.NHibernate.Pattern
 {
     /// <summary>
-    ///     Created and updated property event listener
+    ///     Listener que preenche <c>Created</c> e <c>Updated</c> nas entidades que implementam
+    ///     <see cref="ICreatedAndUpdatedProperty" />, sempre com o horário local do servidor:
+    ///     na inserção, sobrescreve <c>Created</c> e <c>Updated</c> (mesmo que o objeto chegue
+    ///     com valores preenchidos); na atualização, altera apenas <c>Updated</c>.
     /// </summary>
     [Serializable]
     public class CreatedAndUpdatedPropertyEventListener : IPreUpdateEventListener, IPreInsertEventListener
@@ -23,96 +26,82 @@ namespace Thunder.NHibernate.Pattern
             state[index] = value;
         }
 
-        #region Implementation of IPreUpdateEventListener
-
-        /// <summary> Return true if the operation should be vetoed</summary>
-        /// <param name="event"></param>
-        /// <param name="cancellationToken">A cancellation token that can be used to cancel the work</param>
-        public Task<bool> OnPreUpdateAsync(PreUpdateEvent @event, CancellationToken cancellationToken)
+        private static void ApplyInsert(PreInsertEvent @event)
         {
-            var entity = @event.Entity as ICreatedAndUpdatedProperty;
+            if (!(@event.Entity is ICreatedAndUpdatedProperty entity))
+                return;
 
-            if (entity == null)
-                return Task.FromResult(false);
+            var time = DateTime.Now; // horário local, sempre do servidor
+
+            Set(@event.Persister, @event.State, "Created", time);
+            Set(@event.Persister, @event.State, "Updated", time);
+
+            entity.Created = time;
+            entity.Updated = time;
+        }
+
+        private static void ApplyUpdate(PreUpdateEvent @event)
+        {
+            if (!(@event.Entity is ICreatedAndUpdatedProperty entity))
+                return;
 
             var time = DateTime.Now;
 
             Set(@event.Persister, @event.State, "Updated", time);
 
-            entity.Updated = time;
+            entity.Updated = time; // Created não é tocado na atualização
+        }
 
-            if (entity.Created == DateTime.MinValue) entity.Created = time;
+        #region Implementation of IPreInsertEventListener
 
-            return Task.FromResult(false);
+        /// <summary>
+        ///     Sobrescreve <c>Created</c> e <c>Updated</c> com o horário local do servidor antes da inserção.
+        /// </summary>
+        /// <param name="event">Evento de pré-inserção.</param>
+        /// <returns><c>false</c> — a operação nunca é vetada.</returns>
+        public bool OnPreInsert(PreInsertEvent @event)
+        {
+            ApplyInsert(@event);
+            return false;
         }
 
         /// <summary>
-        ///     Return true if the operation should be vetoed
+        ///     Sobrescreve <c>Created</c> e <c>Updated</c> com o horário local do servidor antes da inserção.
         /// </summary>
-        /// <param name="event" />
-        public bool OnPreUpdate(PreUpdateEvent @event)
+        /// <param name="event">Evento de pré-inserção.</param>
+        /// <param name="cancellationToken">Token de cancelamento da operação.</param>
+        /// <returns><c>false</c> — a operação nunca é vetada.</returns>
+        public Task<bool> OnPreInsertAsync(PreInsertEvent @event, CancellationToken cancellationToken)
         {
-            var entity = @event.Entity as ICreatedAndUpdatedProperty;
-
-            if (entity == null)
-                return false;
-
-            var time = DateTime.Now;
-
-            Set(@event.Persister, @event.State, "Updated", time);
-
-            entity.Updated = time;
-
-            if (entity.Created == DateTime.MinValue) entity.Created = time;
-
-            return false;
+            ApplyInsert(@event);
+            return Task.FromResult(false);
         }
 
         #endregion
 
-        #region Implementation of IPreInsertEventListener
+        #region Implementation of IPreUpdateEventListener
 
-        /// <summary> Return true if the operation should be vetoed</summary>
-        /// <param name="event"></param>
-        /// <param name="cancellationToken">A cancellation token that can be used to cancel the work</param>
-        public Task<bool> OnPreInsertAsync(PreInsertEvent @event, CancellationToken cancellationToken)
+        /// <summary>
+        ///     Atualiza apenas <c>Updated</c> com o horário local do servidor antes da atualização.
+        /// </summary>
+        /// <param name="event">Evento de pré-atualização.</param>
+        /// <returns><c>false</c> — a operação nunca é vetada.</returns>
+        public bool OnPreUpdate(PreUpdateEvent @event)
         {
-            var entity = @event.Entity as ICreatedAndUpdatedProperty;
-
-            if (entity == null)
-                return Task.FromResult(false);
-
-            var time = entity.Created == DateTime.MinValue ? DateTime.Now : entity.Created;
-
-            Set(@event.Persister, @event.State, "Updated", time);
-            Set(@event.Persister, @event.State, "Created", time);
-
-            entity.Updated = time;
-            entity.Created = time;
-
-            return Task.FromResult(false);
+            ApplyUpdate(@event);
+            return false;
         }
 
         /// <summary>
-        ///     Return true if the operation should be vetoed
+        ///     Atualiza apenas <c>Updated</c> com o horário local do servidor antes da atualização.
         /// </summary>
-        /// <param name="event" />
-        public bool OnPreInsert(PreInsertEvent @event)
+        /// <param name="event">Evento de pré-atualização.</param>
+        /// <param name="cancellationToken">Token de cancelamento da operação.</param>
+        /// <returns><c>false</c> — a operação nunca é vetada.</returns>
+        public Task<bool> OnPreUpdateAsync(PreUpdateEvent @event, CancellationToken cancellationToken)
         {
-            var entity = @event.Entity as ICreatedAndUpdatedProperty;
-
-            if (entity == null)
-                return false;
-
-            var time = entity.Created == DateTime.MinValue ? DateTime.Now : entity.Created;
-
-            Set(@event.Persister, @event.State, "Updated", time);
-            Set(@event.Persister, @event.State, "Created", time);
-
-            entity.Updated = time;
-            entity.Created = time;
-
-            return false;
+            ApplyUpdate(@event);
+            return Task.FromResult(false);
         }
 
         #endregion

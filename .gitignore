@@ -6,6 +6,7 @@ TestResult.xml
 nunit-agent_*.log
 artifacts
 bin
+obj
 log
 _ReSharper.*
 logs

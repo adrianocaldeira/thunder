@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using NHibernate.Criterion;
 using NUnit.Framework;
 using Thunder.Data.Pattern.Repository.Domain;
 using Thunder.NHibernate;
+using Thunder.NHibernate.Extensions;
 
 namespace Thunder.Data.Pattern.Repository
 {
@@ -195,6 +197,42 @@ namespace Thunder.Data.Pattern.Repository
             Assert.AreEqual("Adriano", Repository.Page(0, 2, new List<ICriterion> { Restrictions.Eq("Age", 30), Restrictions.Eq("Name", "Adriano") })[0].Name);
             Assert.AreEqual("Adriano", Repository.Page(0, 2, new List<ICriterion> { Restrictions.Eq("Age", 30), Restrictions.Eq("Name", "Adriano") }, Order.Asc("Name"))[0].Name);
             Assert.AreEqual("Adriano", Repository.Page(0, 2, new List<ICriterion> { Restrictions.Eq("Age", 30), Restrictions.Eq("Name", "Adriano") }, new List<Order> { Order.Asc("Name") })[0].Name);
+        }
+
+        [Test]
+        public void OrderBy_aplica_todas_as_chaves()
+        {
+            // Cenário que só ordena corretamente quando a 3ª chave (Name) é de fato aplicada.
+            // As duas primeiras chaves (Age) empatam para todos os registros do grupo, de modo
+            // que a ordem final passa a depender exclusivamente da 3ª chave. Os nomes são
+            // inseridos em ordem inversa à alfabética, garantindo que o resultado correto
+            // (Name ascendente) difira da ordem natural de inserção do SQLite — assim, com o bug
+            // (que repete a 2ª chave e ignora a 3ª), a ordenação sai errada.
+            // Obs.: Id/Created/Updated acompanham a ordem de inserção no SQLite e, por isso, não
+            // servem como 3ª chave distintiva; daí o uso de Name.
+            using (var session = SessionManager.SessionFactory.OpenSession())
+            {
+                foreach (var name in new[] { "Zeca", "Marco", "Bruno", "Ana" })
+                {
+                    session.Save(new User { Name = name, Age = 20, Status = new Status { Id = 1 } });
+                }
+
+                session.Flush();
+            }
+
+            var orders = new List<Expression<Func<User, object>>>
+            {
+                u => u.Age,
+                u => u.Age,
+                u => u.Name
+            };
+
+            var result = SessionManager.CurrentSession.QueryOver<User>().OrderBy(orders).List();
+
+            // Grupo de idade 20 vem primeiro, ordenado pela 3ª chave (Name asc); Adriano (idade 30) por último.
+            var names = result.Select(u => u.Name).ToList();
+
+            Assert.AreEqual(new[] { "Ana", "Bruno", "Marco", "Zeca", "Adriano" }, names);
         }
     }
 }

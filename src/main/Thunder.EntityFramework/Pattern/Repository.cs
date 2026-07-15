@@ -1,107 +1,121 @@
 using System;
-using System.Linq;
 using System.Data.Entity;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Thunder.Data;
 
 namespace Thunder.EntityFramework.Pattern
 {
     /// <summary>
-    ///     Repository
+    ///     Repositório base sobre Entity Framework 6.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    public abstract class Repository<T, TKey> : IDisposable,
-        IRepository<T, TKey>
-        where T : Persist<T, TKey>
+    /// <remarks>
+    ///     Aplica o padrão unit-of-work: <see cref="Add" />, <see cref="Update" /> e
+    ///     <see cref="Delete(T)" />/<see cref="Delete(TKey)" /> apenas alteram o estado das entidades
+    ///     rastreadas; a persistência só ocorre ao chamar <see cref="Save" /> ou
+    ///     <see cref="SaveAsync" />. O <see cref="DbContext" /> é injetado e o seu ciclo de vida é
+    ///     responsabilidade de quem o forneceu — o repositório não o descarta.
+    /// </remarks>
+    /// <typeparam name="T">Tipo da entidade persistida.</typeparam>
+    /// <typeparam name="TKey">Tipo da chave da entidade.</typeparam>
+    public abstract class Repository<T, TKey> : IRepository<T, TKey> where T : Persist<T, TKey>
     {
         /// <summary>
-        ///     Initialize new instance of <see cref="Repository{T,TKey}" />
+        ///     Inicializa uma nova instância de <see cref="Repository{T,TKey}" />.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">Contexto do Entity Framework a ser utilizado.</param>
         protected Repository(DbContext context)
         {
             Context = context;
         }
 
         /// <summary>
-        ///     Get or se <see cref="DbContext" />
+        ///     Obtém ou define o <see cref="DbContext" /> utilizado pelo repositório.
         /// </summary>
         public DbContext Context { get; set; }
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Lista todas as entidades sem rastreamento (<c>AsNoTracking</c>).
         /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///     List all of <see cref="IQueryable{T}" />
-        /// </summary>
-        /// <returns></returns>
+        /// <returns><see cref="IQueryable{T}" /> com todas as entidades.</returns>
         public IQueryable<T> All()
         {
-            return Context.Set<T>();
+            return Context.Set<T>().AsNoTracking();
         }
 
         /// <summary>
-        ///     Find by predicate
+        ///     Consulta entidades por predicado, sem rastreamento (<c>AsNoTracking</c>).
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns>
-        ///     <see cref="IQueryable{T}" />
-        /// </returns>
+        /// <param name="predicate">Expressão de filtro.</param>
+        /// <returns><see cref="IQueryable{T}" /> com as entidades que satisfazem o predicado.</returns>
         public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
-            var query = Context.Set<T>().Where(predicate);
-            return query;
+            return Context.Set<T>().AsNoTracking().Where(predicate);
         }
 
         /// <summary>
-        ///     Get single object
+        ///     Obtém uma única entidade pela chave (rastreada).
         /// </summary>
-        /// <param name="id">Id</param>
-        /// <returns></returns>
+        /// <param name="id">Chave da entidade.</param>
+        /// <returns>A entidade encontrada, ou <c>null</c> se não existir.</returns>
         public T Single(TKey id)
         {
             return Context.Set<T>().Find(id);
         }
 
         /// <summary>
-        ///     Add entity
+        ///     Obtém de forma assíncrona uma única entidade pela chave (rastreada).
         /// </summary>
-        /// <param name="entity">Entity</param>
+        /// <param name="id">Chave da entidade.</param>
+        /// <param name="cancellationToken">Token de cancelamento.</param>
+        /// <returns>Tarefa com a entidade encontrada, ou <c>null</c> se não existir.</returns>
+        public Task<T> SingleAsync(TKey id, CancellationToken cancellationToken = default)
+        {
+            return Context.Set<T>().FindAsync(cancellationToken, id);
+        }
+
+        /// <summary>
+        ///     Marca a entidade para inclusão. Não persiste até chamar <see cref="Save" />/<see cref="SaveAsync" />.
+        /// </summary>
+        /// <param name="entity">Entidade a incluir.</param>
         public void Add(T entity)
         {
             Context.Set<T>().Add(entity);
-            Context.SaveChanges();
         }
 
         /// <summary>
-        ///     Delete entity
+        ///     Marca a entidade como modificada. Não persiste até chamar <see cref="Save" />/<see cref="SaveAsync" />.
         /// </summary>
-        /// <param name="entity">Entity</param>
-        public void Delete(T entity)
-        {
-            Context.Set<T>().Remove(entity);
-            Context.SaveChanges();
-        }
-
-        /// <summary>
-        ///     Update entity
-        /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">Entidade a atualizar.</param>
         public void Update(T entity)
         {
             Context.Entry(entity).State = EntityState.Modified;
-            Context.SaveChanges();
         }
 
         /// <summary>
-        ///     Save
+        ///     Marca a entidade para remoção. Não persiste até chamar <see cref="Save" />/<see cref="SaveAsync" />.
+        /// </summary>
+        /// <param name="entity">Entidade a remover.</param>
+        public void Delete(T entity)
+        {
+            Context.Set<T>().Remove(entity);
+        }
+
+        /// <summary>
+        ///     Localiza a entidade pela chave e a marca para remoção, se existir.
+        ///     Não persiste até chamar <see cref="Save" />/<see cref="SaveAsync" />.
+        /// </summary>
+        /// <param name="id">Chave da entidade a remover.</param>
+        public void Delete(TKey id)
+        {
+            var entity = Context.Set<T>().Find(id);
+            if (entity != null) Context.Set<T>().Remove(entity);
+        }
+
+        /// <summary>
+        ///     Persiste as alterações pendentes no contexto.
         /// </summary>
         public void Save()
         {
@@ -109,16 +123,13 @@ namespace Thunder.EntityFramework.Pattern
         }
 
         /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Persiste de forma assíncrona as alterações pendentes no contexto.
         /// </summary>
-        /// <param name="disposing"></param>
-        protected void Dispose(bool disposing)
+        /// <param name="cancellationToken">Token de cancelamento.</param>
+        /// <returns>Tarefa com o número de registros afetados.</returns>
+        public Task<int> SaveAsync(CancellationToken cancellationToken = default)
         {
-            if (!disposing) return;
-            if (Context == null) return;
-
-            Context.Dispose();
-            Context = null;
+            return Context.SaveChangesAsync(cancellationToken);
         }
     }
 }

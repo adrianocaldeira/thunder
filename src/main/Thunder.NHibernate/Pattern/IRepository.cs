@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using NHibernate;
 using NHibernate.Criterion;
 using Thunder.Collections;
@@ -284,5 +286,110 @@ namespace Thunder.NHibernate.Pattern
         /// <param name="orders"><see cref="Order"/></param>
         /// <returns><see cref="IPaging{T}"/></returns>
         IPaging<T> Page(int currentPage, int pageSize, IList<ICriterion> criterions, IList<Order> orders);
+
+        /// <summary>
+        /// Cria a entidade de forma assíncrona
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Cria as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="entities"><see cref="IList{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IList{T}"/></returns>
+        Task<IList<T>> CreateAsync(IList<T> entities, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Atualiza a entidade de forma assíncrona
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Exclui a entidade pelo identificador de forma assíncrona
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        Task DeleteAsync(TKey id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Exclui a entidade de forma assíncrona
+        /// </summary>
+        /// <param name="entity">Entidade</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Exclui as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="entities"><see cref="IEnumerable{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        Task DeleteAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Busca a entidade pelo identificador de forma assíncrona
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        Task<T> FindAsync(TKey id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retorna todas as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IList{T}"/></returns>
+        Task<IList<T>> AllAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retorna todas as entidades que satisfazem a expressão de forma assíncrona
+        /// </summary>
+        /// <param name="expression">Expressão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IList{T}"/></returns>
+        Task<IList<T>> AllAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Busca uma única entidade a partir da expressão de forma assíncrona
+        /// </summary>
+        /// <param name="expression">Expressão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Entidade</returns>
+        Task<T> SingleAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Verifica se existe entidade de forma assíncrona
+        /// </summary>
+        /// <param name="id">Identificador</param>
+        /// <param name="expression">Expressão</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns>Existe</returns>
+        Task<bool> ExistAsync(TKey id, Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Pagina as entidades de forma assíncrona
+        /// </summary>
+        /// <param name="currentPage">Página atual</param>
+        /// <param name="pageSize">Tamanho da página</param>
+        /// <param name="orders"><see cref="IList{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        Task<IPaging<T>> PageAsync(int currentPage, int pageSize, IList<Order> orders, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Pagina as entidades que satisfazem os critérios de forma assíncrona
+        /// </summary>
+        /// <param name="currentPage">Página atual</param>
+        /// <param name="pageSize">Tamanho da página</param>
+        /// <param name="criterions"><see cref="IList{T}"/></param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
+        /// <returns><see cref="IPaging{T}"/></returns>
+        Task<IPaging<T>> PageAsync(int currentPage, int pageSize, IList<ICriterion> criterions, CancellationToken cancellationToken = default);
     }
 }

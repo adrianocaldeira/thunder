@@ -4,8 +4,8 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AssemblyName>Thunder.Test</AssemblyName>
-    <RootNamespace>Thunder</RootNamespace>
+    <AssemblyName>Thunder.EntityFramework.Test</AssemblyName>
+    <RootNamespace>Thunder.EntityFramework</RootNamespace>
     <IsPackable>false</IsPackable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
@@ -15,17 +15,16 @@
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="Thunder.Mock" Version="1.0.3" />
+    <PackageReference Include="EntityFramework" Version="6.5.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\main\Thunder.EntityFramework\Thunder.EntityFramework.csproj" />
     <ProjectReference Include="..\..\main\Thunder\Thunder.csproj" />
   </ItemGroup>
 
