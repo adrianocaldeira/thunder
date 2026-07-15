@@ -10,3 +10,9 @@
   href: criptografia.md
 - name: Notificações
   href: notificacoes.md
+- name: Thunder.NHibernate
+  href: nhibernate.md
+- name: Thunder.Web.Mvc
+  href: web-mvc.md
+- name: Thunder.EntityFramework
+  href: entityframework.md
