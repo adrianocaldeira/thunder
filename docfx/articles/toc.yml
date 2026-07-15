@@ -1,2 +1,12 @@
 - name: Introdução
   href: introducao.md
+- name: Validações e formatações BR
+  href: validacoes-br.md
+- name: Extensões de tipos
+  href: extensoes.md
+- name: Paginação e filtros
+  href: paginacao-filtros.md
+- name: Criptografia e hash
+  href: criptografia.md
+- name: Notificações
+  href: notificacoes.md
