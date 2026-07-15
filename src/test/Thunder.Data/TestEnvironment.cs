@@ -17,7 +17,9 @@ namespace Thunder.Data
     {
         /// <summary>
         ///     Registra o <see cref="CreatedAndUpdatedPropertyEventListener" /> para os eventos
-        ///     de pré-inserção e pré-atualização.
+        ///     de pré-inserção e pré-atualização, e o <see cref="CreatedAndUpdatedFlushEntityListener" />
+        ///     para o evento de flush (necessário para persistir <c>Updated</c> em entidades com
+        ///     <c>dynamic-update="true"</c>).
         /// </summary>
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -26,10 +28,14 @@ namespace Thunder.Data
 
             // Os arrays precisam ser tipados por evento: Configuration.SetListeners faz cast
             // direto do array recebido para o tipo do listener correspondente.
+            // O array do FlushEntity contém APENAS o listener derivado: SetListeners SUBSTITUI o
+            // listener padrão do NHibernate, e a classe já herda o Default e delega ao base —
+            // registrar o padrão junto faria o flush executar duas vezes.
             SessionManager.Listeners = new Dictionary<ListenerType, object[]>
             {
                 { ListenerType.PreInsert, new IPreInsertEventListener[] { listener } },
-                { ListenerType.PreUpdate, new IPreUpdateEventListener[] { listener } }
+                { ListenerType.PreUpdate, new IPreUpdateEventListener[] { listener } },
+                { ListenerType.FlushEntity, new IFlushEntityEventListener[] { new CreatedAndUpdatedFlushEntityListener() } }
             };
         }
     }

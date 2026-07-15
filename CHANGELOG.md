@@ -165,13 +165,26 @@ Mudanças de comportamento e remoções detalhadas no
   grava `Created` e `Updated`, ignorando qualquer valor definido manualmente na entidade; no
   `update`, o listener grava `Updated` e simplesmente não altera `Created` — não há proteção
   contra o consumidor alterar `Created` em memória e persistir o novo valor. O horário gravado
-  continua sendo o horário local.
+  continua sendo o horário local. Para entidades mapeadas com `dynamic-update="true"`, ver o novo
+  `CreatedAndUpdatedFlushEntityListener` (seção Adicionado).
 
 #### Alterado
 - **[COMPORTAMENTO]** O total de itens da paginação passa de `int` para `long`, para não truncar
   contagens grandes. Consumidores que declaram explicitamente o tipo do total precisam recompilar.
 
 #### Adicionado
+- **[COMPORTAMENTO]** `CreatedAndUpdatedFlushEntityListener`: novo listener de `FlushEntity` que
+  torna os timestamps consistentes com `dynamic-update="true"`. Com o registro apenas em
+  `PreInsert`/`PreUpdate`, o update parcial de uma entidade attached **não persistia** `Updated` —
+  as colunas dirty do UPDATE dinâmico são calculadas antes do `PreUpdate`, e mutar o `state` no
+  evento não inclui a coluna no SQL. O novo listener define `Updated` antes do dirty-check padrão
+  (herda `DefaultFlushEntityEventListener` e delega ao comportamento base), fazendo a coluna entrar
+  no UPDATE dinâmico; um flush sem alteração real não gera UPDATE espúrio. Para timestamps
+  consistentes com `dynamic-update`, registre **também** a entrada `ListenerType.FlushEntity` em
+  `SessionManager.Listeners`, além de `PreInsert`/`PreUpdate` com o
+  `CreatedAndUpdatedPropertyEventListener` — o dicionário completo de registro está no
+  [guia de migração 004](docs/migration/004-thunder-2.0.md). Sem esse registro, o comportamento
+  anterior é preservado.
 - API assíncrona no `Repository`: métodos `...Async` com suporte a `CancellationToken`. Os
   métodos síncronos e a transação-por-método permanecem inalterados. As sobrecargas de conveniência
   não têm variante async. **Ressalva:** os novos membros foram adicionados também a `IRepository` —

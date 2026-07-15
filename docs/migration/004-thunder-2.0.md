@@ -62,7 +62,9 @@ criptografia/hash têm um guia dedicado — ver [003](003-criptografia-v2.md).
   listener grava `Updated` e simplesmente não altera `Created` — não há proteção contra o
   consumidor alterar `Created` em memória e persistir o novo valor. O horário gravado continua
   sendo o horário local. Revise rotinas de importação/carga que definiam `Created` manualmente
-  esperando que o valor fosse preservado.
+  esperando que o valor fosse preservado. Para entidades mapeadas com `dynamic-update="true"`,
+  registre também o novo `CreatedAndUpdatedFlushEntityListener` — ver
+  [Novidades e ressalvas](#novidades-e-ressalvas).
 - **`OrderBy` (extensão de `IQueryOver`).** Passa a aplicar todas as chaves de ordenação; antes o
   método não gerava ordenação alguma. Consultas que usavam `OrderBy` e "funcionavam" sem ordenação
   agora retornam resultados ordenados — verifique se alguma lógica dependia da ordem não
@@ -91,6 +93,35 @@ depender de `Thunder 2.0.0`.
 
 ## Novidades e ressalvas
 
+- **`CreatedAndUpdatedFlushEntityListener` — timestamps consistentes com `dynamic-update`**
+  (Thunder.NHibernate). **[COMPORTAMENTO]** quando registrado. Em entidades mapeadas com
+  `dynamic-update="true"`, o UPDATE contém apenas as colunas dirty, calculadas **antes** do evento
+  `PreUpdate` — por isso, com o registro apenas em `PreInsert`/`PreUpdate`, o update parcial de uma
+  entidade attached **não persistia** `Updated` (a coluna ficava fora do SQL dinâmico). O novo
+  listener atua no evento `FlushEntity`: define `Updated` antes do dirty-check padrão, fazendo a
+  coluna entrar no UPDATE dinâmico; um flush sem alteração real não gera UPDATE espúrio. Para
+  timestamps consistentes com `dynamic-update`, registre as **três** entradas em
+  `SessionManager.Listeners` (antes do primeiro acesso à `Configuration`/`SessionFactory`):
+
+  ```csharp
+  var listener = new CreatedAndUpdatedPropertyEventListener();      // PreInsert/PreUpdate
+  var flush    = new CreatedAndUpdatedFlushEntityListener();        // FlushEntity (novo)
+
+  SessionManager.Listeners = new Dictionary<ListenerType, object[]>
+  {
+      { ListenerType.PreInsert,   new IPreInsertEventListener[]   { listener } },
+      { ListenerType.PreUpdate,   new IPreUpdateEventListener[]   { listener } },
+      { ListenerType.FlushEntity, new IFlushEntityEventListener[] { flush } }
+  };
+  ```
+
+  A entrada `ListenerType.FlushEntity` deve conter **apenas** o `CreatedAndUpdatedFlushEntityListener`:
+  como `SetListeners` substitui o listener padrão do NHibernate, a classe herda de
+  `DefaultFlushEntityEventListener` e delega ao comportamento base — registrar o listener padrão
+  junto faria o flush executar duas vezes. A divisão de responsabilidades: o `PreInsert` cobre o
+  insert (`Created` + `Updated`); o `FlushEntity` cobre o update parcial de entidade attached; o
+  `PreUpdate` cobre o reattach sem snapshot (update completo). Sem a entrada nova, o comportamento
+  anterior é preservado (inclusive a inconsistência com `dynamic-update`).
 - **API assíncrona no `Repository` do NHibernate.** Novos métodos `...Async` com suporte a
   `CancellationToken`: os métodos síncronos e a transação-por-método continuam disponíveis. As
   sobrecargas de conveniência não têm variante async. **Ressalva:** os novos membros também foram
@@ -128,7 +159,8 @@ depender de `Thunder 2.0.0`.
    - **Entidades:** comparações de identidade (`Equals`/`GetHashCode`) e uso de `IsNew()`,
      especialmente com chaves não numéricas ou `Id` negativo, e em coleções `HashSet`/`Dictionary`.
    - **Timestamps:** rotinas de criação/importação que dependiam de `Created`/`Updated` definidos
-     manualmente.
+     manualmente; se houver entidades com `dynamic-update="true"`, registre o
+     `CreatedAndUpdatedFlushEntityListener` (ver [Novidades e ressalvas](#novidades-e-ressalvas)).
    - **Paginação:** consultas que usam `OrderBy` (agora efetivamente ordenadas) e o total agora em
      `long`.
    - **Repositório EF:** confirme que cada operação chama `Save`/`SaveAsync`; que o `DbContext` é
