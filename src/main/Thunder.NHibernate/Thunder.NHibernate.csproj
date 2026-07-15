@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Company>acaldeira.dev</Company>
     <Product>Thunder.NHibernate</Product>
     <Copyright>Copyright © Adriano Caldeira</Copyright>
@@ -20,13 +20,12 @@
     <Title>Thunder.NHibernate</Title>
     <Authors>Adriano Caldeira</Authors>
     <Description>Padrão Repository/ActiveRecord sobre NHibernate 5.5+, gestão de sessão e listeners de auditoria (Created/Updated) para o Thunder.</Description>
-    <PackageReleaseNotes>Versão major. Removidos CfgSerialization e SessionManager.SerializeConfiguration. SessionManager thread-safe (Lazy). Listener de timestamps consistente, OrderBy corrigido, total de paginação em long e API async no Repository. ActiveRecord marcado obsoleto. Guia de migração 1.x -> 2.0 e CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageReleaseNotes>Alinhamento à linha 2.1. Empacotamento: README embutido, ícone, SourceLink e símbolos snupkg. Sem mudança de comportamento própria. CHANGELOG: https://github.com/adrianocaldeira/thunder/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/adrianocaldeira/thunder</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>nhibernate repository activerecord net48</PackageTags>
     <RepositoryUrl>https://github.com/adrianocaldeira/thunder</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
