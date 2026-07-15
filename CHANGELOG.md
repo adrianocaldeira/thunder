@@ -12,6 +12,23 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 
 ## Thunder
 
+### [2.1.0] - 2026-07-15
+
+#### Adicionado
+- **CNPJ alfanumérico.** `IsCnpj` e `Format(FormatType.Cnpj)` passam a reconhecer o novo
+  formato de CNPJ alfanumérico da Receita Federal (base de 12 caracteres `0-9`/`A-Z` com dois
+  dígitos verificadores numéricos, calculados por módulo 11 sobre os valores ASCII), vigente a
+  partir de julho/2026. A entrada é aceita com ou sem máscara e letras minúsculas são
+  normalizadas. CNPJ numérico continua validando e formatando exatamente como antes.
+
+#### Corrigido
+- **[COMPORTAMENTO]** `IsCnpj` deixa de rejeitar sumariamente entradas que contêm letras (antes
+  qualquer letra tornava o CNPJ inválido) e passa a retornar `false` — em vez de lançar
+  `NullReferenceException` — para entrada nula ou vazia.
+
+#### Empacotamento
+- README embutido, ícone do pacote, SourceLink e símbolos (`.snupkg`).
+
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento e remoções detalhadas no
@@ -141,6 +158,12 @@ tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/00
 
 ## Thunder.NHibernate
 
+### [2.1.0] - 2026-07-15
+
+#### Empacotamento
+- README embutido, ícone do pacote, SourceLink e símbolos (`.snupkg`). Sem mudança de
+  comportamento própria; alinhamento de versão à linha 2.1.
+
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento e remoções detalhadas no
@@ -240,6 +263,12 @@ Mudanças de comportamento e remoções detalhadas no
 
 ## Thunder.Web.Mvc
 
+### [2.1.0] - 2026-07-15
+
+#### Empacotamento
+- README embutido, ícone do pacote, SourceLink e símbolos (`.snupkg`). Sem mudança de
+  comportamento própria; alinhamento de versão à linha 2.1.
+
 ### [2.0.0] - 2026-07-14
 
 #### Alterado
@@ -321,6 +350,12 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
 ---
 
 ## Thunder.EntityFramework
+
+### [2.1.0] - 2026-07-15
+
+#### Empacotamento
+- README embutido, ícone do pacote, SourceLink e símbolos (`.snupkg`). Sem mudança de
+  comportamento própria; alinhamento de versão à linha 2.1.
 
 ### [2.0.0] - 2026-07-14
 
