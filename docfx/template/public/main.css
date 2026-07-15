@@ -13,7 +13,13 @@
 }
 .navbar-brand > img { height: 28px; }
 /* acento amarelo do raio em detalhes */
-.btn-primary { --bs-btn-bg: var(--bs-primary); --bs-btn-border-color: var(--bs-primary); }
+/* botão primário com azul mais escuro para garantir contraste AA (>=4.5:1) com texto branco */
+.btn-primary {
+  --bs-btn-bg: #1a6ea8;
+  --bs-btn-border-color: #1a6ea8;
+  --bs-btn-hover-bg: #155a89;
+  --bs-btn-hover-border-color: #155a89;
+}
 mark, .text-accent { background: #ffd23f33; }
 /* home: cards dos pacotes */
 .pkg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
