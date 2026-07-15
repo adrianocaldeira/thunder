@@ -439,24 +439,37 @@ namespace Thunder.Extensions
         }
 
         /// <summary>
-        ///     Format
+        ///     Aplica a máscara correspondente ao <paramref name="formatType" />. Para
+        ///     <see cref="FormatType.Cnpj" /> aceita CNPJ numérico e alfanumérico (aplica a máscara
+        ///     posicionalmente, preservando letras). Os demais tipos formatam apenas os dígitos.
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">Valor a formatar</param>
         /// <param name="formatType">
         ///     <see cref="FormatType" />
         /// </param>
-        /// <returns></returns>
+        /// <returns>Valor formatado</returns>
         public static string Format(this string source, FormatType formatType)
         {
             if (string.IsNullOrWhiteSpace(source)) return string.Empty;
+
+            if (formatType == FormatType.Cnpj)
+            {
+                var cnpj = source.ToUpperInvariant().Replace(".", "").Replace("-", "").Replace("/", "");
+
+                if (cnpj.Length != 14) return source;
+
+                return string.Format("{0}.{1}.{2}/{3}-{4}",
+                    cnpj.Substring(0, 2),
+                    cnpj.Substring(2, 3),
+                    cnpj.Substring(5, 3),
+                    cnpj.Substring(8, 4),
+                    cnpj.Substring(12, 2));
+            }
 
             var format = "";
             var text = source.OnlyNumbers();
 
             if (string.IsNullOrWhiteSpace(text)) return string.Empty;
-
-            if (formatType == FormatType.Cnpj)
-                format = @"{0:00\.000\.000\/0000\-00}";
 
             if (formatType == FormatType.Cpf)
                 format = @"{0:000\.000\.000\-00}";

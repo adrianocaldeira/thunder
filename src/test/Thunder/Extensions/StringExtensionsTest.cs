@@ -199,6 +199,10 @@ namespace Thunder.Extensions
             Assert.AreEqual("03068-090", "03068090".Format(FormatType.ZipCode));
             Assert.AreEqual("(11) 97587-5558", "11975875558".Format(FormatType.Phone));
             Assert.AreEqual("(11) 7587-5558", "1175875558".Format(FormatType.Phone));
+
+            // CNPJ alfanumérico
+            Assert.AreEqual("12.ABC.345/0001-88", "12ABC345000188".Format(FormatType.Cnpj));
+            Assert.AreEqual("12.ABC.345/0001-88", "12abc345000188".Format(FormatType.Cnpj)); // normaliza maiúscula
         }
 
         [Test]
