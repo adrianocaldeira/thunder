@@ -8,6 +8,9 @@ forma independente; as seções abaixo agrupam as mudanças por pacote e versão
 
 Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMENTO]**.
 
+> Este changelog lista apenas versões publicadas no NuGet.org. Mudanças de builds intermediários
+> foram consolidadas na versão publicada correspondente.
+
 ---
 
 ## Thunder
@@ -32,13 +35,13 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento e remoções detalhadas no
-[guia de migração 004](docs/migration/004-thunder-2.0.md).
+[guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md).
 
 #### Removido
 - **`Hash`, `HashHelper`, `HashProvider`** (descontinuados na 1.10.0): removidos. Substitutos —
   `PasswordHasher.Hash`/`Verify` para hash de senha; `AesEncryptor.Encrypt`/`Decrypt` para
   cifragem reversível. Não há substituto que reproduza o formato de hash legado; a migração de
-  dados existentes é descrita no [guia 003](docs/migration/003-criptografia-v2.md).
+  dados existentes é descrita no [guia 003](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/003-criptografia-v2.md).
 
 #### Corrigido
 - **[COMPORTAMENTO]** Identidade de entidade em `Persist<T, TKey>`:
@@ -75,24 +78,9 @@ Mudanças de comportamento e remoções detalhadas no
   chave (proteção contra negação de serviço via hash forjado com iteração absurda). Nunca lança
   exceção para senha errada ou hash malformado: apenas retorna `false`.
 
-#### Descontinuado
-- **`Cryptography`, `CryptographyHelper.Encrypt`/`Decrypt`**: marcados `[Obsolete]`. A
-  implementação usa IV fixo (o mesmo IV para toda cifragem, independentemente da chave) e
-  derivação de chave sem controle de iterações — vulnerável a análise de padrão entre mensagens e
-  a ataques de força bruta/dicionário contra a chave. Substituto: `AesEncryptor.Encrypt`/`Decrypt`.
-  Continuam funcionando, para permitir a leitura de dados já cifrados pela API legada durante a
-  migração.
-- **`Hash`, `HashHelper.Hash`**: marcados `[Obsolete]`. O provedor padrão é SHA-1 sem salt,
-  inadequado para senhas. Substituto: `PasswordHasher.Hash`/`Verify` para senhas; para hash sem
-  finalidade de senha, usar um algoritmo SHA-256 ou superior explicitamente.
-- Passo a passo de transição e aviso sobre incompatibilidade de dados entre as duas APIs no
-  [guia de migração 003](docs/migration/003-criptografia-v2.md).
-
-### [1.9.0] - 2026-07-14
-
-Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
-
 #### Corrigido
+Mudanças de comportamento detalhadas no [guia de migração](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/001-validacoes-mais-rigidas.md).
+
 - **[COMPORTAMENTO]** `JsonExtensions`: a serialização/desserialização usava
   `JsonConvert.SerializeObject`/`DeserializeObject` sem `JsonSerializerSettings` completos,
   herdando `JsonConvert.DefaultSettings` global configurado pela aplicação host — se o host
@@ -140,14 +128,25 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
 As correções de validação (`IsCpf`, `IsZipCode`, `IsPhone`, `IsEmail`, `[Email]`) apenas passam
 a rejeitar entradas que antes eram aceitas indevidamente — sentido seguro para quem valida
 entrada de usuário. Quem dependia do comportamento anterior (aceitar entradas malformadas) deve
-tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
-
-### [1.8.1] - 2026-07-14
+tratar os dados antes de atualizar; ver o [guia de migração](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/001-validacoes-mais-rigidas.md).
 
 #### Alterado
 - Atualização de dependências (patch, sem mudança de API):
   - log4net 2.0.15 → 2.0.17
   - Newtonsoft.Json 13.0.3 → 13.0.4
+
+#### Descontinuado
+- **`Cryptography`, `CryptographyHelper.Encrypt`/`Decrypt`**: marcados `[Obsolete]`. A
+  implementação usa IV fixo (o mesmo IV para toda cifragem, independentemente da chave) e
+  derivação de chave sem controle de iterações — vulnerável a análise de padrão entre mensagens e
+  a ataques de força bruta/dicionário contra a chave. Substituto: `AesEncryptor.Encrypt`/`Decrypt`.
+  Continuam funcionando, para permitir a leitura de dados já cifrados pela API legada durante a
+  migração.
+- **`Hash`, `HashHelper.Hash`**: marcados `[Obsolete]`. O provedor padrão é SHA-1 sem salt,
+  inadequado para senhas. Substituto: `PasswordHasher.Hash`/`Verify` para senhas; para hash sem
+  finalidade de senha, usar um algoritmo SHA-256 ou superior explicitamente.
+- Passo a passo de transição e aviso sobre incompatibilidade de dados entre as duas APIs no
+  [guia de migração 003](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/003-criptografia-v2.md).
 
 ### [1.8.0]
 
@@ -167,12 +166,12 @@ tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/00
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento e remoções detalhadas no
-[guia de migração 004](docs/migration/004-thunder-2.0.md).
+[guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md).
 
 #### Removido
 - **`CfgSerialization`** e **`SessionManager.SerializeConfiguration`** (descontinuados na 1.3.0):
   removidos. O cache binário de configuração foi desativado por segurança (CWE-502, ver
-  [guia 002](docs/migration/002-binaryformatter-desativado.md)) e não tem substituto — a
+  [guia 002](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/002-binaryformatter-desativado.md)) e não tem substituto — a
   configuração é sempre reconstruída em memória.
 
 #### Corrigido
@@ -206,7 +205,7 @@ Mudanças de comportamento e remoções detalhadas no
   consistentes com `dynamic-update`, registre **também** a entrada `ListenerType.FlushEntity` em
   `SessionManager.Listeners`, além de `PreInsert`/`PreUpdate` com o
   `CreatedAndUpdatedPropertyEventListener` — o dicionário completo de registro está no
-  [guia de migração 004](docs/migration/004-thunder-2.0.md). Sem esse registro, o comportamento
+  [guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md). Sem esse registro, o comportamento
   anterior é preservado.
 - API assíncrona no `Repository`: métodos `...Async` com suporte a `CancellationToken`. Os
   métodos síncronos e a transação-por-método permanecem inalterados. As sobrecargas de conveniência
@@ -239,19 +238,17 @@ Mudanças de comportamento e remoções detalhadas no
   seguido de `Configure()`, sem consultar nem gravar qualquer cache serializado, independentemente
   do valor da AppSetting.
 
+#### Alterado
+- Atualização de dependências (patch, sem mudança de API):
+  - Newtonsoft.Json 13.0.3 → 13.0.4
+
 #### Descontinuado
 - **`SessionManager.SerializeConfiguration`**: marcada `[Obsolete]`; não tem mais efeito sobre
   `Configuration`.
 - **`CfgSerialization`**: marcada `[Obsolete]`; `Create` e `Load()`/`Load(string)` agora lançam
   `NotSupportedException` em vez de serializar/desserializar o arquivo de cache.
 - Impacto detalhado e passo a passo de remoção da AppSetting no
-  [guia de migração 002](docs/migration/002-binaryformatter-desativado.md).
-
-### [1.2.1] - 2026-07-14
-
-#### Alterado
-- Atualização de dependências (patch, sem mudança de API):
-  - Newtonsoft.Json 13.0.3 → 13.0.4
+  [guia de migração 002](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/002-binaryformatter-desativado.md).
 
 ### [1.2.0]
 
@@ -300,20 +297,8 @@ Mudanças de comportamento e remoções detalhadas no
   resposta é prefixada com `/**/` e o `ContentType` passa a `application/javascript`. Falha segura:
   um callback inválido faz a resposta permanecer como JSON puro, sem o wrapper JSONP.
 
-#### Adicionado
-- Host canônico opt-in via a nova AppSetting `Thunder.Web.Mvc.CanonicalHost` (mitiga host header
-  poisoning): quando configurada, os métodos de `UrlHelperExtensions` (`AbsoluteAction`,
-  `AbsoluteRouteUrl`, `AbsoluteContent`) compõem a autoridade das URLs absolutas a partir do valor
-  configurado, em vez de confiar no cabeçalho `Host` da requisição recebida. Aplica-se inclusive a
-  URLs já absolutas geradas pelos overloads que recebem `protocol` sem `hostName` explícito, onde
-  o `Request.Url.Host` do próprio ASP.NET MVC vazava para a resposta antes desta correção. Recurso
-  opt-in: sem a AppSetting configurada, o comportamento é preservado byte a byte.
+Mudanças de comportamento detalhadas no [guia de migração](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/001-validacoes-mais-rigidas.md).
 
-### [1.8.0] - 2026-07-14
-
-Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
-
-#### Corrigido
 - `SelectListExtensions.ToSelectList<T>()`: lançava `IndexOutOfRangeException` para enums sem
   `[Display]`; passou a usar `EnumExtensions.DisplayName()`, com fallback para o nome do membro.
 - **[COMPORTAMENTO]** `Controller.Success(data, contentType)`: o parâmetro `contentType` era
@@ -335,7 +320,14 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
   `<li>`/corpo — mitigação pontual de XSS neste caminho específico; o encode abrangente de toda
   a superfície de mensagens fica para uma versão futura.
 
-### [1.7.1] - 2026-07-14
+#### Adicionado
+- Host canônico opt-in via a nova AppSetting `Thunder.Web.Mvc.CanonicalHost` (mitiga host header
+  poisoning): quando configurada, os métodos de `UrlHelperExtensions` (`AbsoluteAction`,
+  `AbsoluteRouteUrl`, `AbsoluteContent`) compõem a autoridade das URLs absolutas a partir do valor
+  configurado, em vez de confiar no cabeçalho `Host` da requisição recebida. Aplica-se inclusive a
+  URLs já absolutas geradas pelos overloads que recebem `protocol` sem `hostName` explícito, onde
+  o `Request.Url.Host` do próprio ASP.NET MVC vazava para a resposta antes desta correção. Recurso
+  opt-in: sem a AppSetting configurada, o comportamento é preservado byte a byte.
 
 #### Alterado
 - Atualização de dependências (patch, sem mudança de API):
@@ -360,7 +352,7 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento detalhadas no
-[guia de migração 004](docs/migration/004-thunder-2.0.md).
+[guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md).
 
 #### Alterado
 - **[COMPORTAMENTO]** `Repository<T, TKey>` redesenhado com unit-of-work explícito: `Add`, `Update`

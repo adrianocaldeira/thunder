@@ -1,0 +1,30 @@
+:root,
+[data-bs-theme="light"] {
+  --bs-primary: #2b8fd6;
+  --bs-primary-rgb: 43, 143, 214;
+  --bs-link-color: #1f7ab8;
+  --bs-link-hover-color: #155a89;
+}
+[data-bs-theme="dark"] {
+  --bs-primary: #4aa8e6;
+  --bs-primary-rgb: 74, 168, 230;
+  --bs-link-color: #6fbdf0;
+  --bs-link-hover-color: #9ad2f5;
+}
+.navbar-brand > img { height: 28px; }
+/* acento amarelo do raio em detalhes */
+/* botão primário com azul mais escuro para garantir contraste AA (>=4.5:1) com texto branco */
+.btn-primary {
+  --bs-btn-bg: #1a6ea8;
+  --bs-btn-border-color: #1a6ea8;
+  --bs-btn-hover-bg: #155a89;
+  --bs-btn-hover-border-color: #155a89;
+}
+mark { background: #ffd23f33; }
+/* home: cards dos pacotes */
+.pkg-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.pkg-cards .card { border: 1px solid var(--bs-border-color); border-radius: .75rem; padding: 1rem 1.25rem; }
+.pkg-cards .card h3 { margin-top: 0; font-size: 1.05rem; }
+.hero { text-align: center; padding: 2rem 0 1rem; }
+.hero img { height: 96px; }
+.hero .lead { color: var(--bs-secondary-color); }

@@ -22,3 +22,7 @@ packages
 /.vs/Thunder/v15/Server/sqlite3
 /.vs/thunder/v16/Server/sqlite3
 /.vs
+
+# DocFX (artefatos gerados)
+docfx/api/
+docfx/_site/
