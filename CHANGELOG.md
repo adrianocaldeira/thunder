@@ -35,13 +35,13 @@ Mudanças que alteram comportamento observável são marcadas com **[COMPORTAMEN
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento e remoções detalhadas no
-[guia de migração 004](docs/migration/004-thunder-2.0.md).
+[guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md).
 
 #### Removido
 - **`Hash`, `HashHelper`, `HashProvider`** (descontinuados na 1.10.0): removidos. Substitutos —
   `PasswordHasher.Hash`/`Verify` para hash de senha; `AesEncryptor.Encrypt`/`Decrypt` para
   cifragem reversível. Não há substituto que reproduza o formato de hash legado; a migração de
-  dados existentes é descrita no [guia 003](docs/migration/003-criptografia-v2.md).
+  dados existentes é descrita no [guia 003](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/003-criptografia-v2.md).
 
 #### Corrigido
 - **[COMPORTAMENTO]** Identidade de entidade em `Persist<T, TKey>`:
@@ -79,7 +79,7 @@ Mudanças de comportamento e remoções detalhadas no
   exceção para senha errada ou hash malformado: apenas retorna `false`.
 
 #### Corrigido
-Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
+Mudanças de comportamento detalhadas no [guia de migração](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/001-validacoes-mais-rigidas.md).
 
 - **[COMPORTAMENTO]** `JsonExtensions`: a serialização/desserialização usava
   `JsonConvert.SerializeObject`/`DeserializeObject` sem `JsonSerializerSettings` completos,
@@ -128,7 +128,7 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
 As correções de validação (`IsCpf`, `IsZipCode`, `IsPhone`, `IsEmail`, `[Email]`) apenas passam
 a rejeitar entradas que antes eram aceitas indevidamente — sentido seguro para quem valida
 entrada de usuário. Quem dependia do comportamento anterior (aceitar entradas malformadas) deve
-tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
+tratar os dados antes de atualizar; ver o [guia de migração](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/001-validacoes-mais-rigidas.md).
 
 #### Alterado
 - Atualização de dependências (patch, sem mudança de API):
@@ -146,7 +146,7 @@ tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/00
   inadequado para senhas. Substituto: `PasswordHasher.Hash`/`Verify` para senhas; para hash sem
   finalidade de senha, usar um algoritmo SHA-256 ou superior explicitamente.
 - Passo a passo de transição e aviso sobre incompatibilidade de dados entre as duas APIs no
-  [guia de migração 003](docs/migration/003-criptografia-v2.md).
+  [guia de migração 003](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/003-criptografia-v2.md).
 
 ### [1.8.0]
 
@@ -166,12 +166,12 @@ tratar os dados antes de atualizar; ver o [guia de migração](docs/migration/00
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento e remoções detalhadas no
-[guia de migração 004](docs/migration/004-thunder-2.0.md).
+[guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md).
 
 #### Removido
 - **`CfgSerialization`** e **`SessionManager.SerializeConfiguration`** (descontinuados na 1.3.0):
   removidos. O cache binário de configuração foi desativado por segurança (CWE-502, ver
-  [guia 002](docs/migration/002-binaryformatter-desativado.md)) e não tem substituto — a
+  [guia 002](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/002-binaryformatter-desativado.md)) e não tem substituto — a
   configuração é sempre reconstruída em memória.
 
 #### Corrigido
@@ -205,7 +205,7 @@ Mudanças de comportamento e remoções detalhadas no
   consistentes com `dynamic-update`, registre **também** a entrada `ListenerType.FlushEntity` em
   `SessionManager.Listeners`, além de `PreInsert`/`PreUpdate` com o
   `CreatedAndUpdatedPropertyEventListener` — o dicionário completo de registro está no
-  [guia de migração 004](docs/migration/004-thunder-2.0.md). Sem esse registro, o comportamento
+  [guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md). Sem esse registro, o comportamento
   anterior é preservado.
 - API assíncrona no `Repository`: métodos `...Async` com suporte a `CancellationToken`. Os
   métodos síncronos e a transação-por-método permanecem inalterados. As sobrecargas de conveniência
@@ -248,7 +248,7 @@ Mudanças de comportamento e remoções detalhadas no
 - **`CfgSerialization`**: marcada `[Obsolete]`; `Create` e `Load()`/`Load(string)` agora lançam
   `NotSupportedException` em vez de serializar/desserializar o arquivo de cache.
 - Impacto detalhado e passo a passo de remoção da AppSetting no
-  [guia de migração 002](docs/migration/002-binaryformatter-desativado.md).
+  [guia de migração 002](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/002-binaryformatter-desativado.md).
 
 ### [1.2.0]
 
@@ -297,7 +297,7 @@ Mudanças de comportamento e remoções detalhadas no
   resposta é prefixada com `/**/` e o `ContentType` passa a `application/javascript`. Falha segura:
   um callback inválido faz a resposta permanecer como JSON puro, sem o wrapper JSONP.
 
-Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001-validacoes-mais-rigidas.md).
+Mudanças de comportamento detalhadas no [guia de migração](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/001-validacoes-mais-rigidas.md).
 
 - `SelectListExtensions.ToSelectList<T>()`: lançava `IndexOutOfRangeException` para enums sem
   `[Display]`; passou a usar `EnumExtensions.DisplayName()`, com fallback para o nome do membro.
@@ -352,7 +352,7 @@ Mudanças de comportamento detalhadas no [guia de migração](docs/migration/001
 ### [2.0.0] - 2026-07-14
 
 Mudanças de comportamento detalhadas no
-[guia de migração 004](docs/migration/004-thunder-2.0.md).
+[guia de migração 004](https://github.com/adrianocaldeira/thunder/blob/master/docs/migration/004-thunder-2.0.md).
 
 #### Alterado
 - **[COMPORTAMENTO]** `Repository<T, TKey>` redesenhado com unit-of-work explícito: `Add`, `Update`
