@@ -26,7 +26,6 @@
     <PackageTags>aspnet mvc htmlhelpers modelbinder net48</PackageTags>
     <RepositoryUrl>https://github.com/adrianocaldeira/thunder</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <IncludeSymbols>false</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
