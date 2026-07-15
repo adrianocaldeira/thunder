@@ -9,6 +9,13 @@ de `Thunder 2.0.0`.
 Este guia reúne o que muda ao subir de qualquer versão 1.x para a 2.0. As mudanças específicas de
 criptografia/hash têm um guia dedicado — ver [003](003-criptografia-v2.md).
 
+## Pré-requisitos
+
+**Dependência — log4net.** A 2.0 é compilada contra `log4net 2.0.17`. Projetos que ainda referenciam
+uma versão anterior da linha 2.0.x (ex.: `2.0.15`) podem receber `CS1705` em tempo de compilação ao
+referenciar a 2.0 — alinhe a referência para `log4net` &ge; 2.0.17. A linha `log4net` 3.x permanece
+incompatível e não é suportada.
+
 ## Remoções e substitutos
 
 | Removido | Pacote | Substituto |
